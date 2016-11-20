@@ -20,8 +20,8 @@ prob_ag(2,2)=prob(3,3)+prob(3,4); prob_ag(1,2)=1-prob_ag(2,2);
 % Transition probabilities of an idiosyncratic shock epsilon' given that 
 % aggregate shock s' is realized;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% P(x,y,z,w) is the probability of idiosyncratic shock epsilon'=w conditional 
-% on aggregate shocks s'=y, s=x and idiosyncratic shock epsilon=z
+% P(s,s',e,e') is the probability of idiosyncratic shock e' conditional 
+% on aggregate shocks s', s and idiosyncratic shock e.
 
 P = NaN(2,2,2,2);
 for i = 1:2
@@ -34,12 +34,11 @@ for i = 1:2
     end
 end
 
-%__________________________________________________________________________
-%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Generation of the aggregate shocks 
-%__________________________________________________________________________
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-ag_shock(1)=1; % assume that initially (t=1), the economy is in a bad state 
+ag_shock(1)=1; % assume that at t=1, the economy is in a bad state 
 
 % To generate shocks in subsequent periods, we draw random numbers. If a 
 % random number drawn is <= probability of a bad shock conditional on 
@@ -49,29 +48,33 @@ for t=2:T
    ag_shock(t)=prob_compare(prob_ag(1,ag_shock(t-1)),1);
 end
 
-%__________________________________________________________________________
-%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Generation of the idiosyncratic shocks for all agents in the first period
-%__________________________________________________________________________
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% in the first period agg. shock is bad; if a  random number 
+% drawn is <= the probability of being unemployed in a bad agg. state, 
+% then set idshock(t)=1; otherwise set idshock(t)=2
 
 for i=1:N
       id_shock(1,i)=prob_compare(U_b, 1);
 end
-%__________________________________________________________________________
-%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Generation of the idiosyncratic shocks for all agents starting from the 
 % second period
-%__________________________________________________________________________
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% P(s,s',e,e') is the probability of idiosyncratic shock epsilon'=w conditional 
-% on aggregate shocks s'=y, s=x and idiosyncratic shock epsilon=z
+% id_shock(t,i) is the ideosyncartic shock of individual i at period t if
+% last period aggregate shock was of type q, this period aggregate shock is
+% of type p and last period idesyncartic shock is of type j.
 
 for t = 2:T
-    for q = 1:2
-        for p = 1:2
-            if ag_shock(t-1)==q && ag_shock(t)==p
+    for q = 1:2 % last period aggregate  shock
+        for p = 1:2 % this period aggregate shock
+            if ag_shock(t-1)==q && ag_shock(t)==p 
                 for i=1:N
-                    for j = 1:2
+                    for j = 1:2 % last period ideosyncratic sock
                         if id_shock(t-1,i)==j
                             id_shock(t,i) = prob_compare(P(q,p,j,j),j);
                         end
