@@ -9,7 +9,7 @@ parameters_krussel_smith; % load parameters for Krussel - Smith
 
 %% solve for general equilibrium
 
-K_lims = [K_rep,grid_k(end)]; % initial limits for bisection method
+K_lims = [K_rep_b,grid_k(end)]; % initial limits for bisection method
 
 % initial guesses
 k_guess = mat_k; % policy function of agents (1st column unemployed, 2nd column employed)
