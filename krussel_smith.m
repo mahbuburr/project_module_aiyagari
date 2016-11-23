@@ -30,28 +30,75 @@ while d1>1e-6 && iter<50 % loop for aggregate problem
         % future employment status
         for i=1:2 % employment this period
             for j=1:2 % employment next period
-                % capital choice next period from policy function
-                k_next(i,:,j) = interp1(grid_k,k_guess(:,j),k_guess(:,i),'linear','extrap');
+                for n=1:2 % business cycle this period
+                    for m=1:2 % business cycle next period
+                        % capital choice next period from policy function
+                        k_next(i,:,j,n,m) = interp1(grid_k,k_guess(:,j,m),k_guess(:,i,n),'linear','extrap');
+%                         k_next(i,:,j) = interp1(grid_k,k_guess(:,j),k_guess(:,i),'linear','extrap'); 
+                        income = mat_income(K_guess,L(n),z(n));
+                        c_next(i,:,j,n,m) = max(1e-10,(1+r(K_guess,L(n),z(n))-delta)*k_guess(:,i,n) - [k_next(i,:,j,n,m)]' + income(:,m));
+                    end
+                end
             end
             % consumption next period from budget constraint
-            c_next(i,:,:) = max(1e-10,(1+r(K_guess)-delta)*[k_guess(:,i),k_guess(:,i)] - squeeze(k_next(i,:,:)) + mat_income(K_guess));
+%             c_next(i,:,:) = max(1e-10,(1+r(K_guess)-delta)*[k_guess(:,i),k_guess(:,i)] - squeeze(k_next(i,:,:)) + mat_income(K_guess));
         end
         
-        % calculate expected marginal utility of consumption next period
-        Emuc_next(:,1) = PI(1,1)*muc(c_next(1,:,1))+PI(1,2)*muc(c_next(1,:,2));  % currently unemployed
-        Emuc_next(:,2) = PI(2,1)*muc(c_next(2,:,1))+PI(2,2)*muc(c_next(2,:,2));  % currently employed
+%         calculate expected marginal utility of consumption next period
+%         Emuc_next(:,1) = PI(1,1)*muc(c_next(1,:,1))+PI(1,2)*muc(c_next(1,:,2));  % currently unemployed in bad state
+       Emuc_next(:,1,1) = prob(1,1)*muc(c_next(1,:,1,1,1)) + prob(1,2)*muc(c_next(1,:,2,1,1)) + ... % currently unemployed in bad state
+                          prob(1,3)*muc(c_next(1,:,1,1,2)) + prob(1,4)*muc(c_next(1,:,2,1,2));
+                       
+       Emuc_next(:,2,1) = prob(2,1)*muc(c_next(2,:,1,1,1)) + prob(2,2)*muc(c_next(2,:,2,1,1)) + ... % currently employed in bad state
+                          prob(2,3)*muc(c_next(2,:,1,1,2)) + prob(2,4)*muc(c_next(2,:,2,1,2));    
+                     
+       Emuc_next(:,1,2) = prob(3,1)*muc(c_next(1,:,1,2,1)) + prob(3,2)*muc(c_next(1,:,2,2,1)) + ... % currently unemployed in good state
+                          prob(3,3)*muc(c_next(1,:,1,2,2)) + prob(3,4)*muc(c_next(1,:,2,2,2));
+                      
+	   Emuc_next(:,2,2) = prob(4,1)*muc(c_next(2,:,1,2,1)) + prob(4,2)*muc(c_next(2,:,2,2,1)) + ... % currently employed in good state
+                          prob(4,3)*muc(c_next(2,:,1,2,2)) + prob(4,4)*muc(c_next(2,:,2,2,2));
+                      
+       for i=1:2
+           for n=1:2
+               for m=1:2
+                   c_current(:,i,n) = muc_inv(beta*(1+r(K_guess,L(m),z(m))-delta)*Emuc_next(:,i,n));
+                   income = mat_income(K_guess,L(n),z(n));
+                   k_new(:,i,n) = (1+r(K_guess,L(n),z(n))-delta)*grid_k' + income(:,n) - c_current(:,i,n);
+               end
+           end
+       end
+                       
+%         for i = 1:2
+%             for n = 1:2
+%                 Emuc_next(:,i,n) = prob(i,1)*muc(c_next(i,:,1,n,1)) + ... 
+%                                    prob(i,2)*muc(c_next(i,:,2,n,1)) + ... 
+%                                    prob(i,3)*muc(c_next(i,:,1,n,2)) + ... 
+%                                    prob(i,4)*muc(c_next(i,:,2,n,2));
+%                 c_current(:,i,n) = muc_inv(beta*(1+r(K_guess,L(n),z(n))-delta)*Emuc_next(:,i,n));
+%             end
+%         end
+%         
+%         for i=1:2
+%             for n=1:2
+                
+        
+%       Emuc_next(:,2) = PI(2,1)*muc(c_next(2,:,1))+PI(2,2)*muc(c_next(2,:,2));  % currently employed
         
         % calculate implied consumption this period from Euler equation
-        c_current = muc_inv(beta*(1+r(K_guess)-delta)*Emuc_next);
+%         c_current = muc_inv(beta*(1+r(K_guess)-delta)*Emuc_next);
         
         % calculate implied capital demand from budget constraint
-        k_new = (1+r(K_guess)-delta)*mat_k + mat_income(K_guess) - c_current;
+%         k_new = (1+r(K_guess)-delta)*mat_k + mat_income(K_guess) - c_current;
             
 
         % apply borrowing constraint to get new policy function
         k_new = max(k_min*K_guess,k_new); 
         
-        d2 = norm(abs(k_new-k_guess)./(1+abs(k_guess))); % deviation between guess and new policy function
+        d2_1 = norm(abs(k_new(:,1,1)-k_guess(:,1,1))./(1+abs(k_guess(:,1,1)))); % deviation between guess and new policy function
+        d2_2 = norm(abs(k_new(:,2,1)-k_guess(:,2,1))./(1+abs(k_guess(:,2,1))));
+        d2_3 = norm(abs(k_new(:,1,2)-k_guess(:,1,2))./(1+abs(k_guess(:,1,2))));
+        d2_4 = norm(abs(k_new(:,2,2)-k_guess(:,2,2))./(1+abs(k_guess(:,2,2))));
+        d2 = max([d2_1, d2_2, d2_3, d2_4]);
         
         % update policy function
         k_guess = k_guess + 0.5*(k_new-k_guess);

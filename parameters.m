@@ -14,6 +14,7 @@ delta_a=0.01;    % (1-delta_a) is the productivity level in a bad state,
                  % and (1+delta_a) is the productivity level in a good state
 z_g = 1+delta_a; % productivity in good aggreagate state
 z_b = 1-delta_a; % productivity in bad aggregate state
+z = [z_b; z_g];
 
 % transition probabilities
 % L_target = 0.9;
@@ -24,6 +25,7 @@ U_b=0.1;        % unemployment rate in a bad aggregate state
 L_b=(1-U_b);   % employment rate in a bad aggregate state
 U_g=0.04;       % unemployment rate in a good aggregate state
 L_g=(1-U_g);   % employment rate in a good aggregate state
+L = [L_b; L_g]; % vector of states
 
 %% setup
 % build transition matrix of agents
@@ -34,11 +36,11 @@ L_g=(1-U_g);   % employment rate in a good aggregate state
 % define some useful functions
 muc = @(c) c.^(-sigma); % marginal utility of consumption
 muc_inv = @(muc) muc.^(-1/sigma); % inverse of marginal utility of consumption
-w = @(K,L,z) z*(1-alpha)*K.^alpha*L^(-alpha); % wage
-r = @(K,L) z*alpha*K.^(alpha-1)*L^(1-alpha); % rental rate of capital
+w = @(K,L,z) z.*(1-alpha).*K.^alpha.*L.^(-alpha); % wage
+r = @(K,L,z) z.*alpha.*K.^(alpha-1).*L.^(1-alpha); % rental rate of capital
 K = @(L,r,z) L*(z*alpha/r).^(1/(1-alpha)); % capital stock necessary to yield return r
 Y = @(K,L,z) z*K.^alpha*L^(1-alpha); % output
-C = @(K) Y(K)-delta*K; % consumption
+C = @(K) Y(K,L,z)-delta*K; % consumption
 tau = @(L) mu*(1-L)/L; % tax rate
 
 % define grid for individual capital on which to solve
@@ -61,5 +63,5 @@ km=linspace(km_min,km_max,ngridkm)'; % generate a grid of ngridkm points on
                                      % [km_min,km_max] interval 
 
 % useful matrices
-mat_k = [grid_k',grid_k']; % replicate grid for unemployed and employed
-mat_income = @(K) w(K,L,z)*repmat([mu,1-tau],grid_k_no,1); % matrix with income of each agent
+mat_k = repmat(grid_k',1,2,2); % replicate grid for unemployed and employed
+mat_income = @(K,L,z) w(K,L,z).*repmat([mu,1-tau(L)],grid_k_no,1); % matrix with income of each agent
