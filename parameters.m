@@ -5,7 +5,7 @@ sigma = 2; % risk aversion
 mu = 0.3; % replacement rate of unemployed
 k_min = 0.5; % borrowing constraint as share of capital stock
 ind_no = 5000; % number of individuals simulated
-T = 5000; % number of periods simulated
+T = 3000; % number of periods simulated
 
 % firms (production function F(K,L)=z*K^alpha*L^(1-alpha)
 delta = 0.025; % depreciation rate
@@ -63,5 +63,22 @@ km=linspace(km_min,km_max,ngridkm)'; % generate a grid of ngridkm points on
                                      % [km_min,km_max] interval 
 
 % useful matrices
-mat_k = repmat(grid_k',1,2,2); % replicate grid for unemployed and employed
+mat_k = repmat(grid_k',1,4,2,2); % replicate grid for unemployed and employed
 mat_income = @(K,L,z) w(K,L,z).*repmat([mu,1-tau(L)],grid_k_no,1); % matrix with income of each agent
+
+% Forecasting
+B=[0 1 0 1];
+kmaux=zeros(grid_k_no,ngridkm,2,2); % for the mean of capital 
+                                                   % distribution (km)
+kmaux(:,:,1,1)=ones(grid_k_no,1)*km';
+kmaux(:,:,1,2)=ones(grid_k_no,1)*km';
+kmaux(:,:,2,1)=ones(grid_k_no,1)*km';
+kmaux(:,:,2,2)=ones(grid_k_no,1)*km';
+
+kmprime=zeros(grid_k_no,ngridkm,2,2);
+
+kmprime(:,:,1,1)=exp(B(1)*ones(grid_k_no,ngridkm)+B(2)*log(kmaux(:,:,1,1)));
+kmprime(:,:,1,2)=exp(B(1)*ones(grid_k_no,ngridkm)+B(2)*log(kmaux(:,:,1,2)));
+kmprime(:,:,2,1)=exp(B(3)*ones(grid_k_no,ngridkm)+B(4)*log(kmaux(:,:,2,1)));
+kmprime(:,:,2,2)=exp(B(3)*ones(grid_k_no,ngridkm)+B(4)*log(kmaux(:,:,2,2)));
+kmprime=(kmprime>=km_min).*(kmprime<=km_max).*kmprime+(kmprime<km_min)*km_min+(kmprime>km_max)*km_max; % restricting km' to be in [km_min,km_max] range
