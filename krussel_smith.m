@@ -34,24 +34,26 @@ while dif_B>1e-6 && iter<50 % loop for aggregate problem
         kmprime=(kmprime>=km_min).*(kmprime<=km_max).*kmprime+(kmprime<km_min)*km_min+(kmprime>km_max)*km_max;
         % calculate capital chosen next period, depending on current and
         % future employment status
-        for i=1:2 % employment this period
-            for j=1:2 % employment next period
-                for n=1:2 % business cycle this period
-                    for m=1:2 % business cycle next period
-                        % capital choice next period from policy function
-%                         k2prime_bu=interpn(k,km,kprime(:,:,1,1),kprime,kmprime,'cubic'); 
-%                         k_next(i,:,j,n,m) = interp1(grid_k,k_guess(:,j,m),k_guess(:,i,n),'linear','extrap');
-%                         k_next(i,:,j,n,m) = interpn(grid_k, km, k_guess(:,j,m), k_guess(:,i,n), kmprime, 'cubic');
-                        k_next = interpn(grid_k, km, k_guess(:,:,j,m), k_guess, kmprime, 'cubic');
-                        % income matrix                         
-                        income = mat_income(K_guess,L(n),z(n));
-                     
-                        % consumption next period from budget constraint
-                        c_next(i,:,j,n,m) = max(1e-10,(1+r(K_guess,L(n),z(n))-delta)*k_guess(:,i,n) - [k_next(i,:,j,n,m)]' + income(:,m));
-                    end
-                end
-            end
-        end
+%         for i=1:2 % employment this period
+%             for j=1:2 % employment next period
+%                 for n=1:2 % business cycle this period
+%                     for m=1:2 % business cycle next period
+%                         % capital choice next period from policy function
+% %                         k2prime_bu=interpn(k,km,kprime(:,:,1,1),kprime,kmprime,'cubic'); 
+% %                         k_next(i,:,j,n,m) = interp1(grid_k,k_guess(:,j,m),k_guess(:,i,n),'linear','extrap');
+%                         k_next(i,:,:,j,n,m) = interpn(grid_k, km, k_guess(:,j,m), k_guess(:,i,n), kmprime, 'cubic');
+% %                         k_next = interpn(grid_k, km, k_guess(:,:,j,m), k_guess, kmprime, 'cubic');
+%                         % income matrix                         
+%                         income = mat_income(K_guess,L(n),z(n));
+%                      
+%                         % consumption next period from budget constraint
+%                         c_next(i,:,j,n,m) = max(1e-10,(1+r(K_guess,L(n),z(n))-delta)*k_guess(:,i,n) - [k_next(i,:,j,n,m)]' + income(:,m));
+%                     end
+%                 end
+%             end
+%         end
+
+
         
         
 %       calculate expected marginal utility of consumption next period
