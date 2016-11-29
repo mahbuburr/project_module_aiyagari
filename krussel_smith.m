@@ -40,97 +40,78 @@ while dif_B>1e-6 && iter<50 % loop for aggregate problem
     disp('Solving individual problem');
     d2 = 1;
     while d2>1e-8 % loop for household problem
-        kmprime=zeros(grid_k_no,ngridkm,2,2);
-        kmprime(:,:,1,1)=exp(B(1)*ones(grid_k_no,ngridkm)+B(2)*log(kmaux(:,:,1,1)));
-        kmprime(:,:,1,2)=exp(B(1)*ones(grid_k_no,ngridkm)+B(2)*log(kmaux(:,:,1,2)));
-        kmprime(:,:,2,1)=exp(B(3)*ones(grid_k_no,ngridkm)+B(4)*log(kmaux(:,:,2,1)));
-        kmprime(:,:,2,2)=exp(B(3)*ones(grid_k_no,ngridkm)+B(4)*log(kmaux(:,:,2,2)));
-        kmprime=(kmprime>=km_min).*(kmprime<=km_max).*kmprime+(kmprime<km_min)*km_min+(kmprime>km_max)*km_max;
-        % calculate capital chosen next period, depending on current and
-        % future employment status
-%         for i=1:2 % employment this period
-%             for j=1:2 % employment next period
-%                 for n=1:2 % business cycle this period
-%                     for m=1:2 % business cycle next period
-%                         % capital choice next period from policy function
-% %                         k2prime_bu=interpn(k,km,kprime(:,:,1,1),kprime,kmprime,'cubic'); 
-% %                         k_next(i,:,j,n,m) = interp1(grid_k,k_guess(:,j,m),k_guess(:,i,n),'linear','extrap');
-%                         k_next(i,:,:,j,n,m) = interpn(grid_k, km, k_guess(:,j,m), k_guess(:,i,n), kmprime, 'cubic');
-% %                         k_next = interpn(grid_k, km, k_guess(:,:,j,m), k_guess, kmprime, 'cubic');
-%                         % income matrix                         
-%                         income = mat_income(K_guess,L(n),z(n));
-%                      
-%                         % consumption next period from budget constraint
-%                         c_next(i,:,j,n,m) = max(1e-10,(1+r(K_guess,L(n),z(n))-delta)*k_guess(:,i,n) - [k_next(i,:,j,n,m)]' + income(:,m));
-%                     end
-%                 end
-%             end
-%         end
-
-   % Bad aggregate state and unemployed idiosyncratic state 
-   
-     k_next_bu=interpn(grid_k,km,k_guess(:,:,1,1),k_guess,kmprime,'cubic'); 
+        kmprime=zeros(grid_k_no,grid_K_no,2,2);
+        kmprime(:,:,1,1)=exp(B(1)*ones(grid_k_no,grid_K_no)+B(2)*log(kmaux(:,:,1,1)));
+        kmprime(:,:,1,2)=exp(B(1)*ones(grid_k_no,grid_K_no)+B(2)*log(kmaux(:,:,1,2)));
+        kmprime(:,:,2,1)=exp(B(3)*ones(grid_k_no,grid_K_no)+B(4)*log(kmaux(:,:,2,1)));
+        kmprime(:,:,2,2)=exp(B(3)*ones(grid_k_no,grid_K_no)+B(4)*log(kmaux(:,:,2,2)));
+        kmprime=(kmprime>=K_min).*(kmprime<=K_max).*kmprime+(kmprime<K_min)*K_min+(kmprime>K_max)*K_max;
+        
+        
+        % Bad aggregate state and unemployed idiosyncratic state
+        
+        k_next_bu=interpn(grid_k,grid_K,k_guess(:,:,1,1),k_guess,kmprime,'cubic');
         % finding the individual policy function k''=k(k',km') by interpolating
         % the previously found policy function k'=k(k,km) in new points (k',km')
-%      cprime_bu=irate_b.*kprime+mu*(wage_b.*ones4)+(1-delta)*kprime-k_next_bu; 
-                                                  % future consumption (c')
-    
-     c_next_bu=max(1e-10,(1+r_mat(km,L(1),z(1))-delta).*k_guess+mu*w_mat(km,L(1),z(1))-k_next_bu);                                            
-     mu_next_bu=muc_inv(c_next_bu); % marginal utility of future consumption
-   
-   % Bad aggregate state and employed idiosyncratic state
-     ones4 = ones(100,4,2,2);
-     k_next_be=interpn(grid_k,km,k_guess(:,:,1,2),k_guess,kmprime,'cubic');
-     c_next_be=max(1e-10,(1-delta+r_mat(km,L(1),z(1))).*k_guess+w_mat(km,L(1),z(1)).*((1*l_bar-mu*((U_b./(L_b))))*ones4) - k_next_be);
-     mu_next_be=muc_inv(c_next_be);
- 
-   % Good aggregate state and unemployed idiosyncratic state
-   
-     k_next_gu=interpn(grid_k,km,k_guess(:,:,2,1),k_guess,kmprime,'cubic');
-     c_next_gu=max(1e-10,(1+r_mat(km,L(2),z(2))-delta).*k_guess+mu*w_mat(km,L(2),z(2))-k_next_gu);
-     mu_next_gu=muc_inv(c_next_gu);
-   
-   % Good aggregate state and employed idiosyncratic state
-   
-     k_next_ge=interpn(grid_k,km,k_guess(:,:,2,2),k_guess,kmprime,'cubic');
-     c_next_ge=max(1e-10,(1-delta+r_mat(km,L(2),z(2))).*k_guess+w_mat(km,L(2),z(2)).*((1*l_bar-mu*((U_g./(L_g))))*ones4) - k_next_ge);
-     mu_next_ge=muc_inv(c_next_ge);
+        %      cprime_bu=irate_b.*kprime+mu*(wage_b.*ones4)+(1-delta)*kprime-k_next_bu;
+        % future consumption (c')
+        
+        c_next_bu=max(1e-10,(1+r_mat(grid_K,L(1),z(1))-delta).*k_guess+mu*w_mat(grid_K,L(1),z(1))-k_next_bu);
+        mu_next_bu=muc_inv(c_next_bu); % marginal utility of future consumption
+        
+        % Bad aggregate state and employed idiosyncratic state
+        ones4 = ones(100,4,2,2);
+        k_next_be=interpn(grid_k,grid_K,k_guess(:,:,1,2),k_guess,kmprime,'cubic');
+        c_next_be=max(1e-10,(1-delta+r_mat(grid_K,L(1),z(1))).*k_guess+w_mat(grid_K,L(1),z(1)).*((1*l_bar-mu*((U_b./(L_b))))*ones4) - k_next_be);
+        mu_next_be=muc_inv(c_next_be);
+        
+        % Good aggregate state and unemployed idiosyncratic state
+        
+        k_next_gu=interpn(grid_k,grid_K,k_guess(:,:,2,1),k_guess,kmprime,'cubic');
+        c_next_gu=max(1e-10,(1+r_mat(grid_K,L(2),z(2))-delta).*k_guess+mu*w_mat(grid_K,L(2),z(2))-k_next_gu);
+        mu_next_gu=muc_inv(c_next_gu);
+        
+        % Good aggregate state and employed idiosyncratic state
+        
+        k_next_ge=interpn(grid_k,grid_K,k_guess(:,:,2,2),k_guess,kmprime,'cubic');
+        c_next_ge=max(1e-10,(1-delta+r_mat(grid_K,L(2),z(2))).*k_guess+w_mat(grid_K,L(2),z(2)).*((1*l_bar-mu*((U_g./(L_g))))*ones4) - k_next_ge);
+        mu_next_ge=muc_inv(c_next_ge);
         
         
-%       calculate expected marginal utility of consumption next period
-     Emuc_next =(mu_next_bu.*(1-delta+r_mat(km,L(1),z(1)))).*prob_bu+...
-     (mu_next_be.*(1-delta+r_mat(km,L(1),z(1)))).*prob_be+...
-     (mu_next_gu.*(1-delta+r_mat(km,L(1),z(1)))).*prob_gu+...
-     (mu_next_ge.*(1-delta+r_mat(km,L(1),z(1)))).*prob_ge;
-     
-     c_current = muc_inv(beta*Emuc_next);
-     k_new = NaN(100,4,2,2);
-     raux = (1+r_mat(km,L(1),z(1))-delta);
-     waux = w_mat(km,L(1),z(1));
-     k_new(:,:,1,1) = raux(:,:,1,1).*mat_k(:,:,1,1)+mu*waux(:,:,1,1)-c_current(:,:,1,1);
-     k_new(:,:,1,2) = raux(:,:,1,2).*mat_k(:,:,1,2)+waux(:,:,1,2).*((1*l_bar-mu*((U_b./(L_b))))*ones(100,4)) - c_current(:,:,1,2);
-     raux = (1+r_mat(km,L(2),z(2))-delta);
-     waux = w_mat(km,L(2),z(2));
-     k_new(:,:,2,1) = raux(:,:,2,1).*mat_k(:,:,2,1)+mu*waux(:,:,2,1)-c_current(:,:,2,1);
-     k_new(:,:,2,2) = raux(:,:,2,2).*mat_k(:,:,2,2)+waux(:,:,2,2).*((1*l_bar-mu*((U_g./(L_g))))*ones(100,4)) - c_current(:,:,2,2);
-     k_new=(k_new>=grid_k(1)).*(k_new<=grid_k(end)).*k_new+(k_new<grid_k(1))*k_min+(k_new>grid_k(end))*grid_k(end);
-                       
-       
+        %       calculate expected marginal utility of consumption next period
+        Emuc_next =(mu_next_bu.*(1-delta+r_mat(grid_K,L(1),z(1)))).*prob_bu+...
+            (mu_next_be.*(1-delta+r_mat(grid_K,L(1),z(1)))).*prob_be+...
+            (mu_next_gu.*(1-delta+r_mat(grid_K,L(1),z(1)))).*prob_gu+...
+            (mu_next_ge.*(1-delta+r_mat(grid_K,L(1),z(1)))).*prob_ge;
+        
+        c_current = muc_inv(beta*Emuc_next);
+        k_new = NaN(100,4,2,2);
+        raux = (1+r_mat(grid_K,L(1),z(1))-delta);
+        waux = w_mat(grid_K,L(1),z(1));
+        k_new(:,:,1,1) = raux(:,:,1,1).*mat_k(:,:,1,1)+mu*waux(:,:,1,1)-c_current(:,:,1,1);
+        k_new(:,:,1,2) = raux(:,:,1,2).*mat_k(:,:,1,2)+waux(:,:,1,2).*((1*l_bar-mu*((U_b./(L_b))))*ones(100,4)) - c_current(:,:,1,2);
+        raux = (1+r_mat(grid_K,L(2),z(2))-delta);
+        waux = w_mat(grid_K,L(2),z(2));
+        k_new(:,:,2,1) = raux(:,:,2,1).*mat_k(:,:,2,1)+mu*waux(:,:,2,1)-c_current(:,:,2,1);
+        k_new(:,:,2,2) = raux(:,:,2,2).*mat_k(:,:,2,2)+waux(:,:,2,2).*((1*l_bar-mu*((U_g./(L_g))))*ones(100,4)) - c_current(:,:,2,2);
+        k_new=(k_new>=grid_k(1)).*(k_new<=grid_k(end)).*k_new+(k_new<grid_k(1))*k_min+(k_new>grid_k(end))*grid_k(end);
+        
+        
         % apply borrowing constraint to get new policy function
-%         k_new = max(k_min*K_guess,k_new); 
+        %         k_new = max(k_min*K_guess,k_new);
         d2=max(max(max(max(abs(k_new-k_guess)))));
-%         d2_1 = norm(abs(k_new(:,1,1)-k_guess(:,1,1))./(1+abs(k_guess(:,1,1)))); % deviation between guess and new policy function
-%         d2_2 = norm(abs(k_new(:,2,1)-k_guess(:,2,1))./(1+abs(k_guess(:,2,1))));
-%         d2_3 = norm(abs(k_new(:,1,2)-k_guess(:,1,2))./(1+abs(k_guess(:,1,2))));
-%         d2_4 = norm(abs(k_new(:,2,2)-k_guess(:,2,2))./(1+abs(k_guess(:,2,2))));
-%         d2 = max([d2_1, d2_2, d2_3, d2_4]);
-% r_b = r_mat(km,L(1),z(1));
-% r_g = r_mat(km,L(2),z(2));
-% w_b = w_mat(km,L(1),z(1));
-% w_g = w_mat(km,L(2),z(2));
-%         save('some_results.mat', 'grid_k' ,'km','k_guess','kmprime', 'c_next_bu', 'mu_next_bu', 'k_next_bu', ...
-%             'c_next_be', 'mu_next_be', 'k_next_be', 'c_next_gu', 'mu_next_gu', 'k_next_gu', 'c_next_ge', 'mu_next_ge', 'k_next_ge', ...
-%             'Emuc_next', 'c_current', 'k_new', 'r_b', 'r_g', 'w_b', 'w_g');
+        %         d2_1 = norm(abs(k_new(:,1,1)-k_guess(:,1,1))./(1+abs(k_guess(:,1,1)))); % deviation between guess and new policy function
+        %         d2_2 = norm(abs(k_new(:,2,1)-k_guess(:,2,1))./(1+abs(k_guess(:,2,1))));
+        %         d2_3 = norm(abs(k_new(:,1,2)-k_guess(:,1,2))./(1+abs(k_guess(:,1,2))));
+        %         d2_4 = norm(abs(k_new(:,2,2)-k_guess(:,2,2))./(1+abs(k_guess(:,2,2))));
+        %         d2 = max([d2_1, d2_2, d2_3, d2_4]);
+        % r_b = r_mat(km,L(1),z(1));
+        % r_g = r_mat(km,L(2),z(2));
+        % w_b = w_mat(km,L(1),z(1));
+        % w_g = w_mat(km,L(2),z(2));
+        %         save('some_results.mat', 'grid_k' ,'km','k_guess','kmprime', 'c_next_bu', 'mu_next_bu', 'k_next_bu', ...
+        %             'c_next_be', 'mu_next_be', 'k_next_be', 'c_next_gu', 'mu_next_gu', 'k_next_gu', 'c_next_ge', 'mu_next_ge', 'k_next_ge', ...
+        %             'Emuc_next', 'c_current', 'k_new', 'r_b', 'r_g', 'w_b', 'w_g');
         % update policy function
         k_guess = k_guess + 0.7*(k_new-k_guess);
     end
