@@ -104,14 +104,16 @@ while dif_B>1e-6 && iter<50 % loop for aggregate problem
      (mu_next_ge.*(1-delta+r_mat(km,L(1),z(1)))).*prob_ge;
      
      c_current = muc_inv(beta*Emuc_next);
-     k_current = NaN(100,4,2,2);
+     k_new = NaN(100,4,2,2);
      raux = (1+r_mat(km,L(1),z(1))-delta);
      waux = w_mat(km,L(1),z(1));
-     k_current(:,:,1,1) = raux(:,:,1,1).*grid_k+mu*waux(:,:,1,1)-c_current(:,:,1,1);
-     k_current(:,:,1,2) = raux(:,:,1,2).*grid_k+waux(:,:,1,2).*((2*l_bar-mu*((U_b./(L_b))))*ones(100,4)) - c_current(:,:,1,2);
-     k_current(:,:,2,1) = raux(:,:,2,1).*grid_k+mu*waux(:,:,2,1)-c_current(:,:,2,1);
-     k_current(:,:,2,2) = raux(:,:,2,2).*grid_k+waux(:,:,2,2).*((2*l_bar-mu*((U_g./(L_g))))*ones(100,4)) - c_current(:,:,2,2);
-     k_current=(k_current>=grid_k(1)).*(k_current<=grid_k(end)).*k_current+(k_current<grid_k(1))*k_min+(k_current>grid_k(end))*grid_k(end);
+     k_new(:,:,1,1) = raux(:,:,1,1).*mat_k(:,:,1,1)+mu*waux(:,:,1,1)-c_current(:,:,1,1);
+     k_new(:,:,1,2) = raux(:,:,1,2).*mat_k(:,:,1,2)+waux(:,:,1,2).*((1*l_bar-mu*((U_b./(L_b))))*ones(100,4)) - c_current(:,:,1,2);
+     raux = (1+r_mat(km,L(2),z(2))-delta);
+     waux = w_mat(km,L(2),z(2));
+     k_new(:,:,2,1) = raux(:,:,2,1).*mat_k(:,:,2,1)+mu*waux(:,:,2,1)-c_current(:,:,2,1);
+     k_new(:,:,2,2) = raux(:,:,2,2).*mat_k(:,:,2,2)+waux(:,:,2,2).*((1*l_bar-mu*((U_g./(L_g))))*ones(100,4)) - c_current(:,:,2,2);
+     k_new=(k_new>=grid_k(1)).*(k_new<=grid_k(end)).*k_new+(k_new<grid_k(1))*k_min+(k_new>grid_k(end))*grid_k(end);
                        
        
         % apply borrowing constraint to get new policy function
@@ -122,15 +124,15 @@ while dif_B>1e-6 && iter<50 % loop for aggregate problem
 %         d2_3 = norm(abs(k_new(:,1,2)-k_guess(:,1,2))./(1+abs(k_guess(:,1,2))));
 %         d2_4 = norm(abs(k_new(:,2,2)-k_guess(:,2,2))./(1+abs(k_guess(:,2,2))));
 %         d2 = max([d2_1, d2_2, d2_3, d2_4]);
-r_b = r_mat(km,L(1),z(1));
-r_g = r_mat(km,L(2),z(2));
-w_b = w_mat(km,L(1),z(1));
-w_g = w_mat(km,L(2),z(2));
-        save('some_results.mat', 'grid_k' ,'km','k_guess','kmprime', 'c_next_bu', 'mu_next_bu', 'k_next_bu', ...
-            'c_next_be', 'mu_next_be', 'k_next_be', 'c_next_gu', 'mu_next_gu', 'k_next_gu', 'c_next_ge', 'mu_next_ge', 'k_next_ge', ...
-            'Emuc_next', 'c_current', 'k_new', 'r_b', 'r_g', 'w_b', 'w_g');
+% r_b = r_mat(km,L(1),z(1));
+% r_g = r_mat(km,L(2),z(2));
+% w_b = w_mat(km,L(1),z(1));
+% w_g = w_mat(km,L(2),z(2));
+%         save('some_results.mat', 'grid_k' ,'km','k_guess','kmprime', 'c_next_bu', 'mu_next_bu', 'k_next_bu', ...
+%             'c_next_be', 'mu_next_be', 'k_next_be', 'c_next_gu', 'mu_next_gu', 'k_next_gu', 'c_next_ge', 'mu_next_ge', 'k_next_ge', ...
+%             'Emuc_next', 'c_current', 'k_new', 'r_b', 'r_g', 'w_b', 'w_g');
         % update policy function
-        k_guess = k_guess + 0.5*(k_new-k_guess);
+        k_guess = k_guess + 0.7*(k_new-k_guess);
     end
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

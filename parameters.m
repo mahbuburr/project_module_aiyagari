@@ -77,7 +77,7 @@ km=linspace(km_min,km_max,ngridkm)'; % generate a grid of ngridkm points on
                                      % [km_min,km_max] interval 
 
 % useful matrices
-mat_k = repmat(grid_k',1,4,2,2); % replicate grid for unemployed and employed
+mat_k = repmat(grid_k,1,4,2,2); % replicate grid for unemployed and employed
 mat_income = @(K,L,z) w(K,L,z).*repmat([mu,1-tau(L)],grid_k_no,1); % matrix with income of each agent
 
 % Forecasting
