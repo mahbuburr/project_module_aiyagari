@@ -15,6 +15,8 @@ delta_a=0.01;    % (1-delta_a) is the productivity level in a bad state,
 z_g = 1+delta_a; % productivity in good aggreagate state
 z_b = 1-delta_a; % productivity in bad aggregate state
 z = [z_b; z_g];  % vetor of productivity states
+ag_states_no = 2;% number of aggregate states
+id_states_no = 2;% number of idiosyncratic states
 
 % transition probabilities
 
@@ -25,19 +27,26 @@ L_g=(1-U_g);    % employment rate in a good aggregate state
 L = [L_b; L_g]; % vector of states for labour
 l_bar=1/L_b;    % used for simplification
 
+% Matrix of transition probabilities in Den Haan, Judd, Juillard (2008)
+prob=[0.525 0.35 0.03125 0.09375  
+   0.038889 0.836111 0.002083 0.122917
+   0.09375 0.03125 0.291667 0.583333
+   0.009115 0.115885 0.024306 0.850694];
+
+
 %% setup
 
 % define some useful functions
-muc = @(c) c.^(-sigma);                                     % marginal utility of consumption
-muc_inv = @(muc) muc.^(-1/sigma);                           % inverse of marginal utility of consumption
-w = @(K,L,z) z.*(1-alpha).*K.^alpha.*(L*l_bar).^(-alpha);   % wage
-w_mat = @(K,L,z) repmat(w(K',L,z),100,1,2,2);               % wage matrix used for aggregate uncertainty
-r = @(K,L,z) z.*alpha.*K.^(alpha-1).*(L*l_bar).^(1-alpha);  % rental rate of capital
-r_mat = @(K,L,z) repmat(r(K',L,z),100,1,2,2);               % interest rate matrix used for aggregate uncertainty
-K = @(L,r,z) L*(z*alpha/r).^(1/(1-alpha));                  % capital stock necessary to yield return r
-Y = @(K,L,z) z*K.^alpha*L^(1-alpha);                        % output
-C = @(K) Y(K,L,z)-delta*K;                                  % consumption
-tau = @(L) mu*(1-L)/L;                                      % tax rate
+muc = @(c) c.^(-sigma);                                             % marginal utility of consumption
+muc_inv = @(muc) muc.^(-1/sigma);                                   % inverse of marginal utility of consumption
+w = @(K,L,z) z.*(1-alpha).*K.^alpha.*(L*l_bar).^(-alpha);           % wage
+w_mat = @(K,L,z) repmat(w(K',L,z),100,1,2,2);                       % wage matrix used for aggregate uncertainty
+r = @(K,L,z) z.*alpha.*K.^(alpha-1).*(L*l_bar).^(1-alpha);          % rental rate of capital
+r_mat = @(K,L,z) repmat(r(K',L,z),100,1,2,2);                       % interest rate matrix used for aggregate uncertainty
+K = @(L,r,z) L*(z*alpha/r).^(1/(1-alpha));                          % capital stock necessary to yield return r
+Y = @(K,L,z) z*K.^alpha*L^(1-alpha);                                % output
+C = @(K) Y(K,L,z)-delta*K;                                          % consumption
+tau = @(L) mu*(1-L)/L;                                              % tax rate
 
 % define grid for individual capital on which to solve
 grid_k_no = 100;                        % number of grid points for agents' capital holdings
@@ -56,69 +65,31 @@ grid_dist = linspace(grid_k(1),grid_k(end),grid_dist_no); % grid for distributio
 % Grid for mean of capital
 K_min = 30;         
 K_max = 50;
-% km_min=0.75*K_rep_b;  % minimum grid-value of the mean of capital distribution, km
-% km_max=1.25*K_rep_g;  % maximum grid value of km
-gird_K_no=4;                           % number of grid points for km 
-grid_K=linspace(K_min,K_max,gird_K_no)'; % generate a grid of ngridkm points on [km_min,km_max] interval
+% K_min=0.75*K_rep_b;  % minimum grid-value of the mean of capital distribution, K
+% K_max=1.25*K_rep_g;  % maximum grid value of km
+grid_K_no=4;                             % number of grid points for K 
+grid_K=linspace(K_min,K_max,grid_K_no)'; % generate a grid of grid_K_no points on [K_min,K_max] interval
 
-% useful matrices
-mat_k = repmat(grid_k,1,4,2,2); % replicate grid for unemployed and employed
-mat_income = @(K,L,z) w(K,L,z).*repmat([mu,1-tau(L)],grid_k_no,1); % matrix with income of each agent
+% useful matricies
+mat_k = repmat(grid_k,1,4,2,2);                                     % replicate grid for unemployed and employed
+mat_income = @(K,L,z) w(K,L,z).*repmat([mu,1-tau(L)],grid_k_no,1);  % matrix with income of each agent
 
 % Forecasting
-B=[0 1 0 1];
-kmaux=zeros(grid_k_no,gird_K_no,2,2); % for the mean of capital 
-                                                   % distribution (km)
-kmaux(:,:,1,1)=ones(grid_k_no,1)*grid_K';
-kmaux(:,:,1,2)=ones(grid_k_no,1)*grid_K';
-kmaux(:,:,2,1)=ones(grid_k_no,1)*grid_K';
-kmaux(:,:,2,2)=ones(grid_k_no,1)*grid_K';
+B=[0 1 0 1];    
+ones4 = ones(100,4,2,2);  
 
-kmprime=zeros(grid_k_no,gird_K_no,2,2);
-
-kmprime(:,:,1,1)=exp(B(1)*ones(grid_k_no,gird_K_no)+B(2)*log(kmaux(:,:,1,1)));
-kmprime(:,:,1,2)=exp(B(1)*ones(grid_k_no,gird_K_no)+B(2)*log(kmaux(:,:,1,2)));
-kmprime(:,:,2,1)=exp(B(3)*ones(grid_k_no,gird_K_no)+B(4)*log(kmaux(:,:,2,1)));
-kmprime(:,:,2,2)=exp(B(3)*ones(grid_k_no,gird_K_no)+B(4)*log(kmaux(:,:,2,2)));
-kmprime=(kmprime>=K_min).*(kmprime<=K_max).*kmprime+(kmprime<K_min)*K_min+(kmprime>K_max)*K_max; % restricting km' to be in [km_min,km_max] range
-
-nstates_ag = 2;
-nstates_id = 2;
-prob_bu=zeros(grid_k_no,4,nstates_ag,nstates_id); % for a bad agg. state 
-                           % and unemployed idios. state in the next period
-prob_be=zeros(grid_k_no,gird_K_no,nstates_ag,nstates_id); % for a bad agg. state 
-                           % and employed idios. state in the next period
-prob_gu=zeros(grid_k_no,gird_K_no,nstates_ag,nstates_id); % for a good agg. state 
-                           % and unemployed idios. state in the next period
-prob_ge=zeros(grid_k_no,gird_K_no,nstates_ag,nstates_id); % for a good agg. state 
-                           % and employed idios. state in the next period
-
-%% Parameters for Krussel - Smith
-
-% Matrix of transition probabilities in Den Haan, Judd, Juillard (2008)
-
-prob=[0.525 0.35 0.03125 0.09375  
-   0.038889 0.836111 0.002083 0.122917
-   0.09375 0.03125 0.291667 0.583333
-   0.009115 0.115885 0.024306 0.850694];
-                         
-                           
-prob_bu(:,:,1,1)=prob(1,1)*ones(grid_k_no,gird_K_no);
-prob_bu(:,:,1,2)=prob(2,1)*ones(grid_k_no,gird_K_no);
-prob_bu(:,:,2,1)=prob(3,1)*ones(grid_k_no,gird_K_no);
-prob_bu(:,:,2,2)=prob(4,1)*ones(grid_k_no,gird_K_no);
-
-prob_be(:,:,1,1)=prob(1,2)*ones(grid_k_no,gird_K_no);
-prob_be(:,:,1,2)=prob(2,2)*ones(grid_k_no,gird_K_no);
-prob_be(:,:,2,1)=prob(3,2)*ones(grid_k_no,gird_K_no);
-prob_be(:,:,2,2)=prob(4,2)*ones(grid_k_no,gird_K_no);
-
-prob_gu(:,:,1,1)=prob(1,3)*ones(grid_k_no,gird_K_no);
-prob_gu(:,:,1,2)=prob(2,3)*ones(grid_k_no,gird_K_no);
-prob_gu(:,:,2,1)=prob(3,3)*ones(grid_k_no,gird_K_no);
-prob_gu(:,:,2,2)=prob(4,3)*ones(grid_k_no,gird_K_no);
-
-prob_ge(:,:,1,1)=prob(1,4)*ones(grid_k_no,gird_K_no);
-prob_ge(:,:,1,2)=prob(2,4)*ones(grid_k_no,gird_K_no);
-prob_ge(:,:,2,1)=prob(3,4)*ones(grid_k_no,gird_K_no);
-prob_ge(:,:,2,2)=prob(4,4)*ones(grid_k_no,gird_K_no);
+% Augumented probability matrix 
+% n = 1 bad agg. state and unemployed in next period
+% n = 2 bad agg. state and employed in next period
+% n = 3 good agg. state and unemployed in next period
+% n = 4 good agg. state and employed in next period
+probaux = zeros(grid_k_no,grid_K_no,ag_states_no,id_states_no, 4);
+for n = 1:4
+    m=1;
+    for i = 1:2
+        for j = 1:2
+            probaux(:,:,i,j,n) = repmat(prob(m,n),grid_k_no,grid_K_no);
+            m=m+1;
+        end
+    end
+end
