@@ -6,6 +6,7 @@ mu = 0.15;        % replacement rate of unemployed
 k_min = 10e-10;   % borrowing constraint as share of capital stock
 ind_no = 5000;    % number of individuals simulated
 T = 3000;         % number of periods simulated
+e = [0,1];        % employment states
 
 % firms (production function F(K,L)=z*K^alpha*L^(1-alpha)
 delta = 0.025;   % depreciation rate
@@ -42,11 +43,11 @@ muc_inv = @(muc) muc.^(-1/sigma);                                   % inverse of
 w = @(K,L,z) z.*(1-alpha).*K.^alpha.*(L*l_bar).^(-alpha);           % wage
 w_mat = @(K,L,z) repmat(w(K',L,z),100,1,2,2);                       % wage matrix used for aggregate uncertainty
 r = @(K,L,z) z.*alpha.*K.^(alpha-1).*(L*l_bar).^(1-alpha);          % rental rate of capital
-r_mat = @(K,L,z) repmat(r(K',L,z),100,1,2,2);                       % interest rate matrix used for aggregate uncertainty
+r_mat = @(K,L,z) (1-delta+repmat(r(K',L,z),100,1,2,2));             % interest rate matrix used for aggregate uncertainty
 K = @(L,r,z) L*(z*alpha/r).^(1/(1-alpha));                          % capital stock necessary to yield return r
 Y = @(K,L,z) z*K.^alpha*L^(1-alpha);                                % output
 C = @(K) Y(K,L,z)-delta*K;                                          % consumption
-tau = @(L) mu*(1-L)/L;                                              % tax rate
+tau = @(L) mu*(1-L)/(l_bar*L);                                      % tax rate
 
 % define grid for individual capital on which to solve
 grid_k_no = 100;                        % number of grid points for agents' capital holdings
@@ -72,7 +73,8 @@ grid_K=linspace(K_min,K_max,grid_K_no)'; % generate a grid of grid_K_no points o
 
 % useful matricies
 mat_k = repmat(grid_k,1,4,2,2);                                     % replicate grid for unemployed and employed
-mat_income = @(K,L,z) w(K,L,z).*repmat([mu,1-tau(L)],grid_k_no,1);  % matrix with income of each agent
+mat_income = @(K,L,z,e) ((1-tau(L))*l_bar*e + mu*(1-e)).*w_mat(K,L,z); % matrix with income of each agent
+income = @(K,L,z,e) ((1-tau(L))*l_bar*e + mu*(1-e)).*w(K',L,z);
 
 % Forecasting
 B=[0 1 0 1];    
@@ -93,3 +95,6 @@ for n = 1:4
         end
     end
 end
+
+%% Aggregate problem
+kss =
