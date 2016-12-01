@@ -4,8 +4,8 @@ beta = 0.99;      % discount factor
 sigma = 1;        % risk aversion
 mu = 0.15;        % replacement rate of unemployed
 k_min = 10e-10;   % borrowing constraint as share of capital stock
-ind_no = 5000;    % number of individuals simulated
-T = 3000;         % number of periods simulated
+ind_no = 10000;    % number of individuals simulated
+T = 1100;         % number of periods simulated
 e = [0,1];        % employment states
 
 % firms (production function F(K,L)=z*K^alpha*L^(1-alpha)
@@ -97,4 +97,4 @@ for n = 1:4
 end
 
 %% Aggregate problem
-kss =
+kss=((1/beta-(1-delta))/alpha)^(1/(alpha-1));

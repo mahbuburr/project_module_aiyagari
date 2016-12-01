@@ -90,18 +90,27 @@ while dif_B>1e-6 && iter<50 % loop for aggregate problem
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     disp('Solving aggregate problem');
     sim_k = zeros(T,ind_no); % simulated values of capital stock
-    kcross=zeros(1,N)+kss;
-    sim_k(1,:) = K_guess; % initial capital holdings
-    
+    aux_k = zeros(T,ind_no);
+    sim_k(1,:) = kss; % initial capital holdings
+    K_demand = zeros(T,1);
+    K_demand(1) = kss;
     for t=2:T
-            if ag_shock(t) == 1
-                 sim_k(t,id_shock(t,:)==1) = interp1(grid_k,k_guess(:,1,1),sim_k(t-1,id_shock(t,:)==1),'linear','extrap'); % capital demand of currently unemployed
-                 sim_k(t,id_shock(t,:)==2) = interp1(grid_k,k_guess(:,2,1),sim_k(t-1,id_shock(t,:)==2),'linear','extrap'); % capital demand of currently employed
-            else
-                sim_k(t,id_shock(t,:)==1) = interp1(grid_k,k_guess(:,1,2),sim_k(t-1,id_shock(t,:)==1),'linear','extrap'); % capital demand of currently unemployed
-                sim_k(t,id_shock(t,:)==2) = interp1(grid_k,k_guess(:,2,2),sim_k(t-1,id_shock(t,:)==2),'linear','extrap'); % capital demand of cu
-            end
+        
+        if ag_shock(t) == 1
+            aux_k(t,id_shock(t,:)==1) = interpn(grid_k,grid_K,k_guess(:,:,1,1),sim_k(t-1,id_shock(t,:)==1),K_demand(t-1),'spline'); % capital demand of currently unemployed
+            aux_k(t,id_shock(t,:)==2) = interpn(grid_k,grid_K,k_guess(:,:,1,2),sim_k(t-1,id_shock(t,:)==2),K_demand(t-1),'spline'); % capital demand of currently employed
+        else
+            aux_k(t,id_shock(t,:)==1) = interpn(grid_k,grid_K,k_guess(:,:,2,1),sim_k(t-1,id_shock(t,:)==1),K_demand(t-1),'spline'); % capital demand of currently unemployed
+            aux_k(t,id_shock(t,:)==2) = interpn(grid_k,grid_K,k_guess(:,:,2,2),sim_k(t-1,id_shock(t,:)==2),K_demand(t-1),'spline'); % capital demand of cu
+        end
+        
+      sim_k = aux_k;
+      sim_k = min(max(k_min, sim_k),k_max);
+        K_demand(t) = mean(sim_k(t-1,:));
+        K_demand(t)=min(max(K_min, K_demand(t)),K_max);
     end
- 
+    
+    [K_dem, kcross1] = test_agg(T,id_shock,ag_shock,K_max,K_min,k_guess,grid_K,grid_k,[1;2],k_min,k_max,kss,[1;2]);
+    
 end
 toc
