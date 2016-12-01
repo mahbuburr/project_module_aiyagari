@@ -1,6 +1,7 @@
 clear all
 close all
 
+warning('off','all')
 parameters; % load parameters
 [id_shock,ag_shock]  = generate_shocks(prob,T,ind_no,U_b); % generate shocks
 
@@ -43,24 +44,24 @@ while dif_B>1e-6 && iter<50 % loop for aggregate problem
         
         % Bad aggregate state and unemployed idiosyncratic state
         % future capital state k''
-        k_next_bu=interpn(grid_k,grid_K,k_guess(:,:,1,1),k_guess,K_guess,'spline');
+        k_next_bu=interpn(grid_k,grid_K,k_guess(:,:,1,1),k_guess,K_guess,'cubic');
         % future consumption (c')
         c_next_bu=max(1e-10,r_mat(grid_K,L(1),z(1)).*k_guess+mat_income(grid_K,L(1),z(1),e(1))-k_next_bu);
         % marginal utility of future consumption
         mu_next_bu=muc_inv(c_next_bu); 
         
         % Bad aggregate state and employed idiosyncratic state
-        k_next_be=interpn(grid_k,grid_K,k_guess(:,:,1,2),k_guess,K_guess,'spline');
+        k_next_be=interpn(grid_k,grid_K,k_guess(:,:,1,2),k_guess,K_guess,'cubic');
         c_next_be=max(1e-10,r_mat(grid_K,L(1),z(1)).*k_guess+mat_income(grid_K,L(1),z(1),e(2)) - k_next_be);
         mu_next_be=muc_inv(c_next_be);
         
         % Good aggregate state and unemployed idiosyncratic state
-        k_next_gu=interpn(grid_k,grid_K,k_guess(:,:,2,1),k_guess,K_guess,'spline');
+        k_next_gu=interpn(grid_k,grid_K,k_guess(:,:,2,1),k_guess,K_guess,'cubic');
         c_next_gu=max(1e-10,r_mat(grid_K,L(2),z(2)).*k_guess+mat_income(grid_K,L(2),z(2),e(1))-k_next_gu);
         mu_next_gu=muc_inv(c_next_gu);
         
         % Good aggregate state and employed idiosyncratic state
-        k_next_ge=interpn(grid_k,grid_K,k_guess(:,:,2,2),k_guess,K_guess,'spline');
+        k_next_ge=interpn(grid_k,grid_K,k_guess(:,:,2,2),k_guess,K_guess,'cubic');
         c_next_ge=max(1e-10,r_mat(grid_K,L(2),z(2)).*k_guess+mat_income(grid_K,L(2),z(2),e(2)) - k_next_ge);
         mu_next_ge=muc_inv(c_next_ge);
         
@@ -90,25 +91,19 @@ while dif_B>1e-6 && iter<50 % loop for aggregate problem
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     disp('Solving aggregate problem');
     sim_k = zeros(T,ind_no); % simulated values of capital stock
-    aux_k = zeros(T,ind_no);
     sim_k(1,:) = kss; % initial capital holdings
     K_demand = zeros(T,1);
-    K_demand(1) = kss;
-    for t=2:T
-        
-        if ag_shock(t) == 1
-            aux_k(t,id_shock(t,:)==1) = interpn(grid_k,grid_K,k_guess(:,:,1,1),sim_k(t-1,id_shock(t,:)==1),K_demand(t-1),'spline'); % capital demand of currently unemployed
-            aux_k(t,id_shock(t,:)==2) = interpn(grid_k,grid_K,k_guess(:,:,1,2),sim_k(t-1,id_shock(t,:)==2),K_demand(t-1),'spline'); % capital demand of currently employed
-        else
-            aux_k(t,id_shock(t,:)==1) = interpn(grid_k,grid_K,k_guess(:,:,2,1),sim_k(t-1,id_shock(t,:)==1),K_demand(t-1),'spline'); % capital demand of currently unemployed
-            aux_k(t,id_shock(t,:)==2) = interpn(grid_k,grid_K,k_guess(:,:,2,2),sim_k(t-1,id_shock(t,:)==2),K_demand(t-1),'spline'); % capital demand of cu
-        end
-        
-      sim_k = aux_k;
-      sim_k = min(max(k_min, sim_k),k_max);
+    
+    for t = 2:T
         K_demand(t) = mean(sim_k(t-1,:));
-        K_demand(t)=min(max(K_min, K_demand(t)),K_max);
+        K_demand(t) = min(max(K_min, K_demand(t)),K_max);
+        
+        k_aux = squeeze(interpn(grid_k, grid_K, z_s, e_s, k_guess, grid_k, K_demand(t), ag_shock(t), e_s,'cubic'));
+        sim_k(t,:) = interpn(grid_k,e_s,k_aux,K_demand(t),id_shock(t,:),'cubic'); 
+        sim_k(t,:) = min(max(k_min, sim_k(t,:)),k_max);
     end
+        
+
     
     [K_dem, kcross1] = test_agg(T,id_shock,ag_shock,K_max,K_min,k_guess,grid_K,grid_k,[1;2],k_min,k_max,kss,[1;2]);
     

@@ -7,6 +7,7 @@ k_min = 10e-10;   % borrowing constraint as share of capital stock
 ind_no = 10000;    % number of individuals simulated
 T = 1100;         % number of periods simulated
 e = [0,1];        % employment states
+e_s = [1;2];
 
 % firms (production function F(K,L)=z*K^alpha*L^(1-alpha)
 delta = 0.025;   % depreciation rate
@@ -16,6 +17,7 @@ delta_a=0.01;    % (1-delta_a) is the productivity level in a bad state,
 z_g = 1+delta_a; % productivity in good aggreagate state
 z_b = 1-delta_a; % productivity in bad aggregate state
 z = [z_b; z_g];  % vetor of productivity states
+z_s = [1;2];
 ag_states_no = 2;% number of aggregate states
 id_states_no = 2;% number of idiosyncratic states
 
