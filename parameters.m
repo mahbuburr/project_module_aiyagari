@@ -100,3 +100,4 @@ end
 
 %% Aggregate problem
 kss=((1/beta-(1-delta))/alpha)^(1/(alpha-1));
+update_B=0.3;

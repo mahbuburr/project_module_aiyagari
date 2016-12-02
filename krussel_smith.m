@@ -4,7 +4,8 @@ close all
 warning('off','all')
 parameters; % load parameters
 [id_shock,ag_shock]  = generate_shocks(prob,T,ind_no,U_b); % generate shocks
-
+% save('shock.mat', 'id_shock', 'ag_shock');
+% load('shock.mat');
 %% solve for general equilibrium
 % initial guesses
 
@@ -23,11 +24,14 @@ end
 
 K_guess=zeros(grid_k_no,grid_K_no,ag_states_no,id_states_no);
 
+sim_k = zeros(T,ind_no); % simulated values of capital stock
+sim_k(1,:) = kss; % initial capital holdings
+
 dif_B = 1;
 iter = 0;
 tic
-while dif_B>1e-6 && iter<50 % loop for aggregate problem
-    iter = iter+1;
+while dif_B>1e-8 %&& iter<50 % loop for aggregate problem
+    iter = iter+1
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%    Solve household problem given prices
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -85,13 +89,12 @@ while dif_B>1e-6 && iter<50 % loop for aggregate problem
         % update policy function
         k_guess = k_guess + 0.7*(k_new-k_guess);
     end
-    
+%     load('policy.mat', 'k_guess');
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%    Find distribution of agents
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     disp('Solving aggregate problem');
-    sim_k = zeros(T,ind_no); % simulated values of capital stock
-    sim_k(1,:) = kss; % initial capital holdings
+
     K_demand = zeros(T,1);
     
     for t = 2:T
@@ -102,10 +105,46 @@ while dif_B>1e-6 && iter<50 % loop for aggregate problem
         sim_k(t,:) = interpn(grid_k,e_s,k_aux,K_demand(t),id_shock(t,:),'cubic'); 
         sim_k(t,:) = min(max(k_min, sim_k(t,:)),k_max);
     end
-        
-
+    disp('Regression');
+    ibad=0;           % count how many times the aggregate shock was bad
+    igood=0;          % count how many times the aggregate shock was good
+    xbad=0;  ybad=0;  % regression-variables for a bad state
+    xgood=0; ygood=0; % regression-variables for a good state
+    for i=100+1:T-1
+        if ag_shock(i)==1
+            ibad=ibad+1;
+            xbad(ibad,1)=log(K_demand(i));
+            ybad(ibad,1)=log(K_demand(i+1));
+        else
+            igood=igood+1;
+            xgood(igood,1)=log(K_demand(i));
+            ygood(igood,1)=log(K_demand(i+1));
+        end
+    end
     
-    [K_dem, kcross1] = test_agg(T,id_shock,ag_shock,K_max,K_min,k_guess,grid_K,grid_k,[1;2],k_min,k_max,kss,[1;2]);
+    [B1(1:2),s2,s3,s4,s5]=regress(ybad,[ones(ibad,1) xbad]);R2bad=s5(1);
+    % run the OLS regression ln(km')=B(1)+B(2)*ln(km) for a bad agg. state
+    % and compute R^2 (which is the first statistic in s5)
+    [B1(3:4),s2,s3,s4,s5]=regress(ygood,[ones(igood,1) xgood]);R2good=s5(1);
+    % make the OLS regression ln(km')=B(3)+B(4)*ln(km) for a good agg. state
+    % and compute R^2 (which is the first statistic in s5)
+    
+    dif_B=norm(B-B1) % compute the difference between the initial and obtained
+    % vector of coefficients
+    
+    % To ensure that initial capital distribution comes from the ergodic set,
+    % we use the terminal distribution of the current iteration as initial
+    % distribution for a subsequent iteration. When the solution is sufficiently
+    % accurate, dif_B<(criter_B*100), we stop such an updating and hold the
+    % distribution "kcross" fixed for the rest of iterations. ·
+    
+    if dif_B>(1e-8*100)
+        sim_k(1,:)=sim_k(T,:); % the new capital distribution  replaces the old one
+    end
+    
+    B=B1*update_B+B*(1-update_B); % update the vector of the ALM coefficients
+    % according to the rule (9) in the paper
+
     
 end
 toc
