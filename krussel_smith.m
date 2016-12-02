@@ -3,9 +3,8 @@ close all
 
 warning('off','all')
 parameters; % load parameters
+prob = probability_matrix( U_b, PI_UE_b, U_g, PU_UE_g, B_p, PI_bg);
 [id_shock,ag_shock]  = generate_shocks(prob,T,ind_no,U_b); % generate shocks
-% save('shock.mat', 'id_shock', 'ag_shock');
-% load('shock.mat');
 %% solve for general equilibrium
 % initial guesses
 

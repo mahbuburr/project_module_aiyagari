@@ -25,18 +25,17 @@ id_states_no = 2;% number of idiosyncratic states
 
 U_b=0.1;        % unemployment rate in a bad aggregate state
 L_b=(1-U_b);    % employment rate in a bad aggregate state
+PI_UE_b = 0.4;  % chance of getting employed in bad state
+
 U_g=0.04;       % unemployment rate in a good aggregate state
 L_g=(1-U_g);    % employment rate in a good aggregate state
+PI_UE_g = 2/3;  % chance of getting employed in good state
+
 L = [L_b; L_g]; % vector of states for labour
 l_bar=1/L_b;    % used for simplification
 
-% Matrix of transition probabilities in Den Haan, Judd, Juillard (2008)
-prob=[0.525 0.35 0.03125 0.09375  
-   0.038889 0.836111 0.002083 0.122917
-   0.09375 0.03125 0.291667 0.583333
-   0.009115 0.115885 0.024306 0.850694];
-
-
+B_p = 0.5; % bad states proportion
+PI_bg = 0.125; % chance of observing a bad state when at good state
 %% setup
 
 % define some useful functions
