@@ -1,6 +1,17 @@
-function [ k, c, K, sim, store] = f_aiyagari( par, grid, K, k, func, method, mat )
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
+function [ k, c, K, sim, store] = aiyagari_solver( par, grid, K, k, func, method, mat )
+% AIYAGARI MODEL: Heterogeneous agents model due to idiosyncratic labour
+% shocks. Agents self-sinsure against unemploment by building capital
+% stock.
+%
+%   par = (calibrated) Parameters that decribe the economy.
+%   grid = Grid to calculate policy functions and finer grid for simulation
+%       economy.
+%   K = Aggregate capital. Include starting guess and solution for
+%       representative consumer.
+%   k = Individual capital. Also include a starting guess.
+%   func = Helpful functions to automate certain calculations.
+%   method = Describe the method of iteration/ simutation.
+%   mat = Grid and income for unemployed and employed in one matrice each.
 
 d1 = 1;
 iter = 0;
@@ -163,7 +174,7 @@ end
 
 disp('_____________________________________________________________')
 disp('Aggregate variables (log-deviation from representative agent)')
-disp(['Capital:     ',num2str(K_guess),' (',num2str(log(K.guess/K.rep)),')'])
+disp(['Capital:     ',num2str(K.guess),' (',num2str(log(K.guess/K.rep)),')'])
 disp(['Output:      ',num2str(func.Y(K.guess)),' (',num2str(log(func.Y(K.guess)/func.Y(K.rep))),')'])
 disp(['Consumption: ',num2str(func.C(K.guess)),' (',num2str(log(func.C(K.guess)/func.C(K.rep))),')'])
 

@@ -1,3 +1,6 @@
+% clear 
+% close all
+
 %% set parameters
 % consumers
 par.beta = 0.99; % discount factor
