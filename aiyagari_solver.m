@@ -2,7 +2,7 @@ function [ k, c, K, sim, store] = aiyagari_solver( par, grid, K, k, func, method
 % AIYAGARI MODEL: Heterogeneous agents model due to idiosyncratic labour
 % shocks. Agents self-sinsure against unemploment by building capital
 % stock.
-%
+% Input variables:
 %   par = (calibrated) Parameters that decribe the economy.
 %   grid = Grid to calculate policy functions and finer grid for simulation
 %       economy.
@@ -12,6 +12,8 @@ function [ k, c, K, sim, store] = aiyagari_solver( par, grid, K, k, func, method
 %   func = Helpful functions to automate certain calculations.
 %   method = Describe the method of iteration/ simutation.
 %   mat = Grid and income for unemployed and employed in one matrice each.
+% 
+% Output variables:
 
 d1 = 1;
 iter = 0;
@@ -141,14 +143,13 @@ while d1>1e-6 && iter<50 % loop for aggregate problem
         % alternative calculation of eigenvector by multiplying transition
         % matrix many times        
         %eigvector = (transition')^1000*ones(2*grid_dist_no,1);
-        distribution = [eigvector(1:grid.dist_no),eigvector(grid.dist_no+(1:grid.dist_no))]/sum(eigvector);
+        store.distribution = [eigvector(1:grid.dist_no),eigvector(grid.dist_no+(1:grid.dist_no))]/sum(eigvector);
 
         % alternative way to calculate distribution by solving linear
         % system of equations
         %distribution = reshape([(eye(2*grid_dist_no)-transition');ones(1,2*grid_dist_no,1)]\[zeros(2*grid_dist_no,1);1],grid_dist_no,2);
-
-        K.demand = sum(sum(distribution.*k.k)); % aggregate capital demanded
-        sim.L = sum(distribution(grid.dist_no+(1:grid.dist_no)));
+        K.demand = sum(sum(store.distribution.*k.k)); % aggregate capital demanded
+        sim.L = sum(store.distribution(grid.dist_no+(1:grid.dist_no)));
     end
     
     d1 = abs(K.demand-K.guess)./(1+K.guess); % deviation between guess for capital and demanded capital stock
@@ -193,7 +194,7 @@ if strcmp(method.sim,'simulation')
     hist(temp(:),100)
     legend('number of agents')
 elseif strcmp(method.sim,'histogram')
-    bar(grid.dist,distribution,'stacked')
+    bar(grid.dist,store.distribution,'stacked')
     legend('unemployed','employed')
 end
 xlabel('capital holdings')
