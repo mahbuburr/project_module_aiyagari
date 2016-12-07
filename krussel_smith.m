@@ -3,8 +3,28 @@ close all
 
 warning('off','all')
 parameters; % load parameters
-prob = probability_matrix( U_b, PI_UE_b, U_g, PU_UE_g, B_p, PI_bg);
-[id_shock,ag_shock]  = generate_shocks(prob,T,ind_no,U_b); % generate shocks
+prob = probability_matrix( U_b, PI_UE_b, U_g, PI_UE_g, B_p, PI_bg);
+% [id_shock,ag_shock]  = generate_shocks(prob,T,ind_no,U_b); % generate shocks
+load('shocks_vector_internet.mat');
+id_shock = idshock;
+ag_shock = agshock;
+
+% Augumented probability matrix 
+% n = 1 bad agg. state and unemployed in next period
+% n = 2 bad agg. state and employed in next period
+% n = 3 good agg. state and unemployed in next period
+% n = 4 good agg. state and employed in next period
+probaux = zeros(grid_k_no,grid_K_no,ag_states_no,id_states_no, 4);
+for n = 1:4
+    m=1;
+    for i = 1:2
+        for j = 1:2
+            probaux(:,:,i,j,n) = repmat(prob(m,n),grid_k_no,grid_K_no);
+            m=m+1;
+        end
+    end
+end
+
 %% solve for general equilibrium
 % initial guesses
 
@@ -147,3 +167,4 @@ while dif_B>1e-8 %&& iter<50 % loop for aggregate problem
     
 end
 toc
+save Solution_to_model;

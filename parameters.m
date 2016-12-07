@@ -81,22 +81,6 @@ income = @(K,L,z,e) ((1-tau(L))*l_bar*e + mu*(1-e)).*w(K',L,z);
 B=[0 1 0 1];    
 ones4 = ones(100,4,2,2);  
 
-% Augumented probability matrix 
-% n = 1 bad agg. state and unemployed in next period
-% n = 2 bad agg. state and employed in next period
-% n = 3 good agg. state and unemployed in next period
-% n = 4 good agg. state and employed in next period
-probaux = zeros(grid_k_no,grid_K_no,ag_states_no,id_states_no, 4);
-for n = 1:4
-    m=1;
-    for i = 1:2
-        for j = 1:2
-            probaux(:,:,i,j,n) = repmat(prob(m,n),grid_k_no,grid_K_no);
-            m=m+1;
-        end
-    end
-end
-
 %% Aggregate problem
 kss=((1/beta-(1-delta))/alpha)^(1/(alpha-1));
 update_B=0.3;
