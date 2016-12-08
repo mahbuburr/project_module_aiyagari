@@ -1,4 +1,4 @@
-clear
+clear all
 close all
 %% set parameters
 % consumers
@@ -47,7 +47,7 @@ mat_k = [grid_k',grid_k']; % replicate grid for unemployed and employed
 mat_income = @(K) w(K)*repmat([mu,1-tau],grid_k_no,1); % matrix with income of each agent
 
 %% solve for general equilibrium
-HH_method = 'FPend'; % 'FP' for fixed-point iteration in household problem, 'FPend' for using endogenous grid points
+HH_method = 'FP'; % 'FP' for fixed-point iteration in household problem, 'FPend' for using endogenous grid points
 sim_method = 'histogram'; % 'simulation' for simulation, 'histogram' for histogram method
 agg_method = 'bisection'; % 'bisection' to use bisection method, gradual updating otherwise
 
