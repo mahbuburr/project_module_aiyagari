@@ -90,17 +90,17 @@ while dif_B>1e-8 %&& iter<50 % loop for aggregate problem
         
         
         % calculate expected marginal utility of consumption next period
-        Emuc_next =(mu_next_bu.*(r(K_guess,L(1),z(1)))).*probaux(:,:,:,:,1) + ...
-            (mu_next_be.*r(K_guess,L(1),z(2))).*probaux(:,:,:,:,2) + ...
-            (mu_next_gu.*r(K_guess,L(2),z(1))).*probaux(:,:,:,:,3) + ...
-            (mu_next_ge.*r(K_guess,L(2),z(2))).*probaux(:,:,:,:,4);
+        Emuc_next =(mu_next_bu.*(1-delta+r(K_guess,L(1),z(1)))).*probaux(:,:,:,:,1) + ...
+            (mu_next_be.*(r(K_guess,L(1),z(1)))).*probaux(:,:,:,:,2) + ...
+            (mu_next_gu.*(r(K_guess,L(2),z(2)))).*probaux(:,:,:,:,3) + ...
+            (mu_next_ge.*(r(K_guess,L(2),z(2)))).*probaux(:,:,:,:,4);
         
         c_current = muc_inv(beta*Emuc_next);
         k_new = NaN(100,4,2,2);
-        k_new(:,:,1,1) = (1-delta+repmat(r(grid_K',L(1),z(1)),grid_k_no,1)).*repmat(grid_k,1,grid_K_no)+repmat(income(grid_K,L(1),z(1),e(1)),grid_k_no,1)-c_current(:,:,1,1);
-        k_new(:,:,1,2) = (1-delta+repmat(r(grid_K',L(1),z(1)),grid_k_no,1)).*repmat(grid_k,1,grid_K_no)+repmat(income(grid_K,L(1),z(1),e(2)),grid_k_no,1)-c_current(:,:,1,2);
-        k_new(:,:,2,1) = (1-delta+repmat(r(grid_K',L(2),z(2)),grid_k_no,1)).*repmat(grid_k,1,grid_K_no)+repmat(income(grid_K,L(2),z(2),e(1)),grid_k_no,1)-c_current(:,:,2,1);
-        k_new(:,:,2,2) = (1-delta+repmat(r(grid_K',L(2),z(2)),grid_k_no,1)).*repmat(grid_k,1,grid_K_no)+repmat(income(grid_K,L(2),z(2),e(2)),grid_k_no,1)-c_current(:,:,2,2);
+        k_new(:,:,1,1) = (repmat(r(grid_K',L(1),z(1)),grid_k_no,1)).*repmat(grid_k,1,grid_K_no)+repmat(mat_income(grid_K',L(1),z(1),e(1)),grid_k_no,1)-c_current(:,:,1,1);
+        k_new(:,:,1,2) = (repmat(r(grid_K',L(1),z(1)),grid_k_no,1)).*repmat(grid_k,1,grid_K_no)+repmat(mat_income(grid_K',L(1),z(1),e(2)),grid_k_no,1)-c_current(:,:,1,2);
+        k_new(:,:,2,1) = (repmat(r(grid_K',L(2),z(2)),grid_k_no,1)).*repmat(grid_k,1,grid_K_no)+repmat(mat_income(grid_K',L(2),z(2),e(1)),grid_k_no,1)-c_current(:,:,2,1);
+        k_new(:,:,2,2) = (repmat(r(grid_K',L(2),z(2)),grid_k_no,1)).*repmat(grid_k,1,grid_K_no)+repmat(mat_income(grid_K',L(2),z(2),e(2)),grid_k_no,1)-c_current(:,:,2,2);
         k_new=min(max(k_min, k_new),k_max); % apply borrowing constraint to get new policy function
 
         d2=max(max(max(max(abs(k_new-k_guess)))));

@@ -41,9 +41,9 @@ PI_bg = 0.125; % chance of observing a bad state when at good state
 % define some useful functions
 muc = @(c) c.^(-sigma);                                             % marginal utility of consumption
 muc_inv = @(muc) muc.^(-1/sigma);                                   % inverse of marginal utility of consumption
-w = @(K,L,z) z.*(1-alpha).*K.^alpha.*(L*l_bar).^(-alpha);           % wage
+w = @(K,L,z) z.*(1-alpha).*(K./(L*l_bar)).^alpha;           % wage
 w_mat = @(K,L,z) repmat(w(K',L,z),100,1,2,2);                       % wage matrix used for aggregate uncertainty
-r = @(K,L,z) (1-delta+z.*alpha.*K.^(alpha-1).*(L*l_bar).^(1-alpha));          % rental rate of capital
+r = @(K,L,z) (1-delta+z.*alpha.*(K./(L*l_bar)).^(alpha-1));          % rental rate of capital
 r_mat = @(K,L,z) (1-delta+repmat(r(K',L,z),100,1,2,2));             % interest rate matrix used for aggregate uncertainty
 K = @(L,r,z) L*(z*alpha/r).^(1/(1-alpha));                          % capital stock necessary to yield return r
 Y = @(K,L,z) z*K.^alpha*L^(1-alpha);                                % output
