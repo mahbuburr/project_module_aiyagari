@@ -2,7 +2,7 @@ clear
 close all
 
 parameters % load paramaters
-
+method.sim = 'simulation'
 tic % Set timer
 % Solve the Aiyagariy model by fixed-point iteration.
 % Function in- and output are structures.
