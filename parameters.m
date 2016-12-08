@@ -43,7 +43,7 @@ muc = @(c) c.^(-sigma);                                             % marginal u
 muc_inv = @(muc) muc.^(-1/sigma);                                   % inverse of marginal utility of consumption
 w = @(K,L,z) z.*(1-alpha).*K.^alpha.*(L*l_bar).^(-alpha);           % wage
 w_mat = @(K,L,z) repmat(w(K',L,z),100,1,2,2);                       % wage matrix used for aggregate uncertainty
-r = @(K,L,z) z.*alpha.*K.^(alpha-1).*(L*l_bar).^(1-alpha);          % rental rate of capital
+r = @(K,L,z) (1-delta+z.*alpha.*K.^(alpha-1).*(L*l_bar).^(1-alpha));          % rental rate of capital
 r_mat = @(K,L,z) (1-delta+repmat(r(K',L,z),100,1,2,2));             % interest rate matrix used for aggregate uncertainty
 K = @(L,r,z) L*(z*alpha/r).^(1/(1-alpha));                          % capital stock necessary to yield return r
 Y = @(K,L,z) z*K.^alpha*L^(1-alpha);                                % output
@@ -74,8 +74,8 @@ grid_K=linspace(K_min,K_max,grid_K_no)'; % generate a grid of grid_K_no points o
 
 % useful matricies
 mat_k = repmat(grid_k,1,4,2,2);                                     % replicate grid for unemployed and employed
-mat_income = @(K,L,z,e) ((1-tau(L))*l_bar*e + mu*(1-e)).*w_mat(K,L,z); % matrix with income of each agent
-income = @(K,L,z,e) ((1-tau(L))*l_bar*e + mu*(1-e)).*w(K',L,z);
+mat_income = @(K,L,z,e) ((1-tau(L))*l_bar*e + mu*(1-e)).*w(K,L,z); % matrix with income of each agent
+income = @(K,L,z,e) ((1-tau(L))*l_bar*e + mu*(1-e)).*w(K,L,z);
 
 % Forecasting
 B=[0 1 0 1];    
