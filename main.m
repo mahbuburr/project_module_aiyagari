@@ -2,11 +2,8 @@ clear
 close all
 
 parameters % load paramaters
-method.sim = 'simulation'
-tic % Set timer
-% Solve the Aiyagariy model by fixed-point iteration.
-% Function in- and output are structures.
-[k, c, K, sim, store]= aiyagari_solver(par, grid, K, k, func, method, mat);
+setup % load setup
+%method.sim = 'simulation'
+tic
+[k, c, K, sim, store]= aiyagari_solver(par, func, method);
 toc
-
-[c] = welfare_effects(par, func, sim, store, K, k, method);

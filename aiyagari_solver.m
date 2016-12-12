@@ -1,4 +1,4 @@
-function [ k, c, K, sim, store] = aiyagari_solver( par, grid, K, k, func, method, mat )
+function [ k, c, K, sim, store] = aiyagari_solver( par, func, method)
 % AIYAGARI MODEL: Heterogeneous agents model due to idiosyncratic labour
 % shocks. Agents self-sinsure against unemploment by building capital
 % stock.
@@ -14,6 +14,29 @@ function [ k, c, K, sim, store] = aiyagari_solver( par, grid, K, k, func, method
 %   mat = Grid and income for unemployed and employed in one matrice each.
 % 
 % Output variables:
+
+% define grid for individual capital on which to solve
+K.rep = func.K(1/par.beta-1+par.delta);% capital stock of representative agent useful for comparison
+
+grid.k_no = 100; % number of grid points for agents' capital holdings
+grid.k = linspace(par.k_min*K.rep,3*K.rep,grid.k_no); % grid for agents' policy function
+
+grid.dist_no = 1000;
+grid.dist = linspace(grid.k(1),grid.k(end),grid.dist_no); % grid for distribution of agents - use finer grid
+
+% useful matrices
+mat.k = [grid.k',grid.k']; % replicate grid for unemployed and employed
+mat.income = @(K) func.w(K)*repmat([par.mu,1-par.tau],grid.k_no,1); % matrix with income of each agent
+
+K.lims = [K.rep,grid.k(end)]; % initial limits for bisection method
+
+% initial guesses
+k.guess = mat.k; % policy function of agents (1st column unemployed, 2nd column employed)
+if strcmp(method.agg,'bisection')
+    K.guess = (K.lims(1)+K.lims(2))/2;
+else
+    K.guess = K.rep; % aggregate capital stock
+end
 
 d1 = 1;
 iter = 0;
