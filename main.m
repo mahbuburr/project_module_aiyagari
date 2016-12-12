@@ -1,4 +1,4 @@
-clear all
+clear
 close all
 
 parameters % load parameters
@@ -176,28 +176,4 @@ while d1>1e-6 && iter<50 % loop for aggregate problem
 end
 toc
 
-disp('_____________________________________________________________')
-disp('Aggregate variables (log-deviation from representative agent)')
-disp(['Capital:     ',num2str(K_guess),' (',num2str(log(K_guess/K_rep)),')'])
-disp(['Output:      ',num2str(Y(K_guess)),' (',num2str(log(Y(K_guess)/Y(K_rep))),')'])
-disp(['Consumption: ',num2str(C(K_guess)),' (',num2str(log(C(K_guess)/C(K_rep))),')'])
-
-
-% Plot convergence of aggregate capital stock
-figure(2)
-plot([store.K_guess;store.K_next]')
-legend('guess','demand')
-xlabel('iteration')
-ylabel('capital stock')
-
-% Plot distribution of agents
-figure(3)
-if strcmp(sim_method,'simulation')
-    temp = sim_k(ceil(T/2):end,:);
-    hist(temp(:),100)
-    legend('number of agents')
-elseif strcmp(sim_method,'histogram')
-    bar(grid_dist,distribution,'stacked')
-    legend('unemployed','employed')
-end
-xlabel('capital holdings')
+[c] = welfare_effects(par, func, sim, store, K, k, method);
