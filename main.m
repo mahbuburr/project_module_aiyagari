@@ -100,7 +100,7 @@ while d1>1e-6 && iter<50 % loop for aggregate problem
         sim_shock = rand(T,ind_no); % shocks for employment transition
 
         sim_e(1,1:round(L*ind_no))=2; % initial individuals that are employed
-        sim_k(1,:) = K_guess; % initial capital holdings
+        sim_k(1,:) = K_guess; % initial capital holdings, (take equilibrium capital holdings as initial capital holdings) 
 
         for t=2:T
             sim_e(t,sim_e(t-1,:)==1) = 1+(sim_shock(t,sim_e(t-1,:)==1)<=PI(1,2)); % new employment status of previously unemployed

@@ -3,9 +3,9 @@
 beta = 0.99; % discount factor
 sigma = 2; % risk aversion
 mu = 0.3; % replacement rate of unemployed
-k_min = 0.5; % borrowing constraint as share of capital stock
-ind_no = 5000; % number of individuals simulated
-T = 5000; % number of periods simulated
+k_min =  0; % borrowing constraint as share of capital stock
+ind_no = 100; % number of individuals simulated
+T = 100; % number of periods simulated
 
 % firms (production function F(K,L)=z*K^alpha*L^(1-alpha)
 delta = 0.025; % depreciation rate
@@ -14,7 +14,7 @@ z = 1; % productivity
 
 % transition probabilities
 L_target = 0.9;
-PI_UE = 0.3; % chance of getting employed
+PI_UE = 0.1; % chance of getting employed
 PI_EU = PI_UE*(1-L_target)/L_target; % chance of getting unemployed
 
 

@@ -1,0 +1,142 @@
+Huggett (1993)
+
+Central question of the paper: Why has the average real risk-free interest rate been less than one percent? 
+	Previous papers fail to explain this as they tend to predict a to high risk-free rate and an equity premium that is too small (i.e. the work of Mehra and Prescott(1985))
+
+How to solve the above issue?
+	Including market imperfections, i.e. idiosyncratic shocks and incomplete insurance. 
+
+A first simple explanation:
+	" With a credit limit, agents are restricted in the level of their indebtedness. However, agents are not restricted from accumulating large balances. A low risk-free rate is needed to persuade agents not to accumulate large credit balances so that the credit market can clear."
+
+
+The model:
+	Each agent wants to smooth consumption by holding a single asset, which can be interpreted as a credt balance with a central credit authority or as a one-period-ahead sure claim on consumption goods. 
+
+	The period budget constraint
+		c + a'q ≤ a + e where c ≥ 0 and a' ≥ a_  (note: a_ is the credit limit)
+
+	The probability measure used to describe the heterogeneity as well as the price, depending on the aggregates of the economy, remain unchanged in this setting, since the question concerns the average interest rate and not the dynamic properties of interest rates. 
+		The reason for focusing on a stationary equilibrium is that general methods for characterizing equilibria of the more general kind do not exist at this time -> russel&smith?
+	See Lucas (1980) for more info on stationary recursive equilibrium structure 
+
+	Definition of a stationary equilibrium for this economy is (c(x), a(x), q, psi) satisfying
+		(1) c(x) and a(x) are optimal decision rules, given q.
+			agents optimize
+		(2) Markets clear: (i) integral s c(x)dpsi =... see paper 
+			consumption and endowment averaged over the population are equal and that credit balances averaged over the population are zero
+		(3) psi is a stationary probability measure: psi(B) = ... see paper 
+			the distribution of agents over states is unchanging 
+
+
+Aiyagari (1994) 
+
+General remarks of concerning this type of models: 
+
+Special feature of models whose aggregate behavior is the result of market interaction among a large number of agents subject to idiosyncratic shocks is, that the individual dynamics, uncertainty, and asset trading  are the main mechanism by which individuals attempt to smooth consumption, while aggregate variables are unchanging. 
+	-> as opposed to representative agent models (complete market models) in which individual dynamics and uncertainty coincide with aggregate dynamics and uncertainty!
+
+The model include a role for uninsured idiosyncratic risk and liquidity/borrowing constraints
+	-> this is modeled by having a large number of agents who receive idiosyncratic labor endowment shocks that are uninsured
+		-> the result of the market incompleteness in combination with the possibility of being borrowing constrained in future periods, agents accumulate excess capital in order to smooth consumption in the face of uncertain individual labor incomes. 
+
+The study of the paper:
+
+The broader context of this paper is the debate concerning the sources of aggregate capital accumulation, in particular the suggestion that precautionary saving may be a quantitatively important component of aggregate saving. 
+
+Results: 
+- the quantitative results of this paper suggest that the contribution of uninsured idiosyncratic risk to aggregate saving is quite modest, at least for moderate and empirically plausible values of risk aversion, variability, and persistence in earnings. (ASK MARKUS)
+- the distributions are positively skewed, wealth distribution is much more disperse than the income distribution, and inequality as measured by the Gini coefficient is significantly higher for wealth than for income 
+
+- further they show as Hugget (1993) that in equilibrium the interest rate will be lower with uninsured risk and average household assets are extremely sensitive to slight variations in the interest rate when it is close to (but below) the rate of time preference (this makes a case for general equilibrium, r is determined endogenously, vs partial equilibrium analysis)
+
+For the interpretation 
+
+Steady State: 
+- consumers face a constant interest rate as shocks are purely idiosyncratic ->> no aggregate uncertainty 
+- the per capita amount of capital must equal the per capita asset holdings of consumers
+- interest rate must equal the net marginal product of capital (as determined by a standard neoclassical production function)
+
+the consequence of the three points above:
+	- explain why the interest rate is necessarily less than the time preference rate (the agent wants to borrow) and, hence, the aggregate capital stock and the saving rate are necessarily greater than under certainty (complete markets) 
+	-> as seen in hinermaiers course time preference rate = interest rate in equilibrium (elaborate)
+	- as a consequence the per capita capital is higher than the modified golden rule capital (hintermaier)
+
+
+Evidence backing up the model
+- individual consumptions are much more variable than aggregate consumption
+- individual wealth holdings appear to be highly volatile
+- risky portfolios held by top end of the wealth distribution and risk free portfolios held predominantly by lower end of wealth distribution
+
+The model
+
+Borrowing constraint
+- if r < 0 some limit on borrowing is required 
+	-> otherwise a max does not exist i.e. the PV of earnings is infinite and individual can run a Ponzi scheme
+- if r > 0 a less restrictive alternative to imposing a borrowing limit is to impose present value budget balance  -> lim at/(1+r)^t ≥ 0 
+	together with nonnegativity of consumption -> period-by-period borrowing constraint at ≥ -w*lmin/r
+	hence, the nonnegativity of consumption automatically imposes a borrowing constraint 
+Further explanation in paper on page 9! 
+
+- note that r < lambda (rate of time preference)
+	-> agent would like to borrow but is limited by the borrowing limit
+		-> as total resources get smaller and smaller, the individual borrows more and more in order to maintain current consumption, and his debt approaches the borrowing limit. at some point when total resources are too low, it would be optimal to borrow up to the limit and consumpe all of the total resources. 
+
+Effects of varying the borrowing limit b
+- when r equals zero, b is not an argument of the asset demand function A(.), hence Eaw decreases one-to-one with increases in b when r is zero (under the above definition, when lm is 0)
+	Eaw curve shifts to the left when b increases permitting a higher bottowing limit serves to lower aggregate capital and raise the interest rate toward the time preference rate. 
+	-> intutively, when borrowing is permitted individuals need not rely solely on holdings of capital to buffer earnings variation. borrowing can also be used to buffer these shocks and, hence, leads to smaller holdings of capital.
+- case where lm > 0, Eaw will tend to (-infinity) as r tends to zero
+	itutively, as r becomes smaller, the borrowing limit becomes larger, permitting the individual to carry large amounts of debt. 
+	(the main difference between this case and the case of a fixed borrowing limit is that under the present value borrowing constraint there always exists a steady state with a positive interest rate. with a fixed borrowing limit there may be no steady state with a positive interest rate though there does exist a steady state with a negative interest rate)
+
+
+Alternative Interpretations of the model
+- the model of individual optimization can be turned into a pure exchange model with government debt in order to analyze the effects of changing the level of government debt
+- the model of individual optimization can also be turned into an "optimum quantity of moeny" model
+
+Model specification
+- calibrated to be consistent with features of postwar U.S. economy
+- the authors test for three different risk aversion parameters: (1,3,5)
+- labor endowmnet shock, Markvo chain specification with seven states to match a first-order autoregressive representation for the logarithm of labor endowment shock
+	use tauchen
+	for the calibration of the values of the coefficient of variation and the serial correlation coefficient refer to paper page 18-19
+	(- they do not allow for the possibility that the reported earnings variabilities contain significant measurement error -> might be an issue)
+
+- they set the borrowing limit b to zero
+
+Computation (just some remarks)
+- use bisection method
+(- for more info refer to paper)
+
+Results 
+- calculate full insurance net return to capital and saving rate refer to page 21 for maths
+	- fulor high values of sigma, rho and mu the presence of idiosyncratic risk can raise the saving rate quite significantly by up to seven percentage points (only small difference for small values), in the extreme case up to 14%
+- some studies use earnings processes that are difference stationry instead of trend stationary (see page 22 for approx and references)
+
+Variabilities
+- show the differences of variables of hh
+	-> consumption varies less than income 
+	-> savings and assets are much more volatile than income  
+- used to show the importance of asset trading 
+
+Cross-Section Distributions and Inequality measures
+- as long-run distributions for an individual coincide with cross-section distributions for the population, results for variabilities of individual consumption, income, and assets have immediate implications for cross-section distributions. 
+- much less dispersion across households in comsumption compared with income and much greater dispersion in wealth compared with income 
+- the model generates empirically plausible relative degrees of inequality, but cannot generate the observed degrees of inequality 
+
+
+Krusell, Muko & Sahin (2010)
+-> see page 13 for some notes on calculating welfare changes in the Aiyagari-model
+
+
+
+
+
+
+
+
+
+
+
+
