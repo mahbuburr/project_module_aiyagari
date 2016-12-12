@@ -1,14 +1,25 @@
-function [ c, U ] = welfare_effects( par, func, sim, store, K, k, method )
+function [ c, U ] = welfare_effects( sim, store, k, method )
 %WELFARE EFFECTS Calculates whether agents prefer a policy change or not
 %   Detailed explanation goes here
+    
+    % Load parametes again and refresh setup. Remember that the handle
+    % functions need the same setup as when their respective s.s. was
+    % calculated.
+    parameters % load parameters
+    method.sim = 'simulation';
+    setup % load setup
 
     if strcmp(method.sim ,'simulation')
 
-        ind_no = size(sim.k,2);
+        ind_no = size(sim.one.k,2);
         
         % Get utility levels of all agents at all points in time.
+        % Setup the parameters and handle functions as when s.s. was
+        % calculated
         sim.one.u = func.U(func.C(sim.one.k));
         sim.one.u(func.C(sim.one.k)<0) = -Inf; % Make sure consumption is always positive.
+        par.z = 0.5;
+        setup
         sim.two.u = func.U(func.C(sim.two.k));
         sim.two.u(func.C(sim.two.k)<0) = -Inf;
         % Calculate the life time utility when simulation has converged (about half
@@ -20,20 +31,20 @@ function [ c, U ] = welfare_effects( par, func, sim, store, K, k, method )
         % If value > 1, agents prefer steady state one, if 1 > value > 0, agents prefer
         % policy change ( = steady state two).
         % Consumption equivalent tested against model with policy change.
-        c.equivalent = ((U.lifetime.two*(1-par.sigma).*(1-par.beta)+1)...
-            ./(U.lifetime_one*(1-par.sigma)*(1-par.beta)+1)).^(1/(1-par.sigma)); 
-        figure(6)
-        histogram(c.equivalent)
-        xlabel('Consumption equivalents')
+        c.equivalent_mean = ((mean(U.lifetime_two).*(1-par.sigma).*(1-par.beta)+1)...
+            ./(mean(U.lifetime_one).*(1-par.sigma).*(1-par.beta)+1)).^(1/(1-par.sigma));
+        
+        c.equivalent_median = ((median(U.lifetime_two).*(1-par.sigma).*(1-par.beta)+1)...
+            ./(median(U.lifetime_one).*(1-par.sigma).*(1-par.beta)+1)).^(1/(1-par.sigma)); 
         % Calculate average and median of consumption equivalent. If this aggregate
         % >1, there exists a (lump-sum) redistribution which would make everyone
         % better off.
-        c.equivalent_mean = mean(c.equivalent);
-        c.equivalent_median = median(c.equivalent);
 
     elseif strcmp(method.sim , 'histogram')
         
         U.lifetime_one = sum(sum(store.one.distribution.*func.U(func.C(k.one.k))));
+        par.z = 0.5;
+        setup
         U.lifetime_two = sum(sum(store.two.distribution.*func.U(func.C(k.two.k))));
         
         %% Calculate the consumption equivalent

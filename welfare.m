@@ -3,9 +3,8 @@ close all
 
 parameters % load paramaters
 setup % load setup
-% Define function to calculate utility of consumption.
-func.U = @(c) (c.^(1-par.sigma))./(1-par.sigma);
-% method.sim = 'simulation';
+
+method.sim = 'simulation';
 % 
 % tic % Set timer
 % % Solve the Aiyagariy model by fixed-point iteration.
@@ -22,15 +21,15 @@ tic
 for i=1:2 % Get steady state values for the model with two different parameters
     if i==1 
         % e.g. par.k_min = 0.5;
-        [k.one, c.one, K.one, sim.one, store.one]= aiyagari_solver(par, func, method);
+        [k.one, c.one, ~, sim.one, store.one]= aiyagari_solver(par, func, method);
     elseif i==2
         % and here par.k_min = 0.25;
         par.z = 0.5;
-        setup % load setup again for new parameter
-        [k.two, c.two, K.two, sim.two, store.two]= aiyagari_solver(par, func, method); % start with s.s. values from first run to speed up convergence
+        setup % refresh setup again for new parameter
+        [k.two, c.two, ~, sim.two, store.two]= aiyagari_solver(par, func, method); % start with s.s. values from first run to speed up convergence
     end
 end
 toc
 %set(0,'DefaultFigureVisible','on'); % Turn graphical display on again
 
-[c, U] = welfare_effects(par, func, sim, store, K, k, method);
+[c, U] = welfare_effects(sim, store, k, method);
