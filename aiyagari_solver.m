@@ -77,13 +77,13 @@ while d1>1e-6 && iter<50 % loop for aggregate problem
         % update policy function
         k.guess = k.guess + 0.5*(k.new-k.guess);
     end
-    figure(1)
-    plot(grid.k,log(k.guess./[grid.k',grid.k']))
-    line([grid.k(1),grid.k(end)],[0,0])
-    legend('unemployed','employed')
-    xlabel('capital this period')
-    ylabel('log(capital next period/capital this period)')
-    title('policy functions')
+%     figure(1)
+%     plot(grid.k,log(k.guess./[grid.k',grid.k']))
+%     line([grid.k(1),grid.k(end)],[0,0])
+%     legend('unemployed','employed')
+%     xlabel('capital this period')
+%     ylabel('log(capital next period/capital this period)')
+%     title('policy functions')
     
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -180,24 +180,24 @@ disp(['Output:      ',num2str(func.Y(K.guess)),' (',num2str(log(func.Y(K.guess)/
 disp(['Consumption: ',num2str(func.C(K.guess)),' (',num2str(log(func.C(K.guess)/func.C(K.rep))),')'])
 
 
-% Plot convergence of aggregate capital stock
-figure(2)
-plot([store.K_guess;store.K_next]')
-legend('guess','demand')
-xlabel('iteration')
-ylabel('capital stock')
-
-% Plot distribution of agents
-figure(3)
-if strcmp(method.sim,'simulation')
-    temp = sim.k(ceil(T/2):end,:);
-    hist(temp(:),100)
-    legend('number of agents')
-elseif strcmp(method.sim,'histogram')
-    bar(grid.dist,store.distribution,'stacked')
-    legend('unemployed','employed')
-end
-xlabel('capital holdings')
+% % Plot convergence of aggregate capital stock
+% figure(2)
+% plot([store.K_guess;store.K_next]')
+% legend('guess','demand')
+% xlabel('iteration')
+% ylabel('capital stock')
+% 
+% % Plot distribution of agents
+% figure(3)
+% if strcmp(method.sim,'simulation')
+%     temp = sim.k(ceil(T/2):end,:);
+%     hist(temp(:),100)
+%     legend('number of agents')
+% elseif strcmp(method.sim,'histogram')
+%     bar(grid.dist,store.distribution,'stacked')
+%     legend('unemployed','employed')
+% end
+% xlabel('capital holdings')
 
 end
 

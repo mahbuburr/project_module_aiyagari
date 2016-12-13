@@ -3,10 +3,10 @@
 
 %% set parameters
 % consumers
-beta = 0.99; % discount factor
-sigma = 2; % risk aversion
-mu = 0.3; % replacement rate of unemployed
-k_min =  0; % borrowing constraint as share of capital stock
+par.beta = 0.99; % discount factor
+par.sigma = 2; % risk aversion
+par.mu = 0.3; % replacement rate of unemployed
+par.k_min = 0; % borrowing constraint as share of capital stock
 ind_no = 100; % number of individuals simulated
 T = 100; % number of periods simulated
 
@@ -16,15 +16,11 @@ par.alpha = 0.33; % output elasticity of capital
 par.z = 1; % productivity
 
 % transition probabilities
-<<<<<<< HEAD
-L_target = 0.9;
-PI_UE = 0.1; % chance of getting employed
-PI_EU = PI_UE*(1-L_target)/L_target; % chance of getting unemployed
-=======
+
 par.L_target = 0.9;
 par.PI_UE = 0.3; % chance of getting employed
 par.PI_EU = par.PI_UE*(1-par.L_target)/par.L_target; % chance of getting unemployed
->>>>>>> Yannic
+
 
 
 %% setup
