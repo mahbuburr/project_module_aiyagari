@@ -4,8 +4,12 @@ close all
 parameters % load paramaters
 setup % load setup
 
-method.sim = 'simulation';
-% 
+% Change simulation method to simulation if you want, it takes much longer
+% though.
+%method.sim = 'simulation';
+
+%% Welfare analysis against frictionless representative agent model
+
 % tic % Set timer
 % % Solve the Aiyagariy model by fixed-point iteration.
 % % Function in- and output are structures.
@@ -16,20 +20,26 @@ method.sim = 'simulation';
 % [c, U] = welfare_effects_rep(par, func, sim, store, K, k, method);
 
 %% Welfare effects of two Aiyagari models with different parameters.
-set(0,'DefaultFigureVisible','off'); % Do not display figures when we run the loop
+
+% Default parameterization is set by the calibration of Markus Riegler. If
+% you change parameters type "par.<parameter> =" and then "setup" before
+% you call the function. If you want to compare one steady state with the
+% default one, change parameters for i=2 and leave i=1 as the default one.
+% Do not change beta or sigma!
+
 tic
-for i=1:2 % Get steady state values for the model with two different parameters
+for i=1:2 % Get steady state utility for the model with two different parameters
     if i==1 
-        % e.g. par.k_min = 0.5;
-        [k.one, c.one, ~, sim.one, store.one]= aiyagari_solver(par, func, method);
+        [ U.one, c.one, k.one, K.one, sim.one, store.one ] = get_utility( par, func, method );
     elseif i==2
-        % and here par.k_min = 0.25;
         par.z = 0.5;
         setup % refresh setup again for new parameter
-        [k.two, c.two, ~, sim.two, store.two]= aiyagari_solver(par, func, method); % start with s.s. values from first run to speed up convergence
+        [ U.two, c.two, k.two, K.two, sim.two, store.two ] = get_utility( par, func, method );
     end
 end
 toc
-%set(0,'DefaultFigureVisible','on'); % Turn graphical display on again
 
-[c, U] = welfare_effects(sim, store, k, method);
+% Calculate the consumption equivalent for the two steady states. If c > 1,
+% agents prefer the second steady state. If 1 > c > 0, agents prefer the
+% first steady state.
+[ c ] = consumption_equivalent( U, par, method );

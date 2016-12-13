@@ -15,3 +15,6 @@ func.K = @(r) par.L*(par.z*par.alpha/r).^(1/(1-par.alpha)); % capital stock nece
 func.Y = @(K) par.z*K.^par.alpha*par.L^(1-par.alpha); % output
 func.C = @(K) func.Y(K)-par.delta*K; % consumption
 func.U = @(c) (c.^(1-par.sigma))./(1-par.sigma); % Utility
+
+%%
+   

@@ -34,7 +34,7 @@ function [ c, U ] = welfare_effects_rep( par, func, sim, store, K, k, method )
 
     elseif strcmp(method.sim , 'histogram')
         
-        U.lifetime = sum(sum(store.distribution.*func.U(func.C(k.k)))); % Aggregate utility
+        U.lifetime = func.U(sum(sum(store.distribution.*(func.C(k.k))))); % Aggregate utility
         U.lifetime_rep = func.U(func.C(K.rep));
 
         %% Calculate the consumption equivalent
