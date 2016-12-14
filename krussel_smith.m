@@ -75,7 +75,7 @@ while dif_B>1e-8 %&& iter<50 % loop for aggregate problem
         
         % Bad aggregate state and employed idiosyncratic state
         k_next_be=interpn(grid_k,grid_K,k_guess(:,:,1,2),k_guess,K_guess,'cubic');
-        c_next_be=max(1e-10,r(K_guess,L(1),z(1)).*k_guess+mat_income(K_guess,L(1),z(1),e(2))+(1-delta).*k_guess - k_next_be);
+        c_next_be=max(1e-10,r(K_guess,L(1),z(1)).*k_guess+mat_income(K_guess,L(1),z(1),e(2))+(1-delta).*k_guess-k_next_be);
         mu_next_be=muc_inv(c_next_be);
         
         % Good aggregate state and unemployed idiosyncratic state
@@ -85,7 +85,7 @@ while dif_B>1e-8 %&& iter<50 % loop for aggregate problem
         
         % Good aggregate state and employed idiosyncratic state
         k_next_ge=interpn(grid_k,grid_K,k_guess(:,:,2,2),k_guess,K_guess,'cubic');
-        c_next_ge=max(1e-10,r(K_guess,L(2),z(2)).*k_guess+mat_income(K_guess,L(2),z(2),e(2)) +(1-delta).*k_guess- k_next_ge);
+        c_next_ge=max(1e-10,r(K_guess,L(2),z(2)).*k_guess+mat_income(K_guess,L(2),z(2),e(2))+(1-delta).*k_guess-k_next_ge);
         mu_next_ge=muc_inv(c_next_ge);
         
         
@@ -97,10 +97,10 @@ while dif_B>1e-8 %&& iter<50 % loop for aggregate problem
         
         c_current = muc_inv(beta*Emuc_next);
         k_new = NaN(100,4,2,2);
-        k_new(:,:,1,1) = (1-delta+repmat(r(grid_K',L(1),z(1)),grid_k_no,1)).*repmat(grid_k,1,grid_K_no)+repmat(mat_income(grid_K',L(1),z(1),e(1)),grid_k_no,1)-c_current(:,:,1,1);
-        k_new(:,:,1,2) = (1-delta+repmat(r(grid_K',L(1),z(1)),grid_k_no,1)).*repmat(grid_k,1,grid_K_no)+repmat(mat_income(grid_K',L(1),z(1),e(2)),grid_k_no,1)-c_current(:,:,1,2);
-        k_new(:,:,2,1) = (1-delta+repmat(r(grid_K',L(2),z(2)),grid_k_no,1)).*repmat(grid_k,1,grid_K_no)+repmat(mat_income(grid_K',L(2),z(2),e(1)),grid_k_no,1)-c_current(:,:,2,1);
-        k_new(:,:,2,2) = (1-delta+repmat(r(grid_K',L(2),z(2)),grid_k_no,1)).*repmat(grid_k,1,grid_K_no)+repmat(mat_income(grid_K',L(2),z(2),e(2)),grid_k_no,1)-c_current(:,:,2,2);
+        k_new(:,:,1,1) = wealth(grid_K, grid_k, L(1), z(1), e(1)) - c_current(:,:,1,1);
+        k_new(:,:,1,2) = wealth(grid_K, grid_k, L(1), z(1), e(2)) - c_current(:,:,1,2);
+        k_new(:,:,2,1) = wealth(grid_K, grid_k, L(2), z(2), e(1)) - c_current(:,:,2,1);
+        k_new(:,:,2,2) = wealth(grid_K, grid_k, L(2), z(2), e(2)) - c_current(:,:,2,2);
         k_new=min(max(k_min, k_new),k_max); % apply borrowing constraint to get new policy function
 
         d2=max(max(max(max(abs(k_new-k_guess)))));

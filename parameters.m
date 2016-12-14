@@ -74,8 +74,9 @@ grid_K=linspace(K_min,K_max,grid_K_no)'; % generate a grid of grid_K_no points o
 
 % useful matricies
 mat_k = repmat(grid_k,1,4,2,2);                                     % replicate grid for unemployed and employed
-mat_income = @(K,L,z,e) ((1-tau(L))*l_bar*e + mu*(1-e)).*w(K,L,z); % matrix with income of each agent
+mat_income = @(K,L,z,e) (l_bar.*w(K,L,z) - mu.*w(K,L,z).*((1-L)/L))*e + mu*(1-e).*w(K,L,z); % matrix with income of each agent
 income = @(K,L,z,e) ((1-tau(L))*l_bar*e + mu*(1-e)).*w(K,L,z);
+wealth = @(K,k,L,z,e) repmat((1-delta+r(K',L(1),z(1))),grid_k_no,1).*repmat(grid_k,1,4) + repmat(w(K',L,z),grid_k_no,1).*e.*l_bar + mu.*(repmat(w(K',L,z),grid_k_no,1)*(1-e))-mu*(repmat(w(K',L,z),grid_k_no,1)*((1-L)/L))*e;
 
 % Forecasting
 B=[0 1 0 1];    
