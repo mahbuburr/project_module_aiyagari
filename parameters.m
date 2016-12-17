@@ -4,7 +4,7 @@ beta = 0.99;      % discount factor
 sigma = 1;        % risk aversion
 mu = 0.15;        % replacement rate of unemployed
 k_min = 10e-10;   % borrowing constraint as share of capital stock
-ind_no = 10000;    % number of individuals simulated
+ind_no = 10000;   % number of individuals simulated
 T = 1100;         % number of periods simulated
 e = [0,1];        % employment states
 e_s = [1;2];
@@ -41,13 +41,11 @@ PI_bg = 0.125; % chance of observing a bad state when at good state
 % define some useful functions
 muc = @(c) c.^(-sigma);                                             % marginal utility of consumption
 muc_inv = @(muc) muc.^(-1/sigma);                                   % inverse of marginal utility of consumption
-w = @(K,L,z) z.*(1-alpha).*(K./(L*l_bar)).^alpha;           % wage
-w_mat = @(K,L,z) repmat(w(K',L,z),100,1,2,2);                       % wage matrix used for aggregate uncertainty
-r = @(K,L,z) z.*alpha.*(K./(L*l_bar)).^(alpha-1);          % rental rate of capital
-r_mat = @(K,L,z) (1-delta+repmat(r(K',L,z),100,1,2,2));             % interest rate matrix used for aggregate uncertainty
+w = @(K,L,z) z.*(1-alpha).*(K./(L*l_bar)).^alpha;                   % wage
+r = @(K,L,z) z.*alpha.*(K./(L*l_bar)).^(alpha-1);                   % rental rate of capital
 K = @(L,r,z) L*(z*alpha/r).^(1/(1-alpha));                          % capital stock necessary to yield return r
 Y = @(K,L,z) z*K.^alpha*L^(1-alpha);                                % output
-C = @(K) Y(K,L,z)-delta*K;                                          % consumption
+C = @(K,L,z) Y(K,L,z)-delta*K;                                      % consumption
 tau = @(L) mu*(1-L)/(l_bar*L);                                      % tax rate
 
 % define grid for individual capital on which to solve
@@ -73,14 +71,11 @@ grid_K_no=4;                             % number of grid points for K
 grid_K=linspace(K_min,K_max,grid_K_no)'; % generate a grid of grid_K_no points on [K_min,K_max] interval
 
 % useful matricies
-mat_k = repmat(grid_k,1,4,2,2);                                     % replicate grid for unemployed and employed
 mat_income = @(K,L,z,e) (l_bar.*w(K,L,z) - mu.*w(K,L,z).*((1-L)/L))*e + mu*(1-e).*w(K,L,z); % matrix with income of each agent
-income = @(K,L,z,e) ((1-tau(L))*l_bar*e + mu*(1-e)).*w(K,L,z);
 wealth = @(K,k,L,z,e) repmat((1-delta+r(K',L(1),z(1))),grid_k_no,1).*repmat(grid_k,1,4) + repmat(w(K',L,z),grid_k_no,1).*e.*l_bar + mu.*(repmat(w(K',L,z),grid_k_no,1)*(1-e))-mu*(repmat(w(K',L,z),grid_k_no,1)*((1-L)/L))*e;
 
 % Forecasting
 B=[0 1 0 1];    
-ones4 = ones(100,4,2,2);  
 
 %% Aggregate problem
 kss=((1/beta-(1-delta))/alpha)^(1/(alpha-1));

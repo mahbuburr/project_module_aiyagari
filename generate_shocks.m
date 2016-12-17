@@ -24,16 +24,18 @@ prob_ag(2,2)=prob(3,3)+prob(3,4); prob_ag(1,2)=1-prob_ag(2,2);
 % on aggregate shocks s', s and idiosyncratic shock e.
 
 P = NaN(2,2,2,2);
+block_count = 1;
 for i = 1:2
     for j = 1:2
         temp = diag(prob_block{i,j})./prob_ag(j,i);
-        P(j,i,1,1) = temp(1);
-        P(j,i,1,2) = 1-temp(1);
-        P(j,i,2,2) = temp(2);
-        P(j,i,2,1) = 1 - temp(2);
+        P(i,j,1,1) = temp(1);
+        P(i,j,1,2) = 1-temp(1);
+        P(i,j,2,2) = temp(2);
+        P(i,j,2,1) = 1 - temp(2);
+        block_count = block_count+1;
     end
 end
-
+a = load('probs');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Generation of the aggregate shocks 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -74,7 +76,7 @@ for t = 2:T
         for p = 1:2 % this period aggregate shock
             if ag_shock(t-1)==q && ag_shock(t)==p 
                 for i=1:N
-                    for j = 1:2 % last period ideosyncratic sock
+                    for j = 1:2 % last period ideosyncratic shock
                         if id_shock(t-1,i)==j
                             id_shock(t,i) = prob_compare(P(q,p,j,j),j);
                         end
