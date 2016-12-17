@@ -153,4 +153,23 @@ while dif_B>1e-8 %&& iter<50 % loop for aggregate problem
     
 end
 toc
+
+%% Simul
+
+kmalm=zeros(T,1);  % represents aggregate capital computed from the ALM
+kmalm(1)=K_demand(1);  % in the first period km computed from the ALM (kmalm) 
+                   % is equal km computed from the cross-sectional capital 
+                   % distribution (kmts)
+                                   
+for t=1:T-1       % compute kmalm for t=2:T
+   if ag_shock(t)==1
+      kmalm(t+1)=exp(B(1)+B(2)*log(kmalm(t)));
+   else
+      kmalm(t+1)=exp(B(3)+B(4)*log(kmalm(t)));
+   end
+   
+end
+
+
+%%
 j = load('Solution_to_model');
