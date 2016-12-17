@@ -116,16 +116,12 @@ while dif_B>1e-8 %&& iter<50 % loop for aggregate problem
 
     K_demand = zeros(T,1);
     for t = 1:T
-           if t == 1
-              K_demand(t) = kss;
-           else
-              K_demand(t) = mean(sim_k(t-1,:));
-           end
+        K_demand(t) = mean(sim_k(t,:));   
         K_demand(t) = min(max(K_min, K_demand(t)),K_max);
         
         k_aux = squeeze(interpn(grid_k, grid_K, z_s, e_s, k_guess, grid_k, K_demand(t), ag_shock(t), e_s,'cubic'));
-        sim_k(t,:) = interpn(grid_k,e_s,k_aux,K_demand(t),id_shock(t,:),'cubic'); 
-        sim_k(t,:) = min(max(k_min, sim_k(t,:)),k_max);
+        sim_k(t+1,:) = interpn(grid_k,e_s,k_aux,sim_k(t,:),id_shock(t,:),'cubic'); 
+        sim_k(t+1,:) = min(max(k_min, sim_k(t+1,:)),k_max);
     end
     b=load('agg_from_int.mat');
     disp('Regression');
