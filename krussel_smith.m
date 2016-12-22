@@ -156,16 +156,22 @@ toc
 
 %% Simul
 
-kmalm=zeros(T,1);  % represents aggregate capital computed from the ALM
-kmalm(1)=K_demand(1);  % in the first period km computed from the ALM (kmalm) 
+K_alm=zeros(T,1);  % represents aggregate capital computed from the ALM
+K_alm(1)=K_demand(1);  % in the first period km computed from the ALM (kmalm) 
                    % is equal km computed from the cross-sectional capital 
                    % distribution (kmts)
                                    
 for t=1:T-1       % compute kmalm for t=2:T
    if ag_shock(t)==1
-      kmalm(t+1)=exp(B(1)+B(2)*log(kmalm(t)));
+      K_alm(t+1)=exp(B(1)+B(2)*log(K_alm(t)));
    else
-      kmalm(t+1)=exp(B(3)+B(4)*log(kmalm(t)));
+      K_alm(t+1)=exp(B(3)+B(4)*log(K_alm(t)));
    end
    
 end
+
+Tts=1:1:T;
+figure
+axis([min(Tts) max(Tts) min(kmts)*0.99 max(kmts)*1.01]); axis manual; hold on; 
+plot (Tts,K_demand(1:T,1),'-',Tts,K_alm(1:T,1),'--'),xlabel('Time'), ylabel('Aggregate capital series'), title('Figure 1. Accuracy of the aggregate law of motion.')
+legend('implied by individual policy rule', 'aggregate law of motion')
