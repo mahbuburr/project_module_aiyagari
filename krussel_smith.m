@@ -133,7 +133,8 @@ while dif_B>1e-8 %&& iter<50 % loop for aggregate problem
     [B1(3:4),s2,s3,s4,s5]=regress(ygood,[ones(igood,1) xgood]);R2good=s5(1);
     % make the OLS regression ln(km')=B(3)+B(4)*ln(km) for a good agg. state
     % and compute R^2 (which is the first statistic in s5)
-    
+    store.K_alm(iter) = simulate_alm( K_demand, ag_shock, B, T );
+    store.K_demand(iter) = K_demand(T);
     dif_B=norm(B-B1) % compute the difference between the initial and obtained
     % vector of coefficients
     
