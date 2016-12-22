@@ -169,7 +169,3 @@ for t=1:T-1       % compute kmalm for t=2:T
    end
    
 end
-
-
-%%
-j = load('Solution_to_model');
