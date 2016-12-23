@@ -100,12 +100,12 @@ while dif_B>1e-8 %&& iter<50 % loop for aggregate problem
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     disp('Solving aggregate problem');
 
-    K_demand = zeros(T,1);
+    K_ts = zeros(T,1);
     for t = 1:T
-        K_demand(t) = mean(sim_k(t,:));   
-        K_demand(t) = min(max(K_min, K_demand(t)),K_max);
+        K_ts(t) = mean(sim_k(t,:));   
+        K_ts(t) = min(max(K_min, K_ts(t)),K_max);
         
-        k_aux = squeeze(interpn(grid_k, grid_K, z_s, e_s, k_guess, grid_k, K_demand(t), ag_shock(t), e_s,'cubic'));
+        k_aux = squeeze(interpn(grid_k, grid_K, z_s, e_s, k_guess, grid_k, K_ts(t), ag_shock(t), e_s,'cubic'));
         sim_k(t+1,:) = interpn(grid_k,e_s,k_aux,sim_k(t,:),id_shock(t,:),'cubic'); 
         sim_k(t+1,:) = min(max(k_min, sim_k(t+1,:)),k_max);
     end
@@ -118,12 +118,12 @@ while dif_B>1e-8 %&& iter<50 % loop for aggregate problem
     for i=100+1:T-1
         if ag_shock(i)==1
             ibad=ibad+1;
-            xbad(ibad,1)=log(K_demand(i));
-            ybad(ibad,1)=log(K_demand(i+1));
+            xbad(ibad,1)=log(K_ts(i));
+            ybad(ibad,1)=log(K_ts(i+1));
         else
             igood=igood+1;
-            xgood(igood,1)=log(K_demand(i));
-            ygood(igood,1)=log(K_demand(i+1));
+            xgood(igood,1)=log(K_ts(i));
+            ygood(igood,1)=log(K_ts(i+1));
         end
     end
     
@@ -133,8 +133,10 @@ while dif_B>1e-8 %&& iter<50 % loop for aggregate problem
     [B1(3:4),s2,s3,s4,s5]=regress(ygood,[ones(igood,1) xgood]);R2good=s5(1);
     % make the OLS regression ln(km')=B(3)+B(4)*ln(km) for a good agg. state
     % and compute R^2 (which is the first statistic in s5)
-    store.K_alm(iter) = simulate_alm( K_demand, ag_shock, B, T );
-    store.K_demand(iter) = K_demand(T);
+%     store.K_alm(iter) = simulate_alm( K_demand, ag_shock, B, T );
+%     store.K_demand(iter) = K_demand(T);
+    store.K_demand(iter) = mean(mean(sim_k(ceil(T/2):end,:)));
+    store.K_alm(iter) = simulate_alm( K_ts, ag_shock, B1, T );
     dif_B=norm(B-B1) % compute the difference between the initial and obtained
     % vector of coefficients
     
@@ -158,7 +160,7 @@ toc
 %% Simul
 
 K_alm=zeros(T,1);  % represents aggregate capital computed from the ALM
-K_alm(1)=K_demand(1);  % in the first period km computed from the ALM (kmalm) 
+K_alm(1)=K_ts(1);  % in the first period km computed from the ALM (kmalm) 
                    % is equal km computed from the cross-sectional capital 
                    % distribution (kmts)
                                    
@@ -171,8 +173,8 @@ for t=1:T-1       % compute kmalm for t=2:T
    
 end
 
-Tts=1:1:T;
-figure
-axis([min(Tts) max(Tts) min(kmts)*0.99 max(kmts)*1.01]); axis manual; hold on; 
-plot (Tts,K_demand(1:T,1),'-',Tts,K_alm(1:T,1),'--'),xlabel('Time'), ylabel('Aggregate capital series'), title('Figure 1. Accuracy of the aggregate law of motion.')
-legend('implied by individual policy rule', 'aggregate law of motion')
+% Tts=1:1:T;
+% figure
+% axis([min(Tts) max(Tts) min(kmts)*0.99 max(kmts)*1.01]); axis manual; hold on; 
+% plot (Tts,K_demand(1:T,1),'-',Tts,K_alm(1:T,1),'--'),xlabel('Time'), ylabel('Aggregate capital series'), title('Figure 1. Accuracy of the aggregate law of motion.')
+% legend('implied by individual policy rule', 'aggregate law of motion')

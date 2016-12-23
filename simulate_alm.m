@@ -1,4 +1,4 @@
-function [ output_args ] = simulate_dif( K_demand, ag_shock, B, T )
+function [ output_args ] = simulate_alm( K_demand, ag_shock, B, T )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -16,6 +16,6 @@ for t=1:T-1       % compute kmalm for t=2:T
    
 end
 
-output_args = K_alm(T);
+output_args = mean(K_alm(ceil(T/2):end));
 end
 
