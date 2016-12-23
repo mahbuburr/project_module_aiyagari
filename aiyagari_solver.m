@@ -106,15 +106,15 @@ while d1>1e-6 && iter<50 % loop for aggregate problem
             sim.k(t,sim.e(t,:)==1) = interp1(grid.k,k.guess(:,1),sim.k(t-1,sim.e(t,:)==1),'linear','extrap'); % capital demand of currently unemployed
             sim.k(t,sim.e(t,:)==2) = interp1(grid.k,k.guess(:,2),sim.k(t-1,sim.e(t,:)==2),'linear','extrap'); % capital demand of currently employed
         end
-        figure(4)
-        subplot(1,2,1)
-        plot(sum(sim.k,2)/ind_no) % plot aggregate capital demand
-        xlabel('period')
-        ylabel('capital demand')
-        subplot(1,2,2)
-        plot(sum(sim.e==2,2)/ind_no) % plot aggregate employment
-        xlabel('period')
-        ylabel('employment')    
+%         figure(4)
+%         subplot(1,2,1)
+%         plot(sum(sim.k,2)/ind_no) % plot aggregate capital demand
+%         xlabel('period')
+%         ylabel('capital demand')
+%         subplot(1,2,2)
+%         plot(sum(sim.e==2,2)/ind_no) % plot aggregate employment
+%         xlabel('period')
+%         ylabel('employment')    
 
         K.demand = mean(mean(sim.k(ceil(T/2):end,:))); % average capital holdings over second half of sample
         sim.L = mean(mean(sim.e(ceil(T/2):end,:)==2)); % average employment
