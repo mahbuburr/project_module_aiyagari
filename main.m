@@ -5,7 +5,7 @@ parameters % load parameters
 
 %% solve for general equilibrium
 HH_method = 'FP'; % 'FP' for fixed-point iteration in household problem, 'FPend' for using endogenous grid points
-sim_method = 'histogram'; % 'simulation' for simulation, 'histogram' for histogram method
+sim_method = 'simulation'; % 'simulation' for simulation, 'histogram' for histogram method
 agg_method = 'bisection'; % 'bisection' to use bisection method, gradual updating otherwise
 
 K_lims = [K_rep,grid_k(end)]; % initial limits for bisection method
@@ -105,8 +105,8 @@ while d1>1e-6 && iter<50 % loop for aggregate problem
         for t=2:T
             sim_e(t,sim_e(t-1,:)==1) = 1+(sim_shock(t,sim_e(t-1,:)==1)<=PI(1,2)); % new employment status of previously unemployed
             sim_e(t,sim_e(t-1,:)==2) = 1+(sim_shock(t,sim_e(t-1,:)==2)<=PI(2,2)); % new employment status of previously employed    
-            sim_k(t,sim_e(t,:)==1) = interp1(grid_k,k_guess(:,1),sim_k(t-1,sim_e(t,:)==1),'linear','extrap'); % capital demand of currently unemployed
-            sim_k(t,sim_e(t,:)==2) = interp1(grid_k,k_guess(:,2),sim_k(t-1,sim_e(t,:)==2),'linear','extrap'); % capital demand of currently employed
+            sim_k(t,sim_e(t-1,:)==1) = interp1(grid_k,k_guess(:,1),sim_k(t-1,sim_e(t-1,:)==1),'linear','extrap'); % capital demand of currently unemployed
+            sim_k(t,sim_e(t-1,:)==2) = interp1(grid_k,k_guess(:,2),sim_k(t-1,sim_e(t-1,:)==2),'linear','extrap'); % capital demand of currently employed
         end
         figure(4)
         subplot(1,2,1)
