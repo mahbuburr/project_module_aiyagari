@@ -1,4 +1,4 @@
-function [ k, c, K, sim, store] = aiyagari_solver( par, func, method)
+function [ k, c, K, sim, store, mat, grid] = aiyagari_solver( par, func, method)
 % AIYAGARI MODEL: Heterogeneous agents model due to idiosyncratic labour
 % shocks. Agents self-sinsure against unemploment by building capital
 % stock.

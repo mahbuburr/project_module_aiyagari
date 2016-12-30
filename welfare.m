@@ -6,18 +6,18 @@ setup % load setup
 
 % Change simulation method to simulation if you want, it takes much longer
 % though.
-%method.sim = 'simulation';
+% method.sim = 'simulation';
 
 %% Welfare analysis against frictionless representative agent model
 
 % tic % Set timer
 % % Solve the Aiyagariy model by fixed-point iteration.
 % % Function in- and output are structures.
-% [k, c, K, sim, store]= aiyagari_solver(par, func, method);
+% [k, c, K, sim, store, mat, grid]= aiyagari_solver(par, func, method);
 % toc
 % 
 % % Compare welfare against frictionless model
-% [c, U] = welfare_effects_rep(par, func, sim, store, K, k, method);
+% [c, U] = welfare_effects_rep(par, func, method, k, K, sim, store, mat, grid);
 
 %% Welfare effects of two Aiyagari models with different parameters.
 
@@ -32,7 +32,7 @@ for i=1:2 % Get steady state utility for the model with two different parameters
     if i==1 
         [ U.one, c.one, k.one, K.one, sim.one, store.one ] = get_utility( par, func, method );
     elseif i==2
-        par.z = 0.5;
+        par.mu = 0.89;
         setup % refresh setup again for new parameter
         [ U.two, c.two, k.two, K.two, sim.two, store.two ] = get_utility( par, func, method );
     end
