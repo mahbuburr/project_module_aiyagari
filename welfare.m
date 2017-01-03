@@ -6,7 +6,7 @@ setup % load setup
 
 % Change simulation method to simulation if you want, it takes much longer
 % though.
-% method.sim = 'simulation';
+method.sim = 'simulation';
 
 %% Welfare analysis against frictionless representative agent model
 
@@ -17,7 +17,7 @@ setup % load setup
 % toc
 % 
 % % Compare welfare against frictionless model
-% [c, U] = welfare_effects_rep(par, func, method, k, K, sim, store, mat, grid);
+% [c, U] = welfare_effects_rep(par, func, method, k, c, K, sim, store, mat, grid);
 
 %% Welfare effects of two Aiyagari models with different parameters.
 
@@ -30,11 +30,11 @@ setup % load setup
 tic
 for i=1:2 % Get steady state utility for the model with two different parameters
     if i==1 
-        [ U.one, c.one, k.one, K.one, sim.one, store.one ] = get_utility( par, func, method );
+        [ k.one, c.one, K.one, sim.one, store.one, mat.one, grid.one ] = aiyagari_solver( par, func, method );
     elseif i==2
-        par.mu = 0.89;
+        par.z = 0.5;
         setup % refresh setup again for new parameter
-        [ U.two, c.two, k.two, K.two, sim.two, store.two ] = get_utility( par, func, method );
+        [ k.two, c.two, K.two, sim.two, store.two, mat.two, grid.two ] = aiyagari_solver( par, func, method );
     end
 end
 toc
@@ -42,4 +42,4 @@ toc
 % Calculate the consumption equivalent for the two steady states. If c > 1,
 % agents prefer the second steady state. If 1 > c > 0, agents prefer the
 % first steady state.
-[ c ] = consumption_equivalent( U, par, method );
+[ c, U ] = welfare_effects (par, func, method, k, c, K, sim, store, mat, grid);

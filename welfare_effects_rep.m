@@ -1,9 +1,6 @@
-function [ c, U ] = welfare_effects_rep (par, func, method, k, K, sim, store, mat, grid)
+function [ c, U ] = welfare_effects_rep (par, func, method, k, c, K, sim, store, mat, grid)
 %WELFARE EFFECTS REP Calculates whether agents prefer a frictionless, representative agent model or not
 %   Detailed explanation goes here
-
-    c.guess = (1+func.r(K.guess)-par.delta)*mat.k-k.guess+mat.income(K.guess); % Get consumption policy function
-    c.guess = max(0, c.guess);
     
     if strcmp(method.sim ,'simulation')
 

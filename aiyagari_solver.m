@@ -116,6 +116,7 @@ while d1>1e-6 && iter<50 % loop for aggregate problem
         rng('default') % reset random number generator
         ind_no = 5000; % number of individuals simulated
         T = 5000; % number of periods simulated
+        
         sim.k = zeros(T,ind_no); % simulated values of capital stock
         sim.e = ones(T,ind_no); % simulated employment status
         sim.shock = rand(T,ind_no); % shocks for employment transition
@@ -193,6 +194,9 @@ while d1>1e-6 && iter<50 % loop for aggregate problem
         K.guess = K.guess + 0.05*(K.demand-K.guess);
     end
     disp(['Iteration: ',num2str(iter),', K_guess: ',num2str(K.guess),', K_demand: ',num2str(K.demand)])
+    
+     c.guess = (1+func.r(K.guess)-par.delta)*mat.k-k.guess+mat.income(K.guess); % Get consumption policy function
+     c.guess = max(0, c.guess);
 end
 
 
