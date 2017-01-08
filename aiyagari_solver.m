@@ -115,16 +115,14 @@ while d1>1e-6 && iter<50 % loop for aggregate problem
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     if strcmp(method.sim ,'simulation')
         rng('default') % reset random number generator
-        ind_no = 100; % number of individuals simulated
-        T = 100; % number of periods simulated
-        sim.k = zeros(T,ind_no); % simulated values of capital stock
-        sim.e = ones(T,ind_no); % simulated employment status
-        sim.shock = rand(T,ind_no); % shocks for employment transition
+        sim.k = zeros(par.T,par.ind_no); % simulated values of capital stock
+        sim.e = ones(par.T,par.ind_no); % simulated employment status
+        sim.shock = rand(par.T,par.ind_no); % shocks for employment transition
 
-        sim.e(1,1:round(par.L*ind_no))=2; % initial individuals that are employed
+        sim.e(1,1:round(par.L*par.ind_no))=2; % initial individuals that are employed
         sim.k(1,:) = K.guess; % initial capital holdings
 
-        for t=2:T
+        for t=2:par.T
             sim.e(t,sim.e(t-1,:)==1) = 1+(sim.shock(t,sim.e(t-1,:)==1)<=par.PI(1,2)); % new employment status of previously unemployed
             sim.e(t,sim.e(t-1,:)==2) = 1+(sim.shock(t,sim.e(t-1,:)==2)<=par.PI(2,2)); % new employment status of previously employed    
             sim.k(t,sim.e(t,:)==1) = interp1(grid.k,k.guess(:,1),sim.k(t-1,sim.e(t,:)==1),'linear','extrap'); % capital demand of currently unemployed
@@ -140,8 +138,8 @@ while d1>1e-6 && iter<50 % loop for aggregate problem
 %         xlabel('period')
 %         ylabel('employment')    
 
-        K.demand = mean(mean(sim.k(ceil(T/2):end,:))); % average capital holdings over second half of sample
-        sim.L = mean(mean(sim.e(ceil(T/2):end,:)==2)); % average employment
+        K.demand = mean(mean(sim.k(ceil(par.T/2):end,:))); % average capital holdings over second half of sample
+        sim.L = mean(mean(sim.e(ceil(par.T/2):end,:)==2)); % average employment
 
     elseif strcmp(method.sim,'histogram')
 

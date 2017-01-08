@@ -4,10 +4,14 @@ close
 
 parameters % import parameters 
 
+% set draws for simulation
+par.ind_no = 100; % number of individuals simulated
+par.T = 100; % number of periods simulated
+
 %% Specify the parameter of interest and their values
 analysis = 'Risk Aversion'; % specify parameter you want to analyze: 'Borrowing Constraint' for min savings, 'Unemployment Insurance', 'Chance to be Employed','Risk Aversion'
 vals = [1,2,3];
-method.sim = 'histogram';
+method.sim = 'simulation';
 
 %% Create Figures for different values 
 % Initiating matrix to store aggregate values    
@@ -34,7 +38,7 @@ for i =1:3
     figure(1)
     subplot(1,3,i)
     if strcmp(method.sim,'simulation')
-        temp = sim.k(ceil(T/2):end,:);
+        temp = sim.k(ceil(par.T/2):end,:);
         hist(temp(:),100)
         legend('number of agents')
     elseif strcmp(method.sim,'histogram')
@@ -72,10 +76,10 @@ saveas(gcf,'kmin.pdf')
 % set values for table
 Variable = {'Capital';'Output';'Consumption'};
 values = {'Aggregate variables';'log-deviation'};
-Aggregates = T_mat(1:3,1);
-log_deviations = T_mat(4:end,1);
 
 % create tables and save them
+Aggregates = T_mat(1:3,1);
+log_deviations = T_mat(4:end,1);
 T1 = table(Variable, Aggregates, log_deviations); 
 writetable(T1,'Table1.txt','Delimiter',' ')
 
