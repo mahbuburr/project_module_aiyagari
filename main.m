@@ -1,7 +1,7 @@
 clear
 close all
 
-parameters % load parameters
+parameters_old % load parameters
 
 %% solve for general equilibrium
 HH_method = 'FP'; % 'FP' for fixed-point iteration in household problem, 'FPend' for using endogenous grid points
@@ -176,4 +176,4 @@ while d1>1e-6 && iter<50 % loop for aggregate problem
 end
 toc
 
-[c] = welfare_effects(par, func, sim, store, K, k, method);
+%[c] = welfare_effects(par, func, sim, store, K, k, method);

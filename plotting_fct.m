@@ -5,13 +5,13 @@ close
 parameters % import parameters 
 
 % set draws for simulation
+method.sim = 'simulation'; % specify solution method: 'histogram' or 'simulation'
 par.ind_no = 100; % number of individuals simulated
 par.T = 100; % number of periods simulated
 
 %% Specify the parameter of interest and their values
-analysis = 'Risk Aversion'; % specify parameter you want to analyze: 'Borrowing Constraint' for min savings, 'Unemployment Insurance', 'Chance to be Employed','Risk Aversion'
-vals = [1,2,3];
-method.sim = 'simulation';
+analysis = 'Chance to be Employed'; % specify parameter you want to analyze: 'Borrowing Constraint' for min savings, 'Unemployment Insurance', 'Chance to be Employed','Risk Aversion'
+vals = [0.1,0.3,0.9]; %indicate three parameter values for comparison
 
 %% Create Figures for different values 
 % Initiating matrix to store aggregate values    
@@ -49,7 +49,7 @@ for i =1:3
     if strcmp(analysis,'Borrowing Constraint') 
         title(['kmin = ',num2str(par.k_min)]);
     elseif strcmp(analysis,'Chance to be Employed')
-        title(['PI_UE = ',num2str(par.PI_UE)]);
+        title(['PI UE = ',num2str(par.PI_UE)]);
     elseif strcmp(analysis,'Unemployment Insurance')
         title(['mu = ',num2str(par.mu)]);
     elseif strcmp(analysis,'Risk Aversion')
@@ -86,9 +86,9 @@ writetable(T1,'Table1.txt','Delimiter',' ')
 Aggregates = T_mat(1:3,2);
 log_deviations = T_mat(4:end,2);
 T2 = table(Variable, Aggregates, log_deviations);
-writetable(T2,'Table1.txt','Delimiter',' ')
+writetable(T2,'Table2.txt','Delimiter',' ')
 
 Aggregates = T_mat(1:3,3);
 log_deviations = T_mat(4:end,3);
 T3 = table(Variable, Aggregates, log_deviations);
-writetable(T3,'Table1.txt','Delimiter',' ')
+writetable(T3,'Table3.txt','Delimiter',' ')

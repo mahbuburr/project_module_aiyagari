@@ -209,16 +209,16 @@ disp(['Consumption: ',num2str(func.C(K.guess)),' (',num2str(log(func.C(K.guess)/
 % xlabel('iteration')
 % ylabel('capital stock')
 % 
-% % Plot distribution of agents
-% figure(3)
-% if strcmp(method.sim,'simulation')
-%     temp = sim.k(ceil(T/2):end,:);
-%     hist(temp(:),100)
-%     legend('number of agents')
-% elseif strcmp(method.sim,'histogram')
-%     bar(grid.dist,store.distribution,'stacked')
-%     legend('unemployed','employed')
-% end
+ % Plot distribution of agents
+%  figure(3)
+%  if strcmp(method.sim,'simulation')
+%      temp = sim.k(ceil(T/2):end,:);
+%      hist(temp(:),100)
+%      legend('number of agents')
+%  elseif strcmp(method.sim,'histogram')
+%      bar(grid.dist,store.distribution,'stacked')
+%      legend('unemployed','employed')
+%  end
 % xlabel('capital holdings')
 
 end
