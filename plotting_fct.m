@@ -1,32 +1,33 @@
-%% Parameter Analysis
-clear 
-close 
-
-parameters % import parameters 
-
-% set draws for simulation
-method.sim = 'histogram'; % specify solution method: 'histogram' or 'simulation'
-par.ind_no = 100; % number of individuals simulated
-par.T = 100; % number of periods simulated
-
-%% Specify the parameter of interest and their values
-analysis = 'Chance to be Employed'; % specify parameter you want to analyze: 'Borrowing Constraint' for min savings, 'Unemployment Benefit', 'Chance to be Employed','Risk Aversion'
-vals = [0.1,0.3,0.9]; %indicate three parameter values for comparison
-
+function plotting_fct(par, method) 
+%% PLOTTING FUNCTION: The function creates a figure with three different
+% subplots for a vector of a parmater chosen for analysis. For each value
+% the parameter takes, the function creates a table containing the
+% aggregate values. Both, the three tables and the figure are saved in an
+% output folder. 
+%
+% Input variables:
+%   par = vector of parameters:
+%       ind_no = number of individuals simulated
+%       T = number of periods simulated
+%       vals = vector of three parameters used to run the analysis 
+%   method = method of simulation choice and method of analysis choice
+%
 %% Create Figures for different values 
 % Initiating matrix to store aggregate values    
 T_mat = zeros(6,3);
 
+parameters % import parameters 
+
 for i =1:3 
 % loop over different values of parameter you want to analyze 
-    if strcmp(analysis,'Borrowing Constraint') 
-        par.k_min = vals(i);
-    elseif strcmp(analysis, 'Chance to be Employed')
-        par.PI_UE = vals(i);
-    elseif strcmp(analysis, 'Unemployment Benefit')
-        par.mu = vals(i);
-    elseif strcmp(analysis, 'Risk Aversion')
-        par.sigma = vals(i); 
+    if strcmp(method.analysis,'Borrowing Constraint') 
+        par.k_min = par.vals(i);
+    elseif strcmp(method.analysis, 'Chance to be Employed')
+        par.PI_UE = par.vals(i);
+    elseif strcmp(method.analysis, 'Unemployment Benefit')
+        par.mu = par.vals(i);
+    elseif strcmp(method.analysis, 'Risk Aversion')
+        par.sigma = par.vals(i); 
     end
 % importing functions and parameters that adapt to new input parameter value             
     setup 
@@ -46,13 +47,13 @@ for i =1:3
         legend('unemployed','employed')
     end
 % create title matching parameter in question
-    if strcmp(analysis,'Borrowing Constraint') 
+    if strcmp(method.analysis,'Borrowing Constraint') 
         title(['kmin = ',num2str(par.k_min)]);
-    elseif strcmp(analysis,'Chance to be Employed')
+    elseif strcmp(method.analysis,'Chance to be Employed')
         title(['PI UE = ',num2str(par.PI_UE)]);
-    elseif strcmp(analysis,'Unemployment Benefit')
+    elseif strcmp(method.analysis,'Unemployment Benefit')
         title(['mu = ',num2str(par.mu)]);
-    elseif strcmp(analysis,'Risk Aversion')
+    elseif strcmp(method.analysis,'Risk Aversion')
         title(['sigma = ',num2str(par.sigma)]);
     end
     
@@ -75,20 +76,20 @@ saveas(gcf,'output/graph.pdf')
 
 % set values for table
 Variable = {'Capital';'Output';'Consumption'};
-values = {'Aggregate variables';'log-deviation'};
 
 % create tables and save them
 Aggregates = T_mat(1:3,1);
 log_deviations = T_mat(4:end,1);
-T1 = table(Variable, Aggregates, log_deviations); 
-writetable(T1,'output/Table1.txt','Delimiter',' ')
+tables.T1 = table(Variable, Aggregates, log_deviations); 
+writetable(tables.T1,'output/Table1.txt','Delimiter',' ')
 
 Aggregates = T_mat(1:3,2);
 log_deviations = T_mat(4:end,2);
-T2 = table(Variable, Aggregates, log_deviations);
-writetable(T2,'output/Table2.txt','Delimiter',' ')
+tables.T2 = table(Variable, Aggregates, log_deviations);
+writetable(tables.T2,'output/Table2.txt','Delimiter',' ')
 
 Aggregates = T_mat(1:3,3);
 log_deviations = T_mat(4:end,3);
-T3 = table(Variable, Aggregates, log_deviations);
-writetable(T3,'output/Table3.txt','Delimiter',' ')
+tables.T3 = table(Variable, Aggregates, log_deviations);
+writetable(tables.T3,'output/Table3.txt','Delimiter',' ')
+end
