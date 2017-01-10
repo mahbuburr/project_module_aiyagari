@@ -5,8 +5,6 @@ e(e==2)=1;
 c_initial = (1+r(K_demand)-delta)*sim_k(period,:)-sim_k(period+1,:)+w(K_demand)*(1-tau)*(e) + mu*w(K_demand)*(1-e); %consumption for all individuals 
 u_initial = (c_initial.^(1-sigma)-1)/(1-sigma); %utility from cons. 
 
-c_inital = 
-
 store.U = NaN(1,size(e,2));
 for individual = 1:size(e,2)
     U = zeros(2,grid_k_no); %expected life time utility
