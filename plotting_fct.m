@@ -5,12 +5,12 @@ close
 parameters % import parameters 
 
 % set draws for simulation
-method.sim = 'simulation'; % specify solution method: 'histogram' or 'simulation'
+method.sim = 'histogram'; % specify solution method: 'histogram' or 'simulation'
 par.ind_no = 100; % number of individuals simulated
 par.T = 100; % number of periods simulated
 
 %% Specify the parameter of interest and their values
-analysis = 'Chance to be Employed'; % specify parameter you want to analyze: 'Borrowing Constraint' for min savings, 'Unemployment Insurance', 'Chance to be Employed','Risk Aversion'
+analysis = 'Chance to be Employed'; % specify parameter you want to analyze: 'Borrowing Constraint' for min savings, 'Unemployment Benefit', 'Chance to be Employed','Risk Aversion'
 vals = [0.1,0.3,0.9]; %indicate three parameter values for comparison
 
 %% Create Figures for different values 
@@ -23,7 +23,7 @@ for i =1:3
         par.k_min = vals(i);
     elseif strcmp(analysis, 'Chance to be Employed')
         par.PI_UE = vals(i);
-    elseif strcmp(analysis, 'Unemployment Insurance')
+    elseif strcmp(analysis, 'Unemployment Benefit')
         par.mu = vals(i);
     elseif strcmp(analysis, 'Risk Aversion')
         par.sigma = vals(i); 
@@ -50,7 +50,7 @@ for i =1:3
         title(['kmin = ',num2str(par.k_min)]);
     elseif strcmp(analysis,'Chance to be Employed')
         title(['PI UE = ',num2str(par.PI_UE)]);
-    elseif strcmp(analysis,'Unemployment Insurance')
+    elseif strcmp(analysis,'Unemployment Benefit')
         title(['mu = ',num2str(par.mu)]);
     elseif strcmp(analysis,'Risk Aversion')
         title(['sigma = ',num2str(par.sigma)]);
@@ -69,7 +69,7 @@ T_mat(:,i) = [ag1 ag2 ag3 dev1 dev2 dev3];
 end 
 
 %% Save figure as pdf 
-saveas(gcf,'kmin.pdf')
+saveas(gcf,'output/graph.pdf')
 
 %% Create Tables for Aggregates 
 
@@ -81,14 +81,14 @@ values = {'Aggregate variables';'log-deviation'};
 Aggregates = T_mat(1:3,1);
 log_deviations = T_mat(4:end,1);
 T1 = table(Variable, Aggregates, log_deviations); 
-writetable(T1,'Table1.txt','Delimiter',' ')
+writetable(T1,'output/Table1.txt','Delimiter',' ')
 
 Aggregates = T_mat(1:3,2);
 log_deviations = T_mat(4:end,2);
 T2 = table(Variable, Aggregates, log_deviations);
-writetable(T2,'Table2.txt','Delimiter',' ')
+writetable(T2,'output/Table2.txt','Delimiter',' ')
 
 Aggregates = T_mat(1:3,3);
 log_deviations = T_mat(4:end,3);
 T3 = table(Variable, Aggregates, log_deviations);
-writetable(T3,'Table3.txt','Delimiter',' ')
+writetable(T3,'output/Table3.txt','Delimiter',' ')
