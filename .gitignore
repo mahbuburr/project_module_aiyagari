@@ -32,6 +32,7 @@
 *.tmproj
 *.toc
 *.ttt
+*.txt
 *.vrb
 .waf*
 waf-*
