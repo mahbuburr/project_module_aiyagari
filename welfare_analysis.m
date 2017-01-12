@@ -60,21 +60,21 @@ U.one.lifetime(U.one.lifetime == -Inf) = -999999;
 U.two.lifetime(U.two.lifetime == -Inf) = -999999;
 ind_no = size(sim.one.k,2);
 T = size(sim.one.k,1);
-U.one.one = NaN(ceil(T/2),ind_no);
-U.two.two = NaN(ceil(T/2),ind_no);
+U.one.extrap = NaN(ceil(T/2),ind_no);
+U.two.extrap = NaN(ceil(T/2),ind_no);
 tic
 for t = ceil((T+1)/2):T
-    U.one.one(t-2500,sim.one.e(t,:)==1) = interp1(grid.one.k, U.one.lifetime(1,:), sim.one.k(t,sim.one.e(t,:)==1), 'linear', 'extrap');
-    U.one.one(t-2500,sim.one.e(t,:)==2) = interp1(grid.one.k, U.one.lifetime(2,:), sim.one.k(t,sim.one.e(t,:)==2), 'linear', 'extrap');
+    U.one.extrap(t-2500,sim.one.e(t,:)==1) = interp1(grid.one.k, U.one.lifetime(1,:), sim.one.k(t,sim.one.e(t,:)==1), 'linear', 'extrap');
+    U.one.extrap(t-2500,sim.one.e(t,:)==2) = interp1(grid.one.k, U.one.lifetime(2,:), sim.one.k(t,sim.one.e(t,:)==2), 'linear', 'extrap');
 
-    U.two.two(t-2500,sim.one.e(t,:)==1) = interp1(grid.one.k, U.two.lifetime(1,:), sim.one.k(t,sim.one.e(t,:)==1), 'linear', 'extrap');
-    U.two.two(t-2500,sim.one.e(t,:)==2) = interp1(grid.one.k, U.two.lifetime(2,:), sim.one.k(t,sim.one.e(t,:)==2), 'linear', 'extrap');
+    U.two.extrap(t-2500,sim.one.e(t,:)==1) = interp1(grid.one.k, U.two.lifetime(1,:), sim.one.k(t,sim.one.e(t,:)==1), 'linear', 'extrap');
+    U.two.extrap(t-2500,sim.one.e(t,:)==2) = interp1(grid.one.k, U.two.lifetime(2,:), sim.one.k(t,sim.one.e(t,:)==2), 'linear', 'extrap');
 end
 toc
-U.one.mean = mean(mean(U.one.one));
-U.two.mean = mean(mean(U.two.two));
-U.one.median = median(median(U.one.one));
-U.two.median = median(median(U.two.two));
+U.one.mean = mean(mean(U.one.extrap));
+U.two.mean = mean(mean(U.two.extrap));
+U.one.median = median(median(U.one.extrap));
+U.two.median = median(median(U.two.extrap));
 % Calculate the consumption equivalent for the two steady states. If c > 1,
 % agents prefer the second steady state. If 1 > c > 0, agents prefer the
 % first steady state.
