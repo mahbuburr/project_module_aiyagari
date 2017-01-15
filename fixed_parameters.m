@@ -1,8 +1,7 @@
 %% set parameters
 % consumers
-beta = 0.99; % discount factor
+betta = 0.99; % discount factor
 sigma = 2; % risk aversion
-mu = 0.3; % replacement rate of unemployed
 k_min = 0.5; % borrowing constraint as share of capital stock
 ind_no = 5000; % number of individuals simulated
 T = 5000; % number of periods simulated
@@ -34,7 +33,7 @@ Y = @(K) z*K.^alpha*L^(1-alpha); % output
 C = @(K) Y(K)-delta*K; % consumption
 
 % define grid for individual capital on which to solve
-K_rep = K(1/beta-1+delta);% capital stock of representative agent useful for comparison
+K_rep = K(1/betta-1+delta);% capital stock of representative agent useful for comparison
 
 grid_k_no = 100; % number of grid points for agents' capital holdings
 grid_k = linspace(k_min*K_rep,3*K_rep,grid_k_no); % grid for agents' policy function
@@ -44,8 +43,5 @@ grid_dist = linspace(grid_k(1),grid_k(end),grid_dist_no); % grid for distributio
 
 % useful matrices
 mat_k = [grid_k',grid_k']; % replicate grid for unemployed and employed
-k_guess = mat_k; % policy function of agents (1st column unemployed, 2nd column employed)
-
 
 K_lims = [K_rep,grid_k(end)]; % initial limits for bisection method
-K_guess = (K_lims(1)+K_lims(2))/2;

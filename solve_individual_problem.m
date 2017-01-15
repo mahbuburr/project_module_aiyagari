@@ -1,8 +1,9 @@
-function [ k_guess ] = solve_individual_problem( mu, L, grid_k_no, grid_k, k_guess, K_guess, PI, beta, delta, mat_k,  k_min)
+function [ k_guess ] = solve_individual_problem( mu, k_guess, K_guess )
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%    Solve household problem given prices
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+fixed_parameters;
 tau = mu*(1-L)/L; % tax rate
 mat_income = @(K) w(K)*repmat([mu,1-tau],grid_k_no,1); % matrix with income of each agent
 d2 = 1;
@@ -25,7 +26,7 @@ while d2>1e-10 % loop for household problem
     Emuc_next(:,2) = PI(2,1)*muc(c_next(2,:,1))+PI(2,2)*muc(c_next(2,:,2));  % currently employed
     
     % calculate implied consumption this period from Euler equation
-    c_current = muc_inv(beta*(1+r(K_guess)-delta)*Emuc_next);
+    c_current = muc_inv(betta*(1+r(K_guess)-delta)*Emuc_next);
     
     % calculate implied capital demand from budget constraint
     k_new = (1+r(K_guess)-delta)*mat_k + mat_income(K_guess) - c_current;
