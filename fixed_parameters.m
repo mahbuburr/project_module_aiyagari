@@ -22,7 +22,7 @@ PI_EU = PI_UE*(1-L_target)/L_target; % chance of getting unemployed
 % build transition matrix of agents
 PI = [1-PI_UE,PI_UE;PI_EU,1-PI_EU]; % [UU,UE;EU;EE]
 L = PI(1,2)/(PI(1,2)+PI(2,1)); % calculate steady state supply of labour
-tau = mu*(1-L)/L; % tax rate
+
 
 % define some useful functions
 muc = @(c) c.^(-sigma); % marginal utility of consumption
@@ -44,4 +44,8 @@ grid_dist = linspace(grid_k(1),grid_k(end),grid_dist_no); % grid for distributio
 
 % useful matrices
 mat_k = [grid_k',grid_k']; % replicate grid for unemployed and employed
-mat_income = @(K) w(K)*repmat([mu,1-tau],grid_k_no,1); % matrix with income of each agent
+k_guess = mat_k; % policy function of agents (1st column unemployed, 2nd column employed)
+
+
+K_lims = [K_rep,grid_k(end)]; % initial limits for bisection method
+K_guess = (K_lims(1)+K_lims(2))/2;
