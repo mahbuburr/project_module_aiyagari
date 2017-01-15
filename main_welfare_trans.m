@@ -89,7 +89,7 @@ parfor nn = 1:mu_n
 end
 shocks(1).sim_e = sim_e_benchmark;
 shocks(2).sim_e = sim_e;
-save('10solutions_riegler.mat', 'store', 'shocks');
+save('10solutions_riegler_trans.mat', 'store', 'shocks');
 toc
 
 

@@ -1,4 +1,4 @@
-function [ store ] = expec_lifetime_utility( k_guess, K_demand, mu, sim_e, sim_k, period )
+function [ Usto ] = expec_lifetime_utility_trans( k_guess, K_demand, mu, sim_e, sim_k, period )
 
 fixed_parameters;
 tau = mu*(1-L)/L; % tax rate
@@ -19,9 +19,9 @@ while dist>1e-8
 end
 
 
-store = NaN(1,ind_no);
+Usto = NaN(1,ind_no);
 for individual = 1:ind_no
-    store(individual) = interp1(grid_k,U(e(individual),:),sim_k(period,individual),'linear','extrap');
+    Usto(individual) = interp1(grid_k,U(e(individual),:),sim_k(period,individual),'linear','extrap');
 end
 end
 
