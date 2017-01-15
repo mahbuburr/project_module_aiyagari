@@ -4,9 +4,8 @@ close all
 parameters % load paramaters
 setup % load setup
 
-% Change simulation method to simulation if you want, it takes much longer
-% though.
-method.sim = 'simulation';
+% Change simulation method to histogram if you want.
+%method.sim = 'histogram';
 
 %% Welfare analysis against frictionless representative agent model
 
@@ -30,25 +29,27 @@ method.sim = 'simulation';
 tic
 for i=1:2 % Get steady state utility for the model with two different parameters
     if i==1 
+        par.z = 0.5;
+        setup % refresh setup for new parameter
         [ k.one, c.one, K.one, sim.one, store.one, mat.one, grid.one ] = aiyagari_solver( par, func, method );
         U.one.guess = func.U(c.one.guess);
         U.one.lifetime = zeros(2,grid.one.k_no); %expected life time utility
         dist=100;
         while dist>1e-8
-            EU = par.PI * U.one.lifetime; % Need to rewrite the function because it cannot handle changes in PI
+            EU = par.PI * U.one.lifetime; 
             Unew = U.one.guess' + par.beta * EU;
             dist = max(max(abs(Unew - U.one.lifetime)));
             U.one.lifetime = Unew;
         end
-    elseif i==2 % Introduce the policy change here
-        par.z = 0.5;
-        setup % refresh setup again for new parameter
+    elseif i==2 
+        parameters;
+        setup;
         [ k.two, c.two, K.two, sim.two, store.two, mat.two, grid.two ] = aiyagari_solver( par, func, method );
         U.two.guess = func.U(c.two.guess);
         U.two.lifetime = zeros(2,grid.two.k_no); %expected life time utility
         dist=100;
         while dist>1e-8
-            EU = par.PI * U.two.lifetime; % Need to rewrite the function because it cannot handle changes in PI
+            EU = par.PI * U.two.lifetime; 
             Unew = U.two.guess' + par.beta * EU;
             dist = max(max(abs(Unew - U.two.lifetime)));
             U.two.lifetime = Unew;
@@ -56,29 +57,30 @@ for i=1:2 % Get steady state utility for the model with two different parameters
     end
 end
 toc
-U.one.lifetime(U.one.lifetime == -Inf) = -999999;
+U.one.lifetime(U.one.lifetime == -Inf) = -999999; % Get rid of -Inf for negative consumption for extrapolation
 U.two.lifetime(U.two.lifetime == -Inf) = -999999;
-ind_no = size(sim.one.k,2);
-T = size(sim.one.k,1);
+ind_no = size(sim.two.k,2);
+T = size(sim.two.k,1);
 U.one.extrap = NaN(ceil(T/2),ind_no);
 U.two.extrap = NaN(ceil(T/2),ind_no);
 tic
-for t = ceil((T+1)/2):T
-    U.one.extrap(t-2500,sim.one.e(t,:)==1) = interp1(grid.one.k, U.one.lifetime(1,:), sim.one.k(t,sim.one.e(t,:)==1), 'linear', 'extrap');
-    U.one.extrap(t-2500,sim.one.e(t,:)==2) = interp1(grid.one.k, U.one.lifetime(2,:), sim.one.k(t,sim.one.e(t,:)==2), 'linear', 'extrap');
+for t = ceil((T+1)/2):T % Extrapolated life time utility with transition
+    U.one.extrap(t-2500,sim.two.e(t,:)==1) = interp1(grid.two.k, U.one.lifetime(1,:), sim.two.k(t,sim.one.e(t,:)==1), 'linear', 'extrap');
+    U.one.extrap(t-2500,sim.two.e(t,:)==2) = interp1(grid.two.k, U.one.lifetime(2,:), sim.two.k(t,sim.one.e(t,:)==2), 'linear', 'extrap');
 
-    U.two.extrap(t-2500,sim.one.e(t,:)==1) = interp1(grid.one.k, U.two.lifetime(1,:), sim.one.k(t,sim.one.e(t,:)==1), 'linear', 'extrap');
-    U.two.extrap(t-2500,sim.one.e(t,:)==2) = interp1(grid.one.k, U.two.lifetime(2,:), sim.one.k(t,sim.one.e(t,:)==2), 'linear', 'extrap');
+    U.two.extrap(t-2500,sim.two.e(t,:)==1) = interp1(grid.two.k, U.two.lifetime(1,:), sim.two.k(t,sim.one.e(t,:)==1), 'linear', 'extrap');
+    U.two.extrap(t-2500,sim.two.e(t,:)==2) = interp1(grid.two.k, U.two.lifetime(2,:), sim.two.k(t,sim.one.e(t,:)==2), 'linear', 'extrap');
 end
 toc
-U.one.mean = mean(mean(U.one.extrap));
-U.two.mean = mean(mean(U.two.extrap));
-U.one.median = median(median(U.one.extrap));
-U.two.median = median(median(U.two.extrap));
+
 % Calculate the consumption equivalent for the two steady states. If c > 1,
 % agents prefer the second steady state. If 1 > c > 0, agents prefer the
 % first steady state.
 [ c ] = consumption_equivalent (par, method, U);
+
+% Calculate the cash equivalent for the to steady states.
 [ k ] = cash_equivalent (par, method, grid, sim, U);
 k.equivalent_mean = mean(mean(k.equivalent));
 k.equivalent_median = median(median(k.equivalent));
+
+save .mat

@@ -3,6 +3,10 @@ function [ c ] = consumption_equivalent (par, method, U)
 %   Detailed explanation goes here
     
     if strcmp(method.sim ,'simulation')
+        U.one.mean = mean(mean(U.one.extrap));
+        U.two.mean = mean(mean(U.two.extrap));
+        U.one.median = median(median(U.one.extrap));
+        U.two.median = median(median(U.two.extrap));
  
         % Calculate the consumption equivalent
         % If value > 1, agents prefer steady state one, if 1 > value > 0, agents prefer

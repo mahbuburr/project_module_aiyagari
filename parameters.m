@@ -19,5 +19,5 @@ par.PI_UE = 0.3; % chance of getting employed
 
 %% solve for general equilibrium
 method.HH = 'FPend'; % 'FP' for fixed-point iteration in household problem, 'FPend' for using endogenous grid points
-method.sim = 'histogram'; % 'simulation' for simulation, 'histogram' for histogram method
+method.sim = 'simulation'; % 'simulation' for simulation, 'histogram' for histogram method
 method.agg = 'bisection'; % 'bisection' to use bisection method, gradual updating otherwise
