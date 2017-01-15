@@ -20,8 +20,6 @@ while d1>1e-6 && iter<50 % loop for aggregate problem
     k_guess_benchmark = solve_individual_problem(mu_benchmark, k_guess_benchmark, K_guess_benchmark);
     [K_demand_benchmark, sim_k_benchmark] = find_dist_agents( sim_e_benchmark, K_guess_benchmark, k_guess_benchmark );
     
-    store(1).K_demand(iter) = K_demand_benchmark;
-    
     d1 = abs(K_demand_benchmark-K_guess_benchmark)./(1+K_guess_benchmark); % deviation between guess for capital and demanded capital stock
 
     if K_demand_benchmark>K_guess_benchmark % update limits of bisection interval
@@ -40,6 +38,7 @@ end
 store(1).mu=mu_benchmark;
 store(1).sim_k=sim_k_benchmark(1:50:end,:);
 store(1).k_guess = k_guess_benchmark;
+store(1).K_demand = K_demand_benchmark;
 
 %% Solve for the others unemployment benefit levels
 period = 5000;
@@ -49,6 +48,7 @@ mu_max = 0.90;
 mu_n = 10;
 grid_mu = linspace(mu_min, mu_max, mu_n);
 store(mu_n+1).mu = NaN; %prealocate
+maxNumCompThreads(4)
 count = 2;
 parfor nn = 1:mu_n
     mu = grid_mu(nn);
@@ -66,7 +66,7 @@ parfor nn = 1:mu_n
         k_guess = solve_individual_problem(mu, k_guess, K_guess);
         [K_demand, sim_k] = find_dist_agents( sim_e, sim_k_benchmark(period,:), k_guess );
         
-        store(nn+1).K_demand(iter) = K_demand;
+        
         
         d1 = abs(K_demand-K_guess)./(1+K_guess); % deviation between guess for capital and demanded capital stock
         
@@ -85,10 +85,11 @@ parfor nn = 1:mu_n
     store(nn+1).mu=mu;
     store(nn+1).sim_k=sim_k(1:50:end,:);
     store(nn+1).k_guess = k_guess;
+    store(nn+1).K_demand = K_demand;
 end
-store_sim(1).sim_e = sim_e_benchmark;
-store_sim(2).sim_e = sim_e;
-save('10solutions_riegler2.mat', 'store');
+shocks(1).sim_e = sim_e_benchmark;
+shocks(2).sim_e = sim_e;
+save('10solutions_riegler.mat', 'store', 'shocks');
 toc
 
 

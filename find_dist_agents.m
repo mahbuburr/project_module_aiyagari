@@ -12,7 +12,6 @@ for t=2:T
     sim_k(t,sim_e(t,:)==2) = interp1(grid_k,k_guess(:,2),sim_k(t-1,sim_e(t,:)==2),'linear','extrap'); % capital demand of currently employed
 end
 
-sim_L = mean(mean(sim_e(ceil(T/2):end,:)==2)); % average employment
 K_demand = mean(mean(sim_k(ceil(T/2):end,:))); % average capital holdings over second half of sample
 
 end
