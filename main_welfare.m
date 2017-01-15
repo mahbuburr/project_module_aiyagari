@@ -3,12 +3,13 @@ close all
 clc
 
 fixed_parameters;
-
+tic
 %% Solve the benchmark model
-mu_benchmark = 0.3;
+mu_benchmark = 0.5;
 sim_e_benchmark = generate_shocks( T, ind_no, L, PI );
-k_guess = mat_k; % policy function of agents (1st column unemployed, 2nd column employed)
-K_guess = (K_lims(1)+K_lims(2))/2;
+k_guess_benchmark = mat_k; % policy function of agents (1st column unemployed, 2nd column employed)
+K_lims = [K_rep,grid_k(end)]; % initial limits for bisection method
+K_guess_benchmark = (K_lims(1)+K_lims(2))/2;
 
 d1 = 1;
 iter = 0;
@@ -16,25 +17,80 @@ tic
 while d1>1e-6 && iter<50 % loop for aggregate problem
     iter = iter+1;
     
-    k_guess = solve_individual_problem(mu_benchmark, k_guess, K_guess);
-    [K_demand, sim_k] = find_dist_agents( sim_e_benchmark, K_guess, k_guess );
+    k_guess_benchmark = solve_individual_problem(mu_benchmark, k_guess_benchmark, K_guess_benchmark);
+    [K_demand_benchmark, sim_k_benchmark] = find_dist_agents( sim_e_benchmark, K_guess_benchmark, k_guess_benchmark );
     
-    d1 = abs(K_demand-K_guess)./(1+K_guess); % deviation between guess for capital and demanded capital stock
+    store(1).K_demand(iter) = K_demand_benchmark;
     
-    store.K_guess(iter)=K_guess;
-    store.K_next(iter)=K_demand;
-    
-    if K_demand>K_guess % update limits of bisection interval
-        K_lims(1) = K_guess;
+    d1 = abs(K_demand_benchmark-K_guess_benchmark)./(1+K_guess_benchmark); % deviation between guess for capital and demanded capital stock
+
+    if K_demand_benchmark>K_guess_benchmark % update limits of bisection interval
+        K_lims(1) = K_guess_benchmark;
     else
-        K_lims(2) = K_guess;
+        K_lims(2) = K_guess_benchmark;
     end
     
     % update guess for aggregate capital stock
-    K_guess = (K_lims(1)+K_lims(2))/2;
+    K_guess_benchmark = (K_lims(1)+K_lims(2))/2;
  
-    disp(['Iteration: ',num2str(iter),', K_guess: ',num2str(K_guess),', K_demand: ',num2str(K_demand)])
+    disp(['Iteration: ',num2str(iter),', K_guess: ',num2str(K_guess_benchmark),', K_demand: ',num2str(K_demand_benchmark)])
     
 end
+
+store(1).mu=mu_benchmark;
+store(1).sim_k=sim_k_benchmark;
+store(1).k_guess = k_guess_benchmark;
+store(1).sim_e = sim_e_benchmark;
+
+
+%% Solve for the others unemployment benefit levels
+period = 5000;
+sim_e = generate_shocks( T, ind_no, L, PI, sim_e_benchmark(period,:) );
+mu_min = 0.25;
+mu_max = 0.90;
+mu_n = 10;
+count = 2;
+for mu = linspace(mu_min, mu_max, mu_n);
+    disp(['mu number: ',num2str(count-1)])
+    k_guess = mat_k; % policy function of agents (1st column unemployed, 2nd column employed)
+    K_lims = [K_rep,grid_k(end)]; % initial limits for bisection method
+    K_guess = (K_lims(1)+K_lims(2))/2;
+    
+    d1 = 1;
+    iter = 0;
+    tic
+    while d1>1e-6 && iter<50 % loop for aggregate problem
+        iter = iter+1;
+        
+        k_guess = solve_individual_problem(mu, k_guess, K_guess);
+        [K_demand, sim_k] = find_dist_agents( sim_e, sim_k_benchmark(period,:), k_guess );
+        
+        store(count).K_demand(iter) = K_demand;
+        
+        d1 = abs(K_demand-K_guess)./(1+K_guess); % deviation between guess for capital and demanded capital stock
+        
+        if K_demand>K_guess % update limits of bisection interval
+            K_lims(1) = K_guess;
+        else
+            K_lims(2) = K_guess;
+        end
+        
+        % update guess for aggregate capital stock
+        K_guess = (K_lims(1)+K_lims(2))/2;
+        
+        disp(['Iteration: ',num2str(iter),', K_guess: ',num2str(K_guess),', K_demand: ',num2str(K_demand)])
+        
+    end
+    store(count).mu=mu;
+    store(count).sim_k=sim_k;
+    store(count).k_guess = k_guess;
+    store(count).sim_e = sim_e;
+    count = count + 1;
+end
+
+save('10solutions_riegler.mat', 'store', '-v7.3');
+toc
+
+
 
 

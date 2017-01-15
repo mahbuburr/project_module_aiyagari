@@ -44,4 +44,4 @@ grid_dist = linspace(grid_k(1),grid_k(end),grid_dist_no); % grid for distributio
 % useful matrices
 mat_k = [grid_k',grid_k']; % replicate grid for unemployed and employed
 
-K_lims = [K_rep,grid_k(end)]; % initial limits for bisection method
+

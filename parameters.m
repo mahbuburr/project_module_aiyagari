@@ -2,7 +2,7 @@
 % consumers
 beta = 0.99; % discount factor
 sigma = 2; % risk aversion
-mu = 0.3; % replacement rate of unemployed
+mu = 0.2; % replacement rate of unemployed
 k_min = 0.5; % borrowing constraint as share of capital stock
 ind_no = 5000; % number of individuals simulated
 T = 5000; % number of periods simulated
