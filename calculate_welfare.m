@@ -1,3 +1,5 @@
+
+save
 period = 5000; 
 % Calculate expected life time utility 
 % for the benchmark economy in steady state
