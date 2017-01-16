@@ -10,7 +10,8 @@ for i = 1:sol_num
     [store(i).U, U_mean(i)] = calculate_welfare( i, store, shocks, name );
 end
 
-mid = ceil(size(store,2)/2);
+% mid = ceil(size(store,2)/2);
+mid = 2;
 store(sol_num).cons_equiv = [];
 cons_mean = NaN(1,sol_num);
 cons_median = NaN(1,sol_num);
