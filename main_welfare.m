@@ -50,6 +50,7 @@ for nn = 1:mu_n
     store(nn).k_guess = k_guess;
     store(nn).K_demand = K_demand;
     store(nn).K_guess = K_guess;
+    store(nn).iter = iter;
 end
 shocks.sim_e = sim_e;
 save(name, 'store', 'shocks');
