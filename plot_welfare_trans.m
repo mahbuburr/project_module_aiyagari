@@ -15,15 +15,15 @@ mid = 2;
 store(sol_num).cons_equiv = [];
 cons_mean = NaN(1,sol_num);
 cons_median = NaN(1,sol_num);
-for i = 1:sol_num
-    [store(i).cons_equiv, cons_mean(i), cons_median(i)]  = calculate_cons_equiv( i, mid, store, name );
+for i = 2:sol_num
+    [store(i).cons_equiv, cons_mean(i), cons_median(i)]  = calculate_cons_equiv( i, i-1, store, name );
 end
 
-store(sol_num).cash_equiv = [];
-cash_agg = NaN(1,sol_num);
-for i = 1:sol_num
-    [store(i).cash_equiv, cash_agg(i)]  = calculate_cons_equiv( i, mid, store, name );
-end
+% store(sol_num).cash_equiv = [];
+% cash_agg = NaN(1,sol_num);
+% for i = 2:sol_num
+%     [store(i).cash_equiv, cash_agg(i)]  = calculate_cash_equiv( i, i-1, store, name );
+% end
 
 %% plot
 figure(1)
@@ -35,8 +35,8 @@ plot(1:sol_num, cons_mean);
 figure(3)
 plot(1:sol_num, U_mean);
 
-figure(4)
-plot(1:sol_num, cash_agg);
+% figure(4)
+% plot(1:sol_num, cash_agg);
 
 
 

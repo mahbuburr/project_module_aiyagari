@@ -6,7 +6,7 @@ load(strcat('fixed_parameters_',name,'.mat'));
 %ASK HERE
 cash_equiv= NaN(1,ind_no);
 for ind = 1:ind_no
-    cash_equiv(ind) = interp1(store(mu_n).U, grid_k, store(benchmark).U) - store(benchmark).sim_k;
+    cash_equiv(ind) = interp1(store(mu_n).U, grid_k, store(benchmark).U(ind)) - store(benchmark).sim_k(ind);
 end
 
 cash_equiv_agg = sum(cash_equiv);
