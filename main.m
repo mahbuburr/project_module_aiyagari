@@ -5,7 +5,7 @@ parameters % load parameters
 
 %% solve for general equilibrium
 HH_method = 'FP'; % 'FP' for fixed-point iteration in household problem, 'FPend' for using endogenous grid points
-sim_method = 'histogram'; % 'simulation' for simulation, 'histogram' for histogram method
+sim_method = 'simulation'; % 'simulation' for simulation, 'histogram' for histogram method
 agg_method = 'bisection'; % 'bisection' to use bisection method, gradual updating otherwise
 
 K_lims = [K_rep,grid_k(end)]; % initial limits for bisection method
@@ -81,13 +81,13 @@ while d1>1e-6 && iter<50 % loop for aggregate problem
         % update policy function
         k_guess = k_guess + 0.5*(k_new-k_guess);
     end
-    figure(1)
-    plot(grid_k,log(k_guess./[grid_k',grid_k']))
-    line([grid_k(1),grid_k(end)],[0,0])
-    legend('unemployed','employed')
-    xlabel('capital this period')
-    ylabel('log(capital next period/capital this period)')
-    title('policy functions')
+%     figure(1)
+%     plot(grid_k,log(k_guess./[grid_k',grid_k']))
+%     line([grid_k(1),grid_k(end)],[0,0])
+%     legend('unemployed','employed')
+%     xlabel('capital this period')
+%     ylabel('log(capital next period/capital this period)')
+%     title('policy functions')
     
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -108,15 +108,15 @@ while d1>1e-6 && iter<50 % loop for aggregate problem
             sim_k(t,sim_e(t,:)==1) = interp1(grid_k,k_guess(:,1),sim_k(t-1,sim_e(t,:)==1),'linear','extrap'); % capital demand of currently unemployed
             sim_k(t,sim_e(t,:)==2) = interp1(grid_k,k_guess(:,2),sim_k(t-1,sim_e(t,:)==2),'linear','extrap'); % capital demand of currently employed
         end
-        figure(4)
-        subplot(1,2,1)
-        plot(sum(sim_k,2)/ind_no) % plot aggregate capital demand
-        xlabel('period')
-        ylabel('capital demand')
-        subplot(1,2,2)
-        plot(sum(sim_e==2,2)/ind_no) % plot aggregate employment
-        xlabel('period')
-        ylabel('employment')    
+%         figure(4)
+%         subplot(1,2,1)
+%         plot(sum(sim_k,2)/ind_no) % plot aggregate capital demand
+%         xlabel('period')
+%         ylabel('capital demand')
+%         subplot(1,2,2)
+%         plot(sum(sim_e==2,2)/ind_no) % plot aggregate employment
+%         xlabel('period')
+%         ylabel('employment')    
 
         K_demand = mean(mean(sim_k(ceil(T/2):end,:))); % average capital holdings over second half of sample
         sim_L = mean(mean(sim_e(ceil(T/2):end,:)==2)); % average employment
@@ -175,29 +175,29 @@ while d1>1e-6 && iter<50 % loop for aggregate problem
     disp(['Iteration: ',num2str(iter),', K_guess: ',num2str(K_guess),', K_demand: ',num2str(K_demand)])
 end
 toc
-
-disp('_____________________________________________________________')
-disp('Aggregate variables (log-deviation from representative agent)')
-disp(['Capital:     ',num2str(K_guess),' (',num2str(log(K_guess/K_rep)),')'])
-disp(['Output:      ',num2str(Y(K_guess)),' (',num2str(log(Y(K_guess)/Y(K_rep))),')'])
-disp(['Consumption: ',num2str(C(K_guess)),' (',num2str(log(C(K_guess)/C(K_rep))),')'])
-
-
-% Plot convergence of aggregate capital stock
-figure(2)
-plot([store.K_guess;store.K_next]')
-legend('guess','demand')
-xlabel('iteration')
-ylabel('capital stock')
-
-% Plot distribution of agents
-figure(3)
-if strcmp(sim_method,'simulation')
-    temp = sim_k(ceil(T/2):end,:);
-    hist(temp(:),100)
-    legend('number of agents')
-elseif strcmp(sim_method,'histogram')
-    bar(grid_dist,distribution,'stacked')
-    legend('unemployed','employed')
-end
-xlabel('capital holdings')
+% 
+% disp('_____________________________________________________________')
+% disp('Aggregate variables (log-deviation from representative agent)')
+% disp(['Capital:     ',num2str(K_guess),' (',num2str(log(K_guess/K_rep)),')'])
+% disp(['Output:      ',num2str(Y(K_guess)),' (',num2str(log(Y(K_guess)/Y(K_rep))),')'])
+% disp(['Consumption: ',num2str(C(K_guess)),' (',num2str(log(C(K_guess)/C(K_rep))),')'])
+% 
+% 
+% % Plot convergence of aggregate capital stock
+% figure(2)
+% plot([store.K_guess;store.K_next]')
+% legend('guess','demand')
+% xlabel('iteration')
+% ylabel('capital stock')
+% 
+% % Plot distribution of agents
+% figure(3)
+% if strcmp(sim_method,'simulation')
+%     temp = sim_k(ceil(T/2):end,:);
+%     hist(temp(:),100)
+%     legend('number of agents')
+% elseif strcmp(sim_method,'histogram')
+%     bar(grid_dist,distribution,'stacked')
+%     legend('unemployed','employed')
+% end
+% xlabel('capital holdings')
