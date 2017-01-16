@@ -1,6 +1,7 @@
-function [ U ] = expec_lifetime_utility( k_guess, K_demand, mu)
+function [ U ] = expec_lifetime_utility( k_guess, K_demand, mu, name)
 
-fixed_parameters;
+load(strcat('fixed_parameters_',name,'.mat'));
+
 tau = mu*(1-L)/L; % tax rate
 mat_income = @(K) w(K)*repmat([mu,1-tau],grid_k_no,1); % matrix with income of each agent
 %% ASK ABOUT CAPITAL DEMAND IN TRANSITION

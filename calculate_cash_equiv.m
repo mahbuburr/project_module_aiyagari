@@ -1,7 +1,7 @@
-function [ cash_equiv, cash_equiv_agg] = calculate_cash_equiv( mu_n, benchmark, store )
+function [ cash_equiv, cash_equiv_agg] = calculate_cash_equiv( mu_n, benchmark, store, name )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
-fixed_parameters;
+load(strcat('fixed_parameters_',name,'.mat'));
 
 %ASK HERE
 cash_equiv= NaN(1,ind_no);

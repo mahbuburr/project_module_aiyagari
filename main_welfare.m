@@ -1,8 +1,10 @@
 clear
 close all
 clc
-
+name = '20_solutions_riegler';
 fixed_parameters;
+save(strcat('fixed_parameters_',name,'.mat'));
+
 tic
 
 %% Solve for the unemployment benefit levels
@@ -47,10 +49,10 @@ for nn = 1:mu_n
     store(nn).sim_k=sim_k(period,:);
     store(nn).k_guess = k_guess;
     store(nn).K_demand = K_demand;
-    store(nn).K_demand = K_guess;
+    store(nn).K_guess = K_guess;
 end
 shocks.sim_e = sim_e;
-save('20solutions_riegler.mat', 'store', 'shocks');
+save(name, 'store', 'shocks');
 toc
 
 
