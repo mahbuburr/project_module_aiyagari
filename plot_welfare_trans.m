@@ -34,7 +34,7 @@ end
 store(sol_num).cash_equiv = [];
 cash_agg = NaN(1,sol_num);
 for i = 2:sol_num
-    [store(i).cash_equiv, cash_agg(i)]  = calculate_cash_equiv( i, i-1, store,shocks.sim_e(end,:), name );
+    [store(i).cash_equiv, cash_agg(i)]  = calculate_cash_equiv( i, bench, store,shocks.sim_e(end,:), name );
 end
 
 %% plot
