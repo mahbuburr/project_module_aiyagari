@@ -1,18 +1,23 @@
 clear
 close all
 clc
-name = '20_solutions_riegler';
+name = '350_solutions_riegler';
+
+if exist(strcat('fixed_parameters_',name,'.mat'), 'file') ~= 0
+    return
+end
+
 fixed_parameters;
 save(strcat('fixed_parameters_',name,'.mat'));
 
-tic
+t=tic;
 
 %% Solve for the unemployment benefit levels
 period = 5000;
 sim_e = generate_shocks( T, ind_no, L, PI);
 mu_min = 0.30;
 mu_max = 0.99;
-mu_n = 20;
+mu_n = 350;
 grid_mu = linspace(mu_min, mu_max, mu_n);
 store(mu_n).mu = NaN; %prealocate
 for nn = 1:mu_n
@@ -51,9 +56,16 @@ for nn = 1:mu_n
     store(nn).K_demand = K_demand;
     store(nn).K_guess = K_guess;
     store(nn).iter = iter;
+    if nn == 1
+        shocks.sim_e = sim_e;
+        save(name,'store', 'shocks','-v7.3'); % Write to MAT file
+    else
+        save(name,'store','-v7.3','-append');
+    end
 end
-shocks.sim_e = sim_e;
-save(name, 'store', 'shocks');
+time = toc(t);
+save(name,'time','-v7.3','-append');
+% save(name, 'store', 'shocks', 'time');
 toc
 
 
