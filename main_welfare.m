@@ -1,11 +1,14 @@
-clear
+clear all
 close all
 clc
-name = '350_solutions_riegler';
+name = '40_solutions_riegler';
 
-if exist(strcat('fixed_parameters_',name,'.mat'), 'file') ~= 0
-    return
-end
+% if exist(strcat('fixed_parameters_',name,'.mat'), 'file') == 2 && nn == 1
+%     return
+% else 
+%     fixed_parameters;
+%     save(strcat('fixed_parameters_',name,'.mat'));
+% end
 
 fixed_parameters;
 save(strcat('fixed_parameters_',name,'.mat'));
@@ -17,7 +20,7 @@ period = 5000;
 sim_e = generate_shocks( T, ind_no, L, PI);
 mu_min = 0.30;
 mu_max = 0.99;
-mu_n = 350;
+mu_n = 40;
 grid_mu = linspace(mu_min, mu_max, mu_n);
 store(mu_n).mu = NaN; %prealocate
 for nn = 1:mu_n
