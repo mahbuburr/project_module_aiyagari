@@ -29,8 +29,6 @@ setup % load setup
 tic
 for i=1:2 % Get steady state utility for the model with two different parameters
     if i==1 
-        par.z = 0.5;
-        setup % refresh setup for new parameter
         [ k.one, c.one, K.one, sim.one, store.one, mat.one, grid.one ] = aiyagari_solver( par, func, method );
         U.one.guess = func.U(c.one.guess);
         U.one.lifetime = zeros(2,grid.one.k_no); %expected life time utility
@@ -42,8 +40,8 @@ for i=1:2 % Get steady state utility for the model with two different parameters
             U.one.lifetime = Unew;
         end
     elseif i==2 
-        parameters;
-        setup;
+        par.mu = 0.6;
+        setup % refresh setup for new parameter
         [ k.two, c.two, K.two, sim.two, store.two, mat.two, grid.two ] = aiyagari_solver( par, func, method );
         U.two.guess = func.U(c.two.guess);
         U.two.lifetime = zeros(2,grid.two.k_no); %expected life time utility
@@ -82,5 +80,6 @@ toc
 [ k ] = cash_equivalent (par, method, grid, sim, U);
 k.equivalent_mean = mean(mean(k.equivalent));
 k.equivalent_median = median(median(k.equivalent));
-
-%save .mat
+keep.c = c;
+keep.k = k;
+save ('baseline_mu_0-6.mat', 'keep');
