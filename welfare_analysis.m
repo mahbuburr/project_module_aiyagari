@@ -65,11 +65,11 @@ U.one.extrap = NaN(ceil(T/2),ind_no);
 U.two.extrap = NaN(ceil(T/2),ind_no);
 tic
 for t = ceil((T+1)/2):T % Extrapolated life time utility with transition
-    U.one.extrap(t-2500,sim.two.e(t,:)==1) = interp1(grid.two.k, U.one.lifetime(1,:), sim.two.k(t,sim.one.e(t,:)==1), 'linear', 'extrap');
-    U.one.extrap(t-2500,sim.two.e(t,:)==2) = interp1(grid.two.k, U.one.lifetime(2,:), sim.two.k(t,sim.one.e(t,:)==2), 'linear', 'extrap');
+    U.one.extrap(t-2500,sim.two.e(t,:)==1) = interp1(grid.two.k, U.one.lifetime(1,:), sim.two.k(t,sim.two.e(t,:)==1), 'linear', 'extrap');
+    U.one.extrap(t-2500,sim.two.e(t,:)==2) = interp1(grid.two.k, U.one.lifetime(2,:), sim.two.k(t,sim.two.e(t,:)==2), 'linear', 'extrap');
 
-    U.two.extrap(t-2500,sim.two.e(t,:)==1) = interp1(grid.two.k, U.two.lifetime(1,:), sim.two.k(t,sim.one.e(t,:)==1), 'linear', 'extrap');
-    U.two.extrap(t-2500,sim.two.e(t,:)==2) = interp1(grid.two.k, U.two.lifetime(2,:), sim.two.k(t,sim.one.e(t,:)==2), 'linear', 'extrap');
+    U.two.extrap(t-2500,sim.two.e(t,:)==1) = interp1(grid.two.k, U.two.lifetime(1,:), sim.two.k(t,sim.two.e(t,:)==1), 'linear', 'extrap');
+    U.two.extrap(t-2500,sim.two.e(t,:)==2) = interp1(grid.two.k, U.two.lifetime(2,:), sim.two.k(t,sim.two.e(t,:)==2), 'linear', 'extrap');
 end
 toc
 
@@ -83,4 +83,4 @@ toc
 k.equivalent_mean = mean(mean(k.equivalent));
 k.equivalent_median = median(median(k.equivalent));
 
-save .mat
+%save .mat

@@ -2,7 +2,7 @@
 % consumers
 par.beta = 0.99; % discount factor
 par.sigma = 2; % risk aversion
-par.mu = 0.3; % replacement rate of unemployed
+par.mu = 0.5; % replacement rate of unemployed
 par.k_min = 0.5; % borrowing constraint as share of capital stock
 
 % firms (production function F(K,L)=z*K^alpha*L^(1-alpha)
