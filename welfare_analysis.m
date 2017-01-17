@@ -40,7 +40,7 @@ for i=1:2 % Get steady state utility for the model with two different parameters
             U.one.lifetime = Unew;
         end
     elseif i==2 
-        par.mu = 0.6;
+        par.mu = 0;
         setup % refresh setup for new parameter
         [ k.two, c.two, K.two, sim.two, store.two, mat.two, grid.two ] = aiyagari_solver( par, func, method );
         U.two.guess = func.U(c.two.guess);
@@ -82,4 +82,5 @@ k.equivalent_mean = mean(mean(k.equivalent));
 k.equivalent_median = median(median(k.equivalent));
 keep.c = c;
 keep.k = k;
-save ('baseline_mu_0-6.mat', 'keep');
+keep.U = U;
+save ('baseline_mu_0-3.mat', 'keep');
