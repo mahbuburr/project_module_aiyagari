@@ -17,6 +17,7 @@
 *.lof
 *.log
 *.lot
+*.mat
 *.mod
 *.nav
 *.o
