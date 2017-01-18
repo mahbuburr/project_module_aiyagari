@@ -78,10 +78,9 @@ toc
 
 % Calculate the cash equivalent for the to steady states.
 [ k ] = cash_equivalent (par, method, grid, sim, U);
-k.equivalent_mean = mean(mean(k.equivalent));
-k.equivalent_median = median(median(k.equivalent));
+
 keep.c = c;
 keep.k = k;
 keep.K = K;
 %keep.U = U;
-save ('baseline_mu_0-6.mat', 'keep');
+save ('baseline_mu_0-7.mat', 'keep');

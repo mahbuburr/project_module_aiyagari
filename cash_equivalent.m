@@ -14,6 +14,8 @@ function [ k ] = cash_equivalent( par, method, grid, sim, U )
             k.equivalent(t-2500,:) = k.compensated(t-2500,:) - sim.one.k(t,:);   
         end
         toc
+        k.equivalent_mean = mean(mean(k.equivalent));
+        k.equivalent_median = median(median(k.equivalent));
     elseif strcmp(method.sim, 'histogram')
         % to be done
 end

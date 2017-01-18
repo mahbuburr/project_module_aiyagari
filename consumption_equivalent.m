@@ -15,7 +15,7 @@ function [ c ] = consumption_equivalent (par, method, U)
         % >1, there exists a (lump-sum) redistribution which would make everyone
         % better off.
         c.equivalent_mean = mean(mean(c.equivalent));
-        c.equivakent_median = median(median(c.equivalent));
+        c.equivalent_median = median(median(c.equivalent));
         
     elseif strcmp(method.sim,'histogram')
         % to be done
