@@ -3,23 +3,20 @@ function [ c ] = consumption_equivalent (par, method, U)
 %   Detailed explanation goes here
     
     if strcmp(method.sim ,'simulation')
-        U.one.mean = mean(mean(U.one.extrap));
-        U.two.mean = mean(mean(U.two.extrap));
-        U.one.median = median(median(U.one.extrap));
-        U.two.median = median(median(U.two.extrap));
  
         % Calculate the consumption equivalent
         % If value > 1, agents prefer steady state one, if 1 > value > 0, agents prefer
         % policy change ( = steady state two).
         % Consumption equivalent tested against model with policy change:
-        c.equivalent_mean = ((U.two.mean.*(1-par.sigma).*(1-par.beta)+1)...
-            ./(U.one.mean.*(1-par.sigma).*(1-par.beta)+1)).^(1/(1-par.sigma));
+        c.equivalent = ((U.two.extrap.*(1-par.sigma).*(1-par.beta)+1)...
+            ./(U.one.extrap.*(1-par.sigma).*(1-par.beta)+1)).^(1/(1-par.sigma));
 
-        c.equivalent_median = ((U.two.median.*(1-par.sigma).*(1-par.beta)+1)...
-            ./(U.one.median.*(1-par.sigma).*(1-par.beta)+1)).^(1/(1-par.sigma)); 
         % Calculate average and median of consumption equivalent. If this aggregate
         % >1, there exists a (lump-sum) redistribution which would make everyone
         % better off.
+        c.equivalent_mean = mean(mean(c.equivalent));
+        c.equivakent_median = median(median(c.equivalent));
+        
     elseif strcmp(method.sim,'histogram')
         % to be done
         

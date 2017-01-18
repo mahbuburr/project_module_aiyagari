@@ -40,7 +40,7 @@ for i=1:2 % Get steady state utility for the model with two different parameters
             U.one.lifetime = Unew;
         end
     elseif i==2 
-        par.mu = 0;
+        par.mu = 0.6;
         setup % refresh setup for new parameter
         [ k.two, c.two, K.two, sim.two, store.two, mat.two, grid.two ] = aiyagari_solver( par, func, method );
         U.two.guess = func.U(c.two.guess);
@@ -58,16 +58,16 @@ toc
 U.one.lifetime(U.one.lifetime == -Inf) = -999999; % Get rid of -Inf for negative consumption for extrapolation
 U.two.lifetime(U.two.lifetime == -Inf) = -999999;
 ind_no = size(sim.two.k,2);
-T = size(sim.two.k,1);
+T = size(sim.one.k,1);
 U.one.extrap = NaN(ceil(T/2),ind_no);
 U.two.extrap = NaN(ceil(T/2),ind_no);
 tic
 for t = ceil((T+1)/2):T % Extrapolated life time utility with transition
-    U.one.extrap(t-2500,sim.two.e(t,:)==1) = interp1(grid.two.k, U.one.lifetime(1,:), sim.two.k(t,sim.two.e(t,:)==1), 'linear', 'extrap');
-    U.one.extrap(t-2500,sim.two.e(t,:)==2) = interp1(grid.two.k, U.one.lifetime(2,:), sim.two.k(t,sim.two.e(t,:)==2), 'linear', 'extrap');
+    U.one.extrap(t-2500,sim.one.e(t,:)==1) = interp1(grid.one.k, U.one.lifetime(1,:), sim.one.k(t,sim.one.e(t,:)==1), 'linear', 'extrap');
+    U.one.extrap(t-2500,sim.one.e(t,:)==2) = interp1(grid.one.k, U.one.lifetime(2,:), sim.one.k(t,sim.one.e(t,:)==2), 'linear', 'extrap');
 
-    U.two.extrap(t-2500,sim.two.e(t,:)==1) = interp1(grid.two.k, U.two.lifetime(1,:), sim.two.k(t,sim.two.e(t,:)==1), 'linear', 'extrap');
-    U.two.extrap(t-2500,sim.two.e(t,:)==2) = interp1(grid.two.k, U.two.lifetime(2,:), sim.two.k(t,sim.two.e(t,:)==2), 'linear', 'extrap');
+    U.two.extrap(t-2500,sim.one.e(t,:)==1) = interp1(grid.one.k, U.two.lifetime(1,:), sim.one.k(t,sim.one.e(t,:)==1), 'linear', 'extrap');
+    U.two.extrap(t-2500,sim.one.e(t,:)==2) = interp1(grid.one.k, U.two.lifetime(2,:), sim.one.k(t,sim.one.e(t,:)==2), 'linear', 'extrap');
 end
 toc
 
@@ -82,5 +82,6 @@ k.equivalent_mean = mean(mean(k.equivalent));
 k.equivalent_median = median(median(k.equivalent));
 keep.c = c;
 keep.k = k;
-keep.U = U;
-save ('baseline_mu_0-3.mat', 'keep');
+keep.K = K;
+%keep.U = U;
+save ('baseline_mu_0-6.mat', 'keep');
