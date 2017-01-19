@@ -16,6 +16,12 @@ function [ k ] = cash_equivalent( par, method, grid, sim, U )
         toc
         k.equivalent_mean = mean(mean(k.equivalent));
         k.equivalent_median = median(median(k.equivalent));
+        % Get cash equivalent for employed and unemployed
+        k.equivalent_unemployed_mean = mean(mean(k.equivalent(:,sim.one.e(:,:)==1)));
+        k.equivalent_unemployed_median = median(median(k.equivalent(:,sim.one.e(:,:)==1)));
+        k.equivalent_employed_mean = mean(mean(k.equivalent(:,sim.one.e(:,:)==2)));
+        k.equivalent_employed_median = median(median(k.equivalent(:,sim.one.e(:,:)==2)));
+        
     elseif strcmp(method.sim, 'histogram')
         % to be done
 end

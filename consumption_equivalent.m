@@ -1,4 +1,4 @@
-function [ c ] = consumption_equivalent (par, method, U)
+function [ c ] = consumption_equivalent (par, method, U, sim)
 %WELFARE EFFECTS Summary of this function goes here
 %   Detailed explanation goes here
     
@@ -16,6 +16,12 @@ function [ c ] = consumption_equivalent (par, method, U)
         % better off.
         c.equivalent_mean = mean(mean(c.equivalent));
         c.equivalent_median = median(median(c.equivalent));
+        
+        % Get consumption equivalent for employed and unemployed
+        c.equivalent_unemployed_mean = mean(mean(c.equivalent(:,sim.one.e(:,:)==1)));
+        c.equivalent_unemployed_median = median(median(c.equivalent(:,sim.one.e(:,:)==1)));
+        c.equivalent_employed_mean = mean(mean(c.equivalent(:,sim.one.e(:,:)==2)));
+        c.equivalent_employed_median = median(median(c.equivalent(:,sim.one.e(:,:)==2)));
         
     elseif strcmp(method.sim,'histogram')
         % to be done
