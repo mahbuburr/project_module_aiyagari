@@ -146,17 +146,102 @@
   \item {
   Aggregate uncertainty! Why?
   }
-  
+  \pause
   \item {
-  
+  Two aggregate productivity : $z \in \{ 0.99, 1.01 \}$.
   }
 
   \item {
-  Item 3
+  Two unemployment states: $L \in \{ 0.1, 0.4 \}$.
   }
+
+  \item {
+  2 transition matricies between employed and unemployed respectively in good and bad states and 1 transition matrix between good and bad state: $L \in \{ 0.1, 0.4 \}$.
+  }
+
+  \pause
+
+  \item {
+  Let's solve it!.
+  }
+
+  
+
   \end{itemize}
 
-  \centering{\includegraphics[scale=0.30]{eq18}}
 \end{frame}
+
+\begin{frame}{Problem}
+  \begin{itemize}
+
+  \item {
+  The introduction of aggregate uncertainty makes the distribution of wealth changing over time, which is infinite dimensional object.
+  }
+  
+  \item {
+  The capital distribution must be taken into account by the agents, therefore it becomes state variable.
+  }
+ 
+
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Solution}
+  \begin{itemize}
+
+  \item {
+  There is no solution.
+  }
+  
+  \item {
+  Krusell and Smith (1997) suggest an algorithm to solve the issue by an approximation, which could be summerized as "rational adaptive expectations".
+  }
+
+  \item {
+  They assume that the agents forecast prices by using the future mean of the wealth distribution.
+  }
+
+  \item {
+  The actual forecast is made for the future mean based on previous realizations using some Least Squares technique.
+  }
+ 
+
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Algorithm}
+  \begin{enumerate}
+
+  \item {
+  Draw shocks.
+  }
+
+  \item {
+  Guess initial coefficients for the forcasting rule.  
+  }
+  
+  \item {
+  Solve the individual problem.
+  }
+
+  \item {
+  Use the policy function to generate a sequence of capital distributions.
+  }
+
+  \item {
+  The actual forecast is made for the future mean based on previous realizations using some Least Squares technique.
+  }
+
+  \item {
+  Estimate new coefficients based on past realizations of the distribution and iterate until they converge. 
+  }
+ 
+
+  \end{enumerate}
+
+\end{frame}
+
 
 \end{document}
