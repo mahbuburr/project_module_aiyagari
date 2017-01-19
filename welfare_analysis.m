@@ -40,7 +40,7 @@ for i=1:2 % Get steady state utility for the model with two different parameters
             U.one.lifetime = Unew;
         end
     elseif i==2 
-        par.mu = 0.6;
+        par.mu = 0.47;
         setup % refresh setup for new parameter
         [ k.two, c.two, K.two, sim.two, store.two, mat.two, grid.two ] = aiyagari_solver( par, func, method );
         U.two.guess = func.U(c.two.guess);
@@ -52,7 +52,7 @@ for i=1:2 % Get steady state utility for the model with two different parameters
             dist = max(max(abs(Unew - U.two.lifetime)));
             U.two.lifetime = Unew;
         end
-    end
+   end
 end
 toc
 U.one.lifetime(U.one.lifetime == -Inf) = -999999; % Get rid of -Inf for negative consumption for extrapolation
@@ -79,8 +79,10 @@ toc
 % Calculate the cash equivalent for the to steady states.
 [ k ] = cash_equivalent (par, method, grid, sim, U);
 
-keep.c = c;
-keep.k = k;
+keep.c.equivalent_mean = c.equivalent_mean;
+keep.c.equivalent_median = c.equivalent_median;
+keep.k.equivalent_mean = k.equivalent_mean;
+keep.k.equivalent_median = k.equivalent_median;
 keep.K = K;
 %keep.U = U;
-save ('baseline_mu_0-7.mat', 'keep');
+save ('baseline_mu_0-47.mat', 'keep');
