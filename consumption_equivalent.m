@@ -18,10 +18,17 @@ function [ c ] = consumption_equivalent (par, method, U, sim)
         c.equivalent_median = median(median(c.equivalent));
         
         % Get consumption equivalent for employed and unemployed
-        c.equivalent_unemployed_mean = mean(mean(c.equivalent(:,sim.one.e(:,:)==1)));
-        c.equivalent_unemployed_median = median(median(c.equivalent(:,sim.one.e(:,:)==1)));
-        c.equivalent_employed_mean = mean(mean(c.equivalent(:,sim.one.e(:,:)==2)));
-        c.equivalent_employed_median = median(median(c.equivalent(:,sim.one.e(:,:)==2)));
+        T = size(sim.one.e,1);
+        for t=1:ceil(T/2)
+            c.equivalent_unemployed_mean(t,:) = mean(c.equivalent(t,sim.one.e(ceil(T/2)+t,:)==1));
+            c.equivalent_unemployed_median(t,:) = median(c.equivalent(t,sim.one.e(ceil(T/2)+t,:)==1));
+            c.equivalent_employed_mean(t,:) = mean(c.equivalent(t,sim.one.e(ceil(T/2)+t,:)==2));
+            c.equivalent_employed_median(t,:) = median(c.equivalent(t,sim.one.e(ceil(T/2)+t,:)==2));
+        end
+        c.equivalent_unemployed_mean = mean(c.equivalent_unemployed_mean);
+        c.equivalent_unemployed_median = median(c.equivalent_unemployed_median);
+        c.equivalent_employed_mean = mean(c.equivalent_employed_mean);
+        c.equivalent_employed_median = median(c.equivalent_employed_median);
         
     elseif strcmp(method.sim,'histogram')
         % to be done

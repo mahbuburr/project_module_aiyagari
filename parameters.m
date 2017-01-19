@@ -3,7 +3,7 @@
 par.beta = 0.99; % discount factor
 par.sigma = 2; % risk aversion
 par.mu = 0.15; % replacement rate of unemployed
-par.k_min = 0; % borrowing constraint as share of capital stock
+par.k_min = 1e-15; % borrowing constraint as share of capital stock
 
 % firms (production function F(K,L)=z*K^alpha*L^(1-alpha)
 par.delta = 0.025; % depreciation rate
@@ -18,6 +18,6 @@ par.PI_UE = 0.4; % chance of getting employed
 
 
 %% solve for general equilibrium
-method.HH = 'FPend'; % 'FP' for fixed-point iteration in household problem, 'FPend' for using endogenous grid points
+method.HH = 'FP'; % 'FP' for fixed-point iteration in household problem, 'FPend' for using endogenous grid points
 method.sim = 'simulation'; % 'simulation' for simulation, 'histogram' for histogram method
-method.agg = 'bisection'; % 'bisection' to use bisection method, gradual updating otherwise
+method.agg = 'bisectio'; % 'bisection' to use bisection method, gradual updating otherwise

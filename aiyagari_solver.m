@@ -57,7 +57,7 @@ while d1>1e-6 && iter<50 % loop for aggregate problem
                     k.next(i,:,j) = interp1(grid.k,k.guess(:,j),k.guess(:,i),'linear','extrap'); 
                 end
                     % consumption next period from budget constraint
-                    c.next(i,:,:) = max(1e-10,(1+func.r(K.guess)-par.delta)*[k.guess(:,i),k.guess(:,i)] - squeeze(k.next(i,:,:)) + mat_income(K_guess));
+                    c.next(i,:,:) = max(1e-10,(1+func.r(K.guess)-par.delta)*[k.guess(:,i),k.guess(:,i)] - squeeze(k.next(i,:,:)) + mat.income(K.guess));
             end
 
             % calculate expected marginal utility of consumption next period

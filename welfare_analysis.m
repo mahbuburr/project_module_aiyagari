@@ -15,7 +15,7 @@ setup % load setup
 % default one, change parameters for i=2 and leave i=1 as the default one.
 % Do not change beta or sigma!
 mu_min = 0.05;
-mu_max = 0.8
+mu_max = 0.8;
 mu_n = 20;
 mu = linspace(mu_min, mu_max, mu_n);
 tic
@@ -40,8 +40,11 @@ for i=1:2 % Get steady state utility for the model with two different parameters
             U.one.extrap(t-ceil(T/2),sim.one.e(t,:)==2) = interp1(grid.one.k, U.one.lifetime(2,:), sim.one.k(t,sim.one.e(t,:)==2), 'linear', 'extrap');
         end
     elseif i==2 
-        for ii=1:size(mu,2)
-            par.mu = mu(ii);
+        for ii=5:size(mu,2)
+            par.mu = mu(ii)
+            method.HH = 'FP'; 
+            method.sim = 'simulation'; 
+            method.agg = 'bisection';
             setup % refresh setup for new parameter
             [ k.two, c.two, K.two, sim.two, store.two, mat.two, grid.two ] = aiyagari_solver( par, func, method );
             U.two.guess = func.U(c.two.guess);
@@ -82,7 +85,8 @@ for i=1:2 % Get steady state utility for the model with two different parameters
             keep.k.equivalent_employed_mean = k.equivalent_employed_mean;
             keep.k.equivalent_employed_median = k.equivalent_employed_median;
             keep.K = K.two.guess;
-            save ('baseline_mu_'+ ii +'.mat', '-struct','keep');
+            filename = ['baseline_mu_' num2str(ii) '.mat'];
+            save (filename, '-struct','keep');
         end
     end
 end
