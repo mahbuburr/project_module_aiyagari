@@ -1,6 +1,6 @@
 %% setup
 par.PI_EU = par.PI_UE*(1-par.L_target)/par.L_target; % chance of getting unemployed
-
+% letting the target rate fluctuate instead of PI_EU
 % build transition matrix of agents
 par.PI = [1-par.PI_UE,par.PI_UE;par.PI_EU,1-par.PI_EU]; % [UU,UE;EU;EE]
 par.L = par.PI(1,2)/(par.PI(1,2)+par.PI(2,1)); % calculate steady state supply of labour
