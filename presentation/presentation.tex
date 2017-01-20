@@ -200,7 +200,7 @@ How does the bahvior of selfinsured agents change when public insurance systems,
 	\begin{itemize}
 	
 	\item {
-	Why the Krussell Smith model? 
+	Why the Krussell Smith Model? 
 	}
 	
 	\begin{enumerate}
@@ -222,19 +222,49 @@ Helps to improve redistributional policy measures in business cycles.
 \section{The Aiyagari Model}
 \subsection{Model Setup}
 
-\begin{frame}{Why these models?}
+\begin{frame}{Model Equations}
 	\begin{itemize}
 	
 	\item {
-	Consumers 
+	Agents maximize utility:
 	}
-	
+
+\[ 
+max_{\{{ c_{i,t}, k_{i,t+1} }\}_{t = 0}^{\infty}} {\mathbb{E}} \sum_{i=0}^{\infty} \beta^{t}  u(c_{i,t}) 
+\]
+ \[ 
+ c_{i,t} + k_{i,t+1} = (1 + r_{t} - \delta) k_{i,t} + w_{t} (1 - \tau_{t})  e_{i,t} + \mu w_{t} (1 - e_{i,t})
+ \]
+  \[
+  k_{i,t + 1} \geq \bar{k}
+	\]
+
 
 	\end{itemize}
 
 \end{frame}
 
+\begin{frame}{Model Equations}
+	\begin{itemize}
+	
+	\item {
+	Representative Firm maximizes profit:
+	}
+\[ 
+\underset{K_{t},L_{t}}{max} F_{t}(K_{t},L_{t}) -r_{t}K_{t} - w_{t}L_{t}
+\]
 
+	\item {
+	Government redistributes taxes from employed to unemployed in terms of benefits:
+	}
+
+\[ 
+\tau_{t}L_{t} = \mu(1-L_{t})
+\]
+
+	\end{itemize}
+
+\end{frame}
 
 
 \subsection{Mechanics governing the model}
