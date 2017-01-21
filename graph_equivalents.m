@@ -18,31 +18,50 @@ for i=1:mu_n
     k_equiv(i,:) = [k(i).k.equivalent_mean, k(i).k.equivalent_median, k(i).k.equivalent_unemployed_mean, k(i).k.equivalent_unemployed_median, k(i).k.equivalent_employed_mean, k(i).k.equivalent_employed_median];
 end
 output_baseline = 3.3539;
+
       
 figure (1)
-plot(mu', k_equiv(:,1)./ output_baseline,'r', mu', k_equiv(:,2)./ output_baseline,'--r' ...
-    ,mu', k_equiv(:,3)./ output_baseline,'m', mu', k_equiv(:,5)./ output_baseline,'g' ...
-    ,mu', k_equiv(:,4)./ output_baseline,'--m', mu', k_equiv(:,6)./ output_baseline,'--g')
-legend('mean','median','unemployed','employed')
+plot(mu(1:17)', k_equiv(1:17,3)./ output_baseline,'m', mu(1:17)', k_equiv(1:17,5)./ output_baseline,'g' ...
+    ,mu(1:17)', k_equiv(1:17,4)./ output_baseline,'--m', mu(1:17)', k_equiv(1:17,6)./ output_baseline,'--g')
+legend('unemployed','employed')
 xlabel('unemployment benefit')
 ylabel('cash equivalent / output')
 refline (0,0)
- 
+axis tight
+
 figure (2)
-plot(mu', c_equiv(:,1),'r', mu', c_equiv(:,2),'--r' ...
-    ,mu', c_equiv(:,3),'m', mu', c_equiv(:,5),'g' ...
+plot(mu(1:13)', k_equiv(1:13,1)./ output_baseline,'r', mu(1:13)', k_equiv(1:13,2)./ output_baseline,'--r')
+legend('mean','median')
+xlabel('unemployment benefit')
+ylabel('cash equivalent / output')
+refline (0,0)
+
+
+figure (3)
+plot(mu', c_equiv(:,3),'m', mu', c_equiv(:,5),'g' ...
     ,mu', c_equiv(:,4),'--m', mu', c_equiv(:,6),'--g')
-legend('mean','median','unemployed','employed')
+legend('unemployed','employed')
 xlabel('unemployment benefit')
 ylabel('consumption equivalent')
 refline (0,1)
- 
-% figure (3)
-% plot(mu(2:16)', graph_var(2:16,1)./ output_baseline,'r', mu(2:16)', graph_var(2:16,2)./ output_baseline,'--r', mu(2:16)', (graph_var(2:16,3)-1).*10,'g', mu(2:16)', (graph_var(2:16,4)-1).*10,'--g')
-% legend('cash equiv. mean','cash equiv. median', 'cons. equiv. mean', 'cons. equiv. median')
-% xlabel('unemployment benefit')
-% %ylabel('cash equivalent / output', 'consumption equivalent')
-% %refline (0,0)
+axis tight
+
+figure (4)
+plot(mu', c_equiv(:,1),'r', mu', c_equiv(:,2),'--r')
+legend('mean','median')
+xlabel('unemployment benefit')
+ylabel('consumption equivalent')
+refline (0,1)
+axis tight
+
+figure (5)
+plot(mu(1:9)', k_equiv(1:9,1)./ output_baseline,'r', mu(1:9)', (c_equiv(1:9,1)-1).*100, 'g' ...
+    ,mu(1:9)', k_equiv(1:9,2)./ output_baseline,'--r' , mu(1:9)', (c_equiv(1:9,2)-1).*100,'--g')
+legend('cash equivalent', 'consumption equivivalent')
+xlabel('unemployment benefit')
+%ylabel('cash equivalent / output', 'consumption equivalent')
+refline (0,0)
+axis tight
 
 % %mu030= load('baseline_mu_0-3');
 % mu034= load('baseline_mu_0-34');

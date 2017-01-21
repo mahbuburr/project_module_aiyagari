@@ -21,6 +21,7 @@ mu = linspace(mu_min, mu_max, mu_n);
 mu(7) = mu(6); % the original point does not converge
 mu(6) = 0.15;
 mu(8) = 0.18;
+% mu(21) = 0.1425;
 tic
 for i=1:2 % Get steady state utility for the model with two different parameters
     if i==1 
@@ -43,7 +44,7 @@ for i=1:2 % Get steady state utility for the model with two different parameters
             U.one.extrap(t-ceil(T/2),sim.one.e(t,:)==2) = interp1(grid.one.k, U.one.lifetime(2,:), sim.one.k(t,sim.one.e(t,:)==2), 'linear', 'extrap');
         end
     elseif i==2 
-        for ii=1:size(mu,2)
+        for ii=9:size(mu,2)
             par.mu = mu(ii)
             method.HH = 'FP'; 
             method.sim = 'simulation'; 
