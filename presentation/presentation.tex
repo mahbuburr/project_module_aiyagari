@@ -267,31 +267,171 @@ max_{\{{ c_{i,t}, k_{i,t+1} }\}_{t = 0}^{\infty}} {\mathbb{E}} \sum_{i=0}^{\inft
 \end{frame}
 
 
-\subsection{Mechanics governing the model}
-
-
-\section{Aggregate Uncertainty}
-\subsection{}
-
-\begin{frame}{Idiosyncratic Uncertainty}
-	\begin{itemize}
+\begin{frame}{System of Equations}
 	
-	\item {
-	Why the Aiyagari Model? - Explaining the 				differences from the Representative Agent Model.
-	}
-	\item {
-	Model Mechanics - How does a change in 					idiosyncratic uncertainty affect the agents' behavior?
-	}
-	\item {
-	What conclusions can we draw from such an analysis?
-	}
-	\item {
-	Where are the model's limitations?
-	}		
-	\end{itemize}
-	  \centering{\includegraphics[scale=0.30]{eq18}}
+Euler equation:
+\[ 
+c_{i,t}^{- \sigma} \geq \beta (1+r -\delta){\mathbb{E}[c_{i,t+1}^{- \sigma}}]
+\]
+Budget constraint:
+ \[ 
+ c_{i,t} + k_{i,t+1} = (1 + r_{t} - \delta) k_{i,t} + w (1 - \tau)  e_{i,t} + \mu w (1 - e_{i,t})
+ \]
+Borrowing constraint:
+  \[
+  k_{i,t + 1} \geq k_{min}
+	\]
+Factor prices:
+\[
+r = \alpha z (\tfrac{L}{K})^{1-\alpha} \ \ \ w = (1-\alpha)z (\tfrac{K}{L})^{\alpha}
+\]
+Employment and Tax rate: 
+\[
+L = \tfrac{\pi_{UE}}{\pi_{UE}+\pi_{EU}} \ \ \ \ \  \tau = \mu \tfrac{1-L}{L}
+\]
 
 \end{frame}
 
+\subsection{Mechanics governing the model}
+
+\begin{frame}{Changes in idiosyncratic risk}
+	\begin{itemize}
+	
+	\item {
+	We are interested in studying the mechanics behind changes in precautionary savings. 
+	}
+	\item {
+	We thus look at different steady states corresponding to different values of $\mu$ and study the changes of the model variables.
+	}
+	
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Changes in idiosyncratic risk}
+	\begin{itemize}
+	
+	\item {
+	First, we look at the changes in aggregates and compare them to the representative agent case.
+	}
+
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Changes in idiosyncratic risk}
+
+	
+graph with log-deviations and aggregates 
+  \centering{\includegraphics[scale=0.30]{eq18}}
+
+\end{frame}
+	
+\begin{frame}{Changes in idiosyncratic risk}
+	\begin{itemize}
+	
+	\item {
+	As the unemployment insurance increases and idiosyncratic risk decreases, the aggregates decrease and approach the values of the representative agent model. 
+	}
+
+	\item {
+Hence, with an increasing $\mu$ savings tend to decrease on average.
+	}
+
+	\item {
+Looking at the distribution of capital holdings gives us an even better picture.
+	}	
+
+	\end{itemize} 
+\end{frame}
+	
+\begin{frame}{Changes in idiosyncratic risk}
+
+	
+
+distributional plot 
+  \centering{\includegraphics[scale=0.30]{eq18}}
+
+
+\end{frame}
+
+
+\begin{frame}{Changes in idiosyncratic risk}
+
+\begin{itemize} 
+	\item {
+We saw that the policy change has a different effect on the unemployed and the employed. 
+}
+	\item {
+Hence, we will now look at the different variables, to get an even better image.
+}
+\end{itemize}
+
+
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{Changes in idiosyncratic risk}
+
+	
+
+big subplot with all the variables
+  \centering{\includegraphics[scale=0.30]{eq18}}
+
+
+\end{frame}
+
+\begin{frame}{Changes in idiosyncratic risk}
+
+	
+We can distinguish between different effects: 
+
+	\begin{itemize}
+	\item {
+The Income-effect: On aggregate consumers will have more income as unemployed receive additional benefits
+
+	}	
+	\item {
+Tax-effect: The working are taxed to finance the unemployment benefits and to keep the government buget in balance, reducing their net-income. 
+
+	}	
+	\item {
+Price effect: A reduction of individual risk by a more generous UI benefit decreases precautionary savings, and therefore reduces the aggregate capital stock. This will increase the interest rate and reduce the wage rate.
+	}	
+
+	\end{itemize} 
+\end{frame}
+
+\begin{frame}{Changes in idiosyncratic risk}
+	
+What conclusions can we draw from this?  
+
+	\begin{itemize}
+	\item {
+There are diverse effects, affecting the agents' welfare in contradictory ways. Hence, we do need a different metric, in order to make qualified statements about the policy change. 
+	}	
+	\item {
+The model neglegcts certain aspects: There is no voluntary unemployment. A change in the UI does not affect the overall unemployment rate, which contradicts empirical evidence. 
+	}	
+	\item {
+Finally, it is important to note, that we only compare steady states. However, every policy change includes a transition phase, which might aversely affect the agents' welfare. 
+	}	
+
+
+	\end{itemize} 
+\end{frame}
+
+
+\section{Welfare effects}
+\subsection{}
+
+
+\section{Aggregate risk}
+\subsection{}
+
+\section{Conclusions}
+\subsection{}
 
 \end{document}
