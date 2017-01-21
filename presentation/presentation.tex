@@ -115,27 +115,80 @@
 % and table of contents.
 \section{Part I}
 \subsection{}
-\begin{frame}{Motivation}
+\begin{frame}{Introduction}
+  \begin{itemize}
+
+  \item {1.}
+  \end{itemize}
+\end{frame}
+\section{Part II}
+\subsection{}
+\begin{frame}{Welfare Measurement}
+  \begin{itemize}
+  \item {
+  Which variable should we look at if we want to say consumers are better off? Output? Consumption?
+  }
+  \item {
+  We want to measure somehow whether consumer welfare increased or not.
+  }
+  \item {
+  But how to measure welfare? Can we compare the utility levels of consumers? And whose utility should we compare in a heterogeneous agent framework?
+  }
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Life-time Utility}
+  \begin{itemize}
+  \item {
+  We calculate the life-time utility of each agent when the economy is in steady state. One time before the policy change and once after the policy change.
+  }
+  \item {
+  Cannot compare two steady states directly. We need to take the transition into account.
+  }
+  \item {
+  Calculating the exact transition path is troublesome. We follow the approximation by Krussel, Mukoyama, and Sahin (2010) which takes care of the idiosyncratic transition.
+  }
+  \item {
+  Just place the agents in the first economy with their current assets into the second economy.
+  }
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Welfare Analysis}
+  \begin{itemize}
+  \item {
+  Now we can compare the utility level of the same agent before and after the policy change.
+  }
+  \item {
+  Need to come up with a way to quantify the utility differences sensibly.
+  }
+  \item {
+  We calculate a consumption and a cash equivalent of the policy change.
+  }
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Consumption Equivalent}
   \begin{itemize}
 
   \item {
-  Item 1
-  }
-
-  \item {
-  Item 2  
-  }
-
-  \item {
-  Item 3
+  Permanent change of consumption by factor $\Delta$ that increases life-time
+  utility by same amount as policy change:
   }
   \end{itemize}
-
-  \centering{\includegraphics[scale=0.30]{eq18}}
+  \begin{equation}
+  U^{2}(e,k) = \mathbb{E}\sum_{t=0}^{\infty}\beta^{t}\frac{(c^{1}_{i,t}\Delta)^{1-\sigma}-1}{1-\sigma}\nonumber
+  \end{equation}
+  \begin{itemize}
+  \item {
+  If $ \Delta>1 $ agents prefer policy change $ (U^{2}) $, otherwise they do not want it.
+  }
+  \end{itemize}
 \end{frame}
 
-\section{Part II}
-\subsection{}
+\begin{frame}{Consumption Equivalent}
+  \centering \includegraphics[scale=5]{/cons_equiv.pdf}
+\end{frame}
 
 \section{Part III}
 \subsection{}

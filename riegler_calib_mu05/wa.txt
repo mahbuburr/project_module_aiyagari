@@ -1,0 +1,133 @@
+mu 0.5 vs 0.3
+k mean -32.5568
+k median -0.7245
+c mean 0.9956
+c median 0.9984
+
+mu 0.5 vs 0.34
+k mean -0.0442
+k median -0.3568
+c mean 0.9978
+c median 0.9992
+
+mu 0.5 vs 0.39
+k mean 0.0507
+k median -0.1083
+c mean 0.9989
+c median 0.9998
+
+mu 0.5 vs 0.4
+k mean 0.0561
+k median -0.0800
+c mean 0.9991
+c median 0.9998
+
+mu 0.5 vs 0.41
+k mean 0.0588
+k median -0.0560
+c mean 0.9992
+c median 0.9999
+
+mu 0.5 vs 0.42
+k mean 0.0591
+k median -0.0364
+c mean 0.9993
+c median 0.9999
+
+mu 0.5 vs 0.43
+k mean 0.0572
+k median -0.0207
+c mean 0.9994
+c median 1.0000 - 1 = -4.4797e-05
+
+mu 0.5 vs 0.44
+k mean 0.0534
+k median -0.0086
+c mean 0.9995
+c median 1.0000 -1 = -1.8696e-05
+
+mu 0.5 vs 0.45
+k mean 0.0479
+k median 6.6843e-05
+c mean 0.9996
+c median 1.0000 -1 = -1.1978e-04
+
+mu 0.5 vs 0.47
+k mean 0.0322
+k median 0.0081
+c mean 0.9998
+c median 1.0000 -1 = 1.7451e-05
+
+mu 0.5 vs 0.55
+k mean -0.0691
+k median -0.0553
+c mean 1.0002
+c median 0.9999
+
+mu 0.5 vs 0.57
+k mean -0.1007
+k median -0.0898
+c mean 1.0003
+c median 0.9998
+
+mu 0.5 vs 0.58
+k mean -0.1173
+k median -0.1108
+c mean 1.0003
+c median 0.9998
+
+mu 0.5 vs 0.59
+k mean -0.1342
+k median -0.1329
+c mean 1.0003
+c median 0.9997
+
+mu 0.5 vs 0.6
+k mean -0.1513
+k median -0.1561
+c mean 1.0003
+c median 0.9997
+
+mu 0.5 vs 0.61
+k mean -0.1686
+k median -0.1802
+c mean 1.0003
+c median 0.9996
+
+mu 0.5 vs 0.65
+k mean -0.2391
+k median -0.2851
+c mean 1.0003
+c median 0.9994
+
+mu 0.5 vs 0.7
+k mean -0.3292
+k median -0.4289
+c mean 1.0003
+c median 0.9991
+
+mu 0.5 vs 0.72
+k mean -0.3641
+k median -0.4854
+c mean 1.0002
+c median 0.9989
+
+mu 0.5 vs 0.75 (50 iterations but basically equal from iter = 27 on)
+k mean -0.4122
+k median -0.5633
+c mean 1.0002
+c median 0.9988
+
+mu 0.5 vs 0.8
+k mean -0.4704
+k median -0.6615
+c mean 1.0001
+c median 0.9986
+
+
+
+
+
+
+
+
