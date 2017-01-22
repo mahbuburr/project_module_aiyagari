@@ -18,7 +18,7 @@ for i=1:mu_n
     k_equiv(i,:) = [k(i).k.equivalent_mean, k(i).k.equivalent_median, k(i).k.equivalent_unemployed_mean, k(i).k.equivalent_unemployed_median, k(i).k.equivalent_employed_mean, k(i).k.equivalent_employed_median];
 end
 output_baseline = 3.3539;
-
+rel_k_equiv = k_equiv./output_baseline;
       
 figure (1)
 plot(mu(1:17)', k_equiv(1:17,3)./ output_baseline,'m', mu(1:17)', k_equiv(1:17,5)./ output_baseline,'g' ...
