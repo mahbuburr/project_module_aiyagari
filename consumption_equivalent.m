@@ -30,6 +30,18 @@ function [ c ] = consumption_equivalent (par, method, U, sim)
         c.equivalent_employed_mean = mean(c.equivalent_employed_mean);
         c.equivalent_employed_median = median(c.equivalent_employed_median);
         
+        
+%         [c.equivalent_unemp_sorted, sort_index_unemp] = sort(c.equivalent(end,sim.one.e(T,:)==1),'descend');
+%         [c.equivalent_emp_sorted, sort_index_emp] = sort(c.equivalent(end,sim.one.e(T,:)==2),'descend');
+%         k_unemp = sim.one.k(T,sim.one.e(T,:)==1);
+%         k_emp = sim.one.k(T,sim.one.e(T,:)==2);
+%         figure (1)
+%         plot(k_unemp(sort_index_unemp),c.equivalent_unemp_sorted,'g',k_emp(sort_index_emp),c.equivalent_emp_sorted,'r')
+%         legend('unemployed','employed')
+%         xlabel('wealth')
+%         ylabel('consumption equivalent')
+%         refline (0,1)
+        
     elseif strcmp(method.sim,'histogram')
         % to be done
         
