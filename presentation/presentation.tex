@@ -113,132 +113,43 @@
 
 % Section and subsections will appear in the presentation overview
 % and table of contents.
-\section{Introduction}
-\subsection{}
-\begin{frame}{The complete market framework}
-  \begin{itemize}
+\section{Changes in idiosyncratic risk}
 
-  \item {
-  Results
-  }
-	\begin{enumerate}
-		\item{
-		Outcomes are efficient - there is no alternative in which all households can be made better off.
-		}
-		\item{
-		These models do not produce any inequality in well-being for identical households starting from identical positions. 
-		}
-	\end{enumerate}
-		
-  \item {
-  Limitations  
-  }
-	\begin{enumerate}
-		\item{
-Unrealistic assumption of full insurance.
-		}
-		\item{
-Limitation in questions we can ask. Impossible to ask questions, where differences across people might affect macroeconomic outcomes.
-		}
-	\end{enumerate}
-
-  \end{itemize}
-
-\end{frame}
-
-\begin{frame}{Heterogeneity in models}
-  \begin{itemize}
-
-  \item {
-  Uninsured risk
-  }
-	\begin{enumerate}
-		\item{
-Introduction of idiosyncratic or uncorrelated risk among individuals.
-		}
-		\item{
-Accompanied by incomplete markets.
-		}
-		\item{
-In such an environment aggregate risk may create further differences across groups of people.
-		}
-	\end{enumerate}
-		
-\item{
-Differences among decisionmakers.
-}
-
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Why these models?}
+\begin{frame}{Questions}
 	\begin{itemize}
 	
 	\item {
-	Why the Aiyagari Model? 
+	Does idiosyncratic risk matter? How do changes in such risk affect other economic variables? Are there distributional consequences?
 	}
-	\begin{enumerate}
-	\item {
-Allows for the study of agents' savings behavior while facing idiosyncratic risk in an incomplete market framework, where only part of the risk is covered by, for instance, public institutions. 
-	}
-	\item {
-How does the bahvior of selfinsured agents change when public insurance systems, such as UI, change? 
-	}
-	\item {
-	How do these changes in behavior in turn affect the other economic variables?
-	}
-	\item {	
-	When would agents prefer a change and when not? Do these changes affect different groups differently? 
-	}	
-	\end{enumerate}
-
+	
 	\end{itemize}
-
 \end{frame}
 
-\begin{frame}{Why these models?}
+\begin{frame}{How do we examine these questions?}
 	\begin{itemize}
 	
 	\item {
-	Why the Krussell Smith Model? 
+	We will look at changes in the unemployment benefit. 
 	}
-	
-	\begin{enumerate}
-	
-	\item {
-Aggregate shocks might affect different groups in a contrasting manner.  
-	}
-	\item {
-Helps to improve redistributional policy measures in business cycles.
-	}
-
-	\end{enumerate}
-
+		
 	\end{itemize}
-
 \end{frame}
 
-
-\section{The Aiyagari Model}
-\subsection{Model Setup}
-
-\begin{frame}{Model overview}
+\subsection{The model}
+\begin{frame}{Model Summary}
 	\begin{itemize}
 	
 	\item {
 	Ex ante identical individuals are subject to uninsurable idiosyncratic shocks. 
 	}
 	\item {
-Agents can interact on the asset market
+Agents can interact on the asset market.
 	}
 	\item {
 The model generates an endogenous distribution of wealth across consumers. 
 	}	
 	\item {
-Unlike in the stochastic representative agent model seen in the macro class, individual uncertainty does not coincide with aggregate uncertainty. 
-	}
-	\item {
-Aggregates and prices are jointly determined by the saving behavior of the collection of all hh. 
+Aggregates and prices are jointly determined by the saving behavior of the collection of all households. 
 }
 
 	\end{itemize}
@@ -246,173 +157,9 @@ Aggregates and prices are jointly determined by the saving behavior of the colle
 \end{frame}
 
 
-\begin{frame}{Model Equations}
-	\begin{itemize}
-	
-	\item {
-	Agents maximize utility:
-	}
+\subsection{Changes in the unemployment insurance}
 
-\[ 
-max_{\{{ c_{i,t}, k_{i,t+1} }\}_{t = 0}^{\infty}} {\mathbb{E}} \sum_{i=0}^{\infty} \beta^{t}  u(c_{i,t}) 
-\]
- \[ 
- c_{i,t} + k_{i,t+1} = (1 + r_{t} - \delta) k_{i,t} + w_{t} (1 - \tau_{t})  e_{i,t} + \mu w_{t} (1 - e_{i,t})
- \]
-  \[
-  k_{i,t + 1} \geq \bar{k}
-	\]
-
-
-	\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Model Equations}
-	\begin{itemize}
-	
-	\item {
-	Representative Firm maximizes profit:
-	}
-\[ 
-\underset{K_{t},L_{t}}{max} F_{t}(K_{t},L_{t}) -r_{t}K_{t} - w_{t}L_{t}
-\]
-
-	\item {
-	Government redistributes taxes from employed to unemployed in terms of benefits:
-	}
-
-\[ 
-\tau_{t}L_{t} = \mu(1-L_{t})
-\]
-
-	\end{itemize}
-
-\end{frame}
-
-
-\begin{frame}{System of Equations}
-	
-Euler equation:
-\[ 
-c_{i,t}^{- \sigma} \geq \beta (1+r -\delta){\mathbb{E}[c_{i,t+1}^{- \sigma}}]
-\]
-Budget constraint:
- \[ 
- c_{i,t} + k_{i,t+1} = (1 + r_{t} - \delta) k_{i,t} + w (1 - \tau)  e_{i,t} + \mu w (1 - e_{i,t})
- \]
-Borrowing constraint:
-  \[
-  k_{i,t + 1} \geq k_{min}
-	\]
-Factor prices:
-\[
-r = \alpha z (\tfrac{L}{K})^{1-\alpha} \ \ \ w = (1-\alpha)z (\tfrac{K}{L})^{\alpha}
-\]
-Employment and Tax rate: 
-\[
-L = \tfrac{\pi_{UE}}{\pi_{UE}+\pi_{EU}} \ \ \ \ \  \tau = \mu \tfrac{1-L}{L}
-\]
-
-\end{frame}
-
-\subsection{Mechanics governing the model}
-
-\begin{frame}{Changes in idiosyncratic risk}
-	\begin{itemize}
-	
-	\item {
-	We are interested in studying the mechanics behind changes in precautionary savings. 
-	}
-	\item {
-	We thus look at different steady states corresponding to different values of $\mu$ and study the changes of the model variables.
-	}
-	
-	\end{itemize}
-\end{frame}
-
-\begin{frame}{Changes in idiosyncratic risk}
-	\begin{itemize}
-	
-	\item {
-	First, we look at the changes in aggregates and compare them to the representative agent case.
-	}
-
-	\end{itemize}
-\end{frame}
-
-\begin{frame}{Changes in idiosyncratic risk}
-  \centering{\includegraphics[scale=0.45]{log-deviation}}
-
-\end{frame}
-	
-\begin{frame}{Changes in idiosyncratic risk}
-  \centering{\includegraphics[scale=0.45]{deviations_sigma}}
-
-\end{frame}	
-	
-	
-\begin{frame}{Changes in idiosyncratic risk}
-	\begin{itemize}
-	
-	\item {
-	As the unemployment insurance increases and idiosyncratic risk decreases, the aggregates decrease and approach the values of the representative agent model. 
-	}
-
-	\item {
-Hence, with an increasing $\mu$ savings tend to decrease on average.
-	}
-
-	\item {
-Yet it is not clear, if unemployed and employed are affected differently. 
-	}	
-
-	\end{itemize} 
-\end{frame}
-	
-\begin{frame}{Changes in idiosyncratic risk}
-  \centering{\includegraphics[scale=0.45]{distribution}}
-
-\end{frame}
-
-\begin{frame}{Changes in idiosyncratic risk}
-
-
-  \centering{\includegraphics[scale=0.425]{meanandmedian}}
-
-\end{frame}
-
-
-
-\begin{frame}{Changes in idiosyncratic risk}
-
-\begin{itemize} 
-
-
-	\item {
-Generally speaking, the unemployed and employed decrease capital holdings. 
-}
-	\item {
- When UI increase, differences between unemployed and employed are reduced, however, within-group inequality increases.
-}
-	\item {
-Somewhat puzzling, at some point the $mean_{ue}$ starts to increase again.
-}
-	\item {
-There seem to be different forces operating. 
-}
-
-\end{itemize}
-
-
-\end{frame}
-
-
-
-
-
-
-\begin{frame}{Changes in idiosyncratic risk}
+\begin{frame}{Different parameters of the model}
 
 
   \centering{\includegraphics[scale=0.45]{parameters}}
@@ -420,7 +167,7 @@ There seem to be different forces operating.
 
 \end{frame}
 
-\begin{frame}{Changes in idiosyncratic risk}
+\begin{frame}{Different levels of risk aversion}
 
 
   \centering{\includegraphics[scale=0.45]{parameters_sigma}}
@@ -429,44 +176,115 @@ There seem to be different forces operating.
 \end{frame}
 
 
-
-
-\begin{frame}{Changes in idiosyncratic risk}
-
-	
-We can distinguish between different effects: 
-
+\begin{frame}{First Observations}
 	\begin{itemize}
+	
 	\item {
-The Income-effect: On aggregate consumers will have more income as unemployed receive additional benefits
+	Changes in precautionary savings as a reaction to changes in idiosyncratic risk do affect aggregate variables.
+	}
 
+	\item {
+	These magnitude of these changes varies for different levels of risk aversion.
+	}
+	
+		\item {
+	How do these aggregates compare to a situation with perfect insurance? 
+	}
+
+	\end{itemize}
+	
+\end{frame}
+	
+
+\begin{frame}{Comparing to complete markets}
+  \centering{\includegraphics[scale=0.45]{log-deviation}}
+
+\end{frame}
+	
+		
+\begin{frame}{Comparing to complete markets}
+	\begin{itemize}
+	
+	\item {
+	As the insurance increases, the aggregates converge to the levels of the complete market economy. 
+	}
+
+
+	\end{itemize} 
+\end{frame}
+	
+	
+\begin{frame}{Distribution of capital}
+	\begin{itemize}
+	
+	\item {
+These processes are driven by changes in precautionary savings reacting to changes in different levels of idiosyncratic risk. 
+	}
+	\item {
+Let us look at the different distributions of capital. 
+	}
+
+	\end{itemize} 
+\end{frame}
+
+
+
+\begin{frame}{Distribution of capital}
+  \centering{\includegraphics[scale=0.45]{distribution}}
+
+\end{frame}
+
+
+\begin{frame}{Concluding on the distribution}
+
+\begin{itemize} 
+
+
+	\item {
+As precautionary savings decrease, aggregate capital decreases, thus increasing the interest rate and reducing the wage. 
+}
+	\item {
+The increase in unemployment benefits further reduces the net wage of the employed. The government has to increase income taxes to finance the higher unemployment benefits.
+}
+	\item {
+Therefore, with higher unemployment benefits the agent's income depends more on his accumulated capital than his labor or benefits income. 
+}
+	\item {
+The dispersion of the distribution therefore increases as benefits increase.
+}
+
+
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Concluding the first part}
+	
+	\begin{itemize}
+	
+	\item {
+Idiosyncratic risk matters: 
+Precautionary savings increase with higher uncertainty, thus increasing aggregate capital. 
 	}	
 	\item {
-Tax-effect: The working are taxed to finance the unemployment benefits and to keep the government buget in balance, reducing their net-income. 
-
-	}	
-	\item {
-Price effect: A reduction of individual risk by a more generous UI benefit decreases precautionary savings, and therefore reduces the aggregate capital stock. This will increase the interest rate and reduce the wage rate.
+Increasing unemployment benefits has distributional consequences. 
 	}	
 
 	\end{itemize} 
 \end{frame}
 
-\begin{frame}{Changes in idiosyncratic risk}
+\begin{frame}{The limitations}
 	
-What conclusions can we draw from this?  
-
 	\begin{itemize}
+	
 	\item {
-There are diverse effects, affecting the agents' welfare in contradictory ways. Hence, we do need a different metric, in order to make qualified statements about the policy change. 
+Idiosyncratic risk matters: 
+Precautionary savings increase with higher uncertainty, thus increasing aggregate capital. 
 	}	
 	\item {
-The model neglegcts certain aspects: There is no voluntary unemployment. A change in the UI does not affect the overall unemployment rate, which contradicts empirical evidence. 
+Increasing unemployment benefits has distributional consequences. 
 	}	
-	\item {
-Finally, it is important to note, that we only compare steady states. However, every policy change includes a transition phase, which might aversely affect the agents' welfare. 
-	}	
-
 
 	\end{itemize} 
 \end{frame}
