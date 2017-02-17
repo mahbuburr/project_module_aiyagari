@@ -1,4 +1,4 @@
-%% set parameters
+%% Set parameters
 % consumers
 par.beta = 0.99; % discount factor
 par.sigma = 2; % risk aversion

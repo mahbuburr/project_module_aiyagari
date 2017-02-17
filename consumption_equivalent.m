@@ -1,6 +1,10 @@
-function [ c ] = consumption_equivalent (par, method, U, sim)
-%WELFARE EFFECTS Summary of this function goes here
-%   Detailed explanation goes here
+function [ c ] = consumption_equivalent (par, method, sim, U)
+%CONSUMPTION EQUIVALENT Calculates the consumption equivalent of a policy
+%change
+%   par = parameters needed to calculate the consumption equivalent
+%   method = specifies whether the simulation method is 'simulation' or 'histogram'
+%   sim = matrices with agent's wealth and employment status
+%   U = life-time utilities before and and after the policy change
     
     if strcmp(method.sim ,'simulation')
  
@@ -11,9 +15,7 @@ function [ c ] = consumption_equivalent (par, method, U, sim)
         c.equivalent = ((U.two.extrap.*(1-par.sigma).*(1-par.beta)+1)...
             ./(U.one.extrap.*(1-par.sigma).*(1-par.beta)+1)).^(1/(1-par.sigma));
 
-        % Calculate average and median of consumption equivalent. If this aggregate
-        % >1, there exists a (lump-sum) redistribution which would make everyone
-        % better off.
+        % Calculate the mean and median consumption equivalent
         c.equivalent_mean = mean(mean(c.equivalent));
         c.equivalent_median = median(median(c.equivalent));
         
@@ -30,49 +32,23 @@ function [ c ] = consumption_equivalent (par, method, U, sim)
         c.equivalent_employed_mean = mean(c.equivalent_employed_mean);
         c.equivalent_employed_median = median(c.equivalent_employed_median);
         
+        % Sort the consumption equivalent for employed and unemployed in the last period to plot them
+        % against wealth
+        [c.equivalent_unemp_sorted, sort_index_unemp] = sort(c.equivalent(end,sim.one.e(T,:)==1),'descend');
+        [c.equivalent_emp_sorted, sort_index_emp] = sort(c.equivalent(end,sim.one.e(T,:)==2),'descend');
+        k_unemp = sim.one.k(T,sim.one.e(T,:)==1);
+        k_emp = sim.one.k(T,sim.one.e(T,:)==2);
         
-%         [c.equivalent_unemp_sorted, sort_index_unemp] = sort(c.equivalent(end,sim.one.e(T,:)==1),'descend');
-%         [c.equivalent_emp_sorted, sort_index_emp] = sort(c.equivalent(end,sim.one.e(T,:)==2),'descend');
-%         k_unemp = sim.one.k(T,sim.one.e(T,:)==1);
-%         k_emp = sim.one.k(T,sim.one.e(T,:)==2);
-%         figure (1)
-%         plot(k_unemp(sort_index_unemp),c.equivalent_unemp_sorted,'g',k_emp(sort_index_emp),c.equivalent_emp_sorted,'r')
-%         legend('unemployed','employed')
-%         xlabel('wealth')
-%         ylabel('consumption equivalent')
-%         refline (0,1)
-        
+        figure (1)
+        plot(k_emp(sort_index_emp),c.equivalent_emp_sorted,'g.',k_unemp(sort_index_unemp),c.equivalent_unemp_sorted,'r.')
+        legend('employed','unemployed')
+        xlabel('wealth')
+        ylabel('consumption equivalent')
+        refline (0,1)
+       
+       
     elseif strcmp(method.sim,'histogram')
         % to be done
-        
-%         for i=1:2 % currently unemployed and employed
-%             c.one.c(:,i) = max(0,interp1(grid.one.k,c.one.guess(:,i),grid.one.dist,'linear','extrap')); % consumption policy function on grid used for distribution
-%             c.two.c(:,i) = max(0,interp1(grid.two.k,c.two.guess(:,i),grid.two.dist,'linear','extrap')); % policy function on grid used for distribution
-%         end
-%         
-%         U.one.lifetime = 0; %expected life time utility
-%         dist = 100;
-%         while dist>1e-8
-%             %EU = par.PI * U.one.lifetime;
-%             Unew = func.U(sum(sum(store.one.distribution .* c.one.c))) + par.beta * U.one.lifetime;
-%             dist = max(max(abs(Unew - U.one.lifetime)));
-%             U.one.lifetime = Unew;
-%         end
-%         
-%         U.two.lifetime = 0; %expected life time utility
-%         dist = 100;
-%         while dist>1e-8
-%             %EU = par.PI * U.two.lifetime;
-%             Unew = func.U(sum(sum(store.two.distribution .* c.two.c))) + par.beta * U.two.lifetime; % multiply with distribution of one to get transition
-%             dist = max(max(abs(Unew - U.two.lifetime)));
-%             U.two.lifetime = Unew;
-%         end
-%         % Calculate the consumption equivalent
-%         % If value > 1, agents prefer policy change ( = steady state two), 
-%         % if 1 > value > 0, agents prefer steady state one.
-%         % Consumption equivalent tested against model with policy change:
-%         c.equivalent = ((U.two.lifetime*(1-par.sigma).*(1-par.beta)+1)...
-%             ./(U.one.lifetime*(1-par.sigma).*(1-par.beta)+1)).^(1/(1-par.sigma));
     end
 end
 

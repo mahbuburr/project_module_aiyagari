@@ -1,4 +1,4 @@
-%% setup
+%% Setup that depends upon the parameters
 par.PI_EU = par.PI_UE*(1-par.L_target)/par.L_target; % chance of getting unemployed
 
 % build transition matrix of agents
