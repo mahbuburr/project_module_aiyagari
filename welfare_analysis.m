@@ -45,7 +45,8 @@ for i=1:2
     elseif i==2 
         for ii=1:size(mu,2)
             tic
-            par.mu = mu(4)
+            iteration = ii
+            par.mu = mu(4);
             method.HH = 'FP'; % Depending on the mu, you might have to change it to 'FP' or 'FPend' to converge
             method.agg = 'bisectio'; % Depending on the mu, you might have to change it to 'bisection' or 'bisectio' to converge
             setup % refresh setup for new parameter

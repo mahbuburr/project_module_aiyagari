@@ -12,12 +12,9 @@ par.z = 1; % productivity
 
 % transition probabilities
 par.L_target = 0.9;
-par.PI_UE = 0.4; % chance of getting employed
+par.PI_UE = 0.35; % chance of getting employed
 
-
-
-
-%% solve for general equilibrium
+% solution methods
 method.HH = 'FP'; % 'FP' for fixed-point iteration in household problem, 'FPend' for using endogenous grid points
 method.sim = 'simulation'; % 'simulation' for simulation, 'histogram' for histogram method
 method.agg = 'bisectio'; % 'bisection' to use bisection method, gradual updating otherwise
