@@ -46,9 +46,9 @@ for i=1:2
         for ii=1:size(mu,2)
             tic
             iteration = ii
-            par.mu = mu(4);
-            method.HH = 'FP'; % Depending on the mu, you might have to change it to 'FP' or 'FPend' to converge
-            method.agg = 'bisectio'; % Depending on the mu, you might have to change it to 'bisection' or 'bisectio' to converge
+            par.mu = mu(ii);
+            %method.HH = 'FPend'; % Depending on the mu, you might have to change it to 'FP' or 'FPend' to converge
+            %method.agg = 'bisection'; % Depending on the mu, you might have to change it to 'bisection' or 'bisectio' to converge
             setup % refresh setup for new parameter
             [ k.two, c.two, K.two, sim.two, store.two, mat.two, grid.two ] = aiyagari_solver( par, func, method );
             U.two.guess = func.U(c.two.guess);
@@ -79,21 +79,21 @@ for i=1:2
             [ k ] = cash_equivalent (method, grid, sim, U);
 
 %             % Construct a variable of values to be stored
-%             keep.c.equivalent_mean = c.equivalent_mean;
-%             keep.c.equivalent_median = c.equivalent_median;
-%             keep.c.equivalent_unemployed_mean = c.equivalent_unemployed_mean;
-%             keep.c.equivalent_unemployed_median = c.equivalent_unemployed_median;
-%             keep.c.equivalent_employed_mean = c.equivalent_employed_mean;
-%             keep.c.equivalent_employed_median = c.equivalent_employed_median;
-%             keep.k.equivalent_mean = k.equivalent_mean;
-%             keep.k.equivalent_median = k.equivalent_median;
-%             keep.k.equivalent_unemployed_mean = k.equivalent_unemployed_mean;
-%             keep.k.equivalent_unemployed_median = k.equivalent_unemployed_median;
-%             keep.k.equivalent_employed_mean = k.equivalent_employed_mean;
-%             keep.k.equivalent_employed_median = k.equivalent_employed_median;
-%             keep.K = K.two.guess;
-%             filename = ['baseline_mu_' num2str(ii) '.mat']; 
-%             save (filename, '-struct','keep'); % Save the values 
+            keep.c.equivalent_mean = c.equivalent_mean;
+            keep.c.equivalent_median = c.equivalent_median;
+            keep.c.equivalent_unemployed_mean = c.equivalent_unemployed_mean;
+            keep.c.equivalent_unemployed_median = c.equivalent_unemployed_median;
+            keep.c.equivalent_employed_mean = c.equivalent_employed_mean;
+            keep.c.equivalent_employed_median = c.equivalent_employed_median;
+            keep.k.equivalent_mean = k.equivalent_mean;
+            keep.k.equivalent_median = k.equivalent_median;
+            keep.k.equivalent_unemployed_mean = k.equivalent_unemployed_mean;
+            keep.k.equivalent_unemployed_median = k.equivalent_unemployed_median;
+            keep.k.equivalent_employed_mean = k.equivalent_employed_mean;
+            keep.k.equivalent_employed_median = k.equivalent_employed_median;
+            keep.K = K.two.guess;
+            filename = ['baseline_mu_' num2str(ii) '.mat']; 
+            save (filename, '-struct','keep'); % Save the values 
             toc
         end
     end

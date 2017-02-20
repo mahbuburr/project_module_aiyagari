@@ -39,12 +39,14 @@ function [ k ] = cash_equivalent( method, grid, sim, U )
         [k.equivalent_emp_sorted, sort_index_emp] = sort(k.equivalent(end,sim.one.e(T,:)==2),'descend');
         k_unemp = sim.one.k(T,sim.one.e(T,:)==1);
         k_emp = sim.one.k(T,sim.one.e(T,:)==2);
+        output_baseline = 3.3539;
         
         figure (2)
-        plot(k_emp(sort_index_emp),k.equivalent_emp_sorted,'g.',k_unemp(sort_index_unemp),k.equivalent_unemp_sorted,'r.')
+        plot(k_emp(sort_index_emp),k.equivalent_emp_sorted./output_baseline...
+            ,'g.',k_unemp(sort_index_unemp),k.equivalent_unemp_sorted./output_baseline,'r.')
         legend('employed','unemployed')
         xlabel('wealth')
-        ylabel('cash equivalent')
+        ylabel('cash equivalent / output')
         refline (0,0)
         
         
