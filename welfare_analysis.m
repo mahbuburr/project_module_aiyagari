@@ -15,8 +15,8 @@ mu(6) = 0.15; % the original point does not converge
 mu(8) = 0.18; % the original point does not converge
 
 % Corresponding PI_UE grid for analysis 
-PI_UE_grid = [0.418, 0.414, 0.410, 0.406, 0.4, 0.398, 0.396, 0.387, 0.384, 0.380, 0.377, 0.373, 0.370, 0.367, 0.364, 0.360, 0.357, 0.354, 0.351];
-
+% PI_UE_grid = [0.418006431, 0.413867753, 0.409823146, 0.405844156, 0.401954115,0.4, 0.398125746, 0.396341463, 0.38708909, 0.383537395, 0.380061395, 0.376636922, 0.373284328, 0.369980363, 0.366744717, 0.363555009, 0.360430298, 0.35734902, 0.354329636, 0.351351351];
+PI_UE_grid = [0.833333333,	0.817044812,	0.801430245,	0.786353738,	0.771879824,	0.764705882,	0.757884918,	0.751445087,	0.718867507,	0.706713781,	0.695001337,	0.683634834,	0.672668943,	0.662015583,	0.651727077,	0.641721789,	0.632049786,	0.622635184,	0.613525886, 0.604651163];
 % Default parameterization is set by the calibration of Krussel and Smith (1998) for a US recession.
 % If you change parameters, type "par.<parameter> =" and then "setup" before
 % you call the function. Do not change beta or sigma!
@@ -45,7 +45,7 @@ for i=1:2
             U.one.extrap(t-ceil(T/2),sim.one.e(t,:)==2) = interp1(grid.one.k, U.one.lifetime(2,:), sim.one.k(t,sim.one.e(t,:)==2), 'linear', 'extrap');
         end
     elseif i==2 
-        for ii=9:size(mu,2) 
+        for ii=1:size(mu,2) 
             tic
             iteration = ii
             par.mu = mu(ii);
@@ -95,7 +95,8 @@ for i=1:2
             keep.k.equivalent_employed_mean = k.equivalent_employed_mean;
             keep.k.equivalent_employed_median = k.equivalent_employed_median;
             keep.K = K.two.guess;
-            filename = ['adapting_transitions_mu_' num2str(ii) '.mat']; %Changing transitions
+            filename = ['adapting_transitions_2_mu_' num2str(ii) '.mat'];
+            %filename = ['adapting_transitions_mu_' num2str(ii) '.mat']; %Changing transitions
             %filename = ['baseline_mu_' num2str(ii) '.mat']; %Baseline
             save (filename, '-struct','keep'); % Save the values
             toc

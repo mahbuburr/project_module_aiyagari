@@ -15,7 +15,8 @@ mu(8) = 0.18; % the original point does not converge
 
 % Load the data
 for i=1:mu_n
-    filename = ['baseline_mu_' num2str(i) '.mat'];
+    %filename = ['baseline_mu_' num2str(i) '.mat'];
+    filename = ['adapting_transitions_mu_' num2str(i) '.mat']
     c(i) = load(filename, 'c');
     k(i) = load(filename, 'k');
     c_equiv(i,:) = [c(i).c.equivalent_mean, c(i).c.equivalent_median, c(i).c.equivalent_unemployed_mean, c(i).c.equivalent_unemployed_median, c(i).c.equivalent_employed_mean, c(i).c.equivalent_employed_median];
