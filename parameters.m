@@ -11,8 +11,9 @@ par.alpha = 0.36; % output elasticity of capital
 par.z = 1; % productivity
 
 % transition probabilities
-par.L_target = 0.9;
-par.PI_UE = 0.35; % chance of getting employed
+%par.L_target = 0.9;
+par.PI_UE = 0.4; % chance of getting employed
+par.PI_EU = 0.04444444; % fixed layoff probability at baseline level
 
 % solution methods
 method.HH = 'FP'; % 'FP' for fixed-point iteration in household problem, 'FPend' for using endogenous grid points

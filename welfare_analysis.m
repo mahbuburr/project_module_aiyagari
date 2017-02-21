@@ -14,6 +14,8 @@ mu(7) = mu(6); % the original point does not converge
 mu(6) = 0.15; % the original point does not converge
 mu(8) = 0.18; % the original point does not converge
 
+% Corresponding PI_UE grid for analysis 
+PI_UE_grid = [0.418, 0.414, 0.410, 0.406, 0.4, 0.398, 0.396, 0.387, 0.384, 0.380, 0.377, 0.373, 0.370, 0.367, 0.364, 0.360, 0.357, 0.354, 0.351];
 
 % Default parameterization is set by the calibration of Krussel and Smith (1998) for a US recession.
 % If you change parameters, type "par.<parameter> =" and then "setup" before
@@ -22,7 +24,7 @@ mu(8) = 0.18; % the original point does not converge
 % parameters for i=2 and leave i=1 as the baseline.
 
 % Get steady state utility and welfare measures for the model with two different parameters
-for i=1:2 
+for i=1:2
     if i==1 
         [ k.one, c.one, K.one, sim.one, store.one, mat.one, grid.one ] = aiyagari_solver( par, func, method );
         U.one.guess = func.U(c.one.guess);
@@ -43,12 +45,13 @@ for i=1:2
             U.one.extrap(t-ceil(T/2),sim.one.e(t,:)==2) = interp1(grid.one.k, U.one.lifetime(2,:), sim.one.k(t,sim.one.e(t,:)==2), 'linear', 'extrap');
         end
     elseif i==2 
-        for ii=1:size(mu,2)
+        for ii=9:size(mu,2) 
             tic
             iteration = ii
             par.mu = mu(ii);
-            %method.HH = 'FPend'; % Depending on the mu, you might have to change it to 'FP' or 'FPend' to converge
-            %method.agg = 'bisection'; % Depending on the mu, you might have to change it to 'bisection' or 'bisectio' to converge
+            par.PI_UE = PI_UE_grid(ii);
+            method.HH = 'FPend'; % Depending on the mu, you might have to change it to 'FP' or 'FPend' to converge
+            method.agg = 'bisection'; % Depending on the mu, you might have to change it to 'bisection' or 'bisectio' to converge
             setup % refresh setup for new parameter
             [ k.two, c.two, K.two, sim.two, store.two, mat.two, grid.two ] = aiyagari_solver( par, func, method );
             U.two.guess = func.U(c.two.guess);
@@ -92,8 +95,9 @@ for i=1:2
             keep.k.equivalent_employed_mean = k.equivalent_employed_mean;
             keep.k.equivalent_employed_median = k.equivalent_employed_median;
             keep.K = K.two.guess;
-            filename = ['baseline_mu_' num2str(ii) '.mat']; 
-            save (filename, '-struct','keep'); % Save the values 
+            filename = ['adapting_transitions_mu_' num2str(ii) '.mat']; %Changing transitions
+            %filename = ['baseline_mu_' num2str(ii) '.mat']; %Baseline
+            save (filename, '-struct','keep'); % Save the values
             toc
         end
     end

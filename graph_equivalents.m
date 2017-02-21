@@ -11,6 +11,8 @@ mu(7) = mu(6); % the original point does not converge
 mu(6) = 0.15; % the original point does not converge
 mu(8) = 0.18; % the original point does not converge
 
+
+
 % Load the data
 for i=1:mu_n
     filename = ['baseline_mu_' num2str(i) '.mat'];
