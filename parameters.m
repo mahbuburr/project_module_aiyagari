@@ -17,5 +17,5 @@ par.PI_EU = 0.044444444; % fixed layoff probability at baseline level
 
 % solution methods
 method.HH = 'FP'; % 'FP' for fixed-point iteration in household problem, 'FPend' for using endogenous grid points
-method.sim = 'simulation'; % 'simulation' for simulation, 'histogram' for histogram method
+method.sim = 'histogram'; % 'simulation' for simulation, 'histogram' for histogram method
 method.agg = 'bisectio'; % 'bisection' to use bisection method, gradual updating otherwise

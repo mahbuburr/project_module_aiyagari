@@ -14,7 +14,7 @@ mgrid.mu(8) = 0.18; % the original point does not converge
 
 
 for i=1:gridpar.no
-    filename = ['baseline_mu_parameters' num2str(i) '.mat'];
+    filename = ['transitions_only' num2str(i) '.mat'];
     %filename = ['adapting_transitions_mu_parameters' num2str(i) '.mat']
     ag1(i) = load(filename, 'ag1');
     ag2(i) = load(filename, 'ag2');
