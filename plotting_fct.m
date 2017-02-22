@@ -1,4 +1,4 @@
-function plotting_fct(par, method, gridpar, mgrid) 
+function [Mat_moments] = plotting_fct(par, method, gridpar, mgrid) 
 %% PLOTTING FUNCTION: The function creates a figure with three different
 % subplots for a vector of a parmater chosen for analysis. For each value
 % the parameter takes, the function creates a table containing the
@@ -14,33 +14,41 @@ function plotting_fct(par, method, gridpar, mgrid)
 %
 %% Create Figures for different values 
 % Initiating matrix to store aggregate values    
-%T_mat = zeros(12,gridpar.no,3);
 T_mat = zeros(12,gridpar.no);
+Mat_moments = zeros(8,gridpar.no);
+
+T_mat2 = zeros(12,gridpar.no,3);
+Mat_moments2 = zeros(2,4,3,3);
+
 parameters % import parameters 
 
 for i = 1:gridpar.no
-    tic
+tic
 % loop over different values of parameter you want to analyze 
-    %for ii = 1:3
+     %for ii = 1:3
+     
         if strcmp(method.analysis,'Borrowing Constraint') 
             par.k_min = par.vals(i);
         elseif strcmp(method.analysis, 'Chance to be Employed')
-            par.PI_UE = par.vals(i);
+            par.PI_UE = mgrid.pi(i);
         elseif strcmp(method.analysis, 'Unemployment Benefit')
             par.mu = mgrid.mu(i);
+%               par.sigma = par.vals2(ii);
             par.PI_UE = mgrid.pi(i); % letting transition fluctuate with benefits 
         elseif strcmp(method.analysis, 'Risk Aversion')
             par.sigma = par.vals(i); 
         end
 % importing functions and parameters that adapt to new input parameter value             
         setup 
+%method.HH = 'FPend'; % Depending on the mu, you might have to change it to 'FP' or 'FPend' to converge
+%method.agg = 'bisection'; % Depending on the mu, you might have to change it to 'bisection' or 'bisectio' to converge
 % calling the problem solving function 
         [k, c, K, sim, store, mat, grid] = aiyagari_solver(par, func, method); 
 
-% %% Plot distribution of agents
-% % create subplot for each iteration
-%     figure(1)
-%     subplot(1,3,i)
+% % %% Plot distribution of agents
+% if i == 1 || i == 11 || i == 20 %create subplot for each iteration
+%     figure(6+i)
+%     %subplot(1,3,ceil(i/7))
 %     if strcmp(method.sim,'simulation')
 %         temp = sim.k(ceil(par.T/2):end,:);
 %         hist(temp(:),100)
@@ -48,19 +56,56 @@ for i = 1:gridpar.no
 %     elseif strcmp(method.sim,'histogram')
 %         bar(grid.dist,store.distribution,'stacked')
 %         legend('unemployed','employed')
+%         set(gca,'fontsize',25)
+%         
 %     end
 % % create title matching parameter in question
-%     if strcmp(method.analysis,'Borrowing Constraint') 
-%         title(['kmin = ',num2str(par.k_min)]);
-%     elseif strcmp(method.analysis,'Chance to be Employed')
-%         title(['PI UE = ',num2str(par.PI_UE)]);
-%     elseif strcmp(method.analysis,'Unemployment Benefit')
-%         title(['mu = ',num2str(par.mu)]);
-%     elseif strcmp(method.analysis,'Risk Aversion')
-%         title(['sigma = ',num2str(par.sigma)]);
-%     end
-%     
-%% Calculating Aggregates 
+% %     if strcmp(method.analysis,'Borrowing Constraint') 
+% %         title(['kmin = ',num2str(par.k_min)]);
+% %     elseif strcmp(method.analysis,'Chance to be Employed')
+% %         title(['PI UE = ',num2str(par.PI_UE)]);
+% %     elseif strcmp(method.analysis,'Unemployment Benefit')
+% %         title(['mu = ',num2str(par.mu)]);
+% %     elseif strcmp(method.analysis,'Risk Aversion')
+% %         title(['sigma = ',num2str(par.sigma)]);
+% %     end
+% print(['output/distribution=  ', num2str(i)],'-dpng')
+% 
+% 
+% end
+%% Calculate and save the moments 
+
+
+capital_grid = [transpose(grid.dist) transpose(grid.dist)];
+distr = store.distribution.*capital_grid;
+
+% calculating the mean [unemployed employed]
+% note that you need to rescale the probabilities!!!
+mean_dis = sum(distr).*[1/(1-par.L_target) 1/par.L_target];
+
+sum1 = cumsum(store.distribution(:,1));
+sum2 = cumsum(store.distribution(:,2));
+[~, index1]=min(abs(sum1-((sum1(end))/2)));
+[~, index2]=min(abs(sum2-((sum2(end))/2)));
+closestValues=sum1(index1);% to check value for unemployed
+closestValues2 =sum2(index2); % to check value for employed
+
+median_value1 = capital_grid(index1); %using index to get median for unemployed
+median_value2 = capital_grid(index2);% using index to get median for employed
+
+median_dis = [median_value1 median_value2]; %capital_grid(sum(store.distribution)=<0.5)
+
+std_dis1 =  sqrt(mean((grid.dist - mean_dis(1)).^2)); %the standard deviation of the unemployed
+std_dis2 =  sqrt(mean((grid.dist - mean_dis(2)).^2)); % standard deviation of the employed 
+skewness_dis1 = mean(((grid.dist - mean_dis(1))/std_dis1).^3); %skewness of the unemployed
+skewness_dis2 = mean(((grid.dist - mean_dis(2))/std_dis2).^3); % skewness of the employed 
+
+% store moments
+%Mat_moments(:,i) = [mean_dis(1) median_dis(1) std_dis1 skewness_dis1 mean_dis(2) median_dis(2) std_dis2 skewness_dis2];
+% Mat_moments2(:,:,i,ii) = [mean_dis(1) median_dis(1) std_dis1 skewness_dis1;
+%                           mean_dis(2) median_dis(2) std_dis2 skewness_dis2];
+              
+%% Calculating Aggregates
         keep.ag1 = K.guess;
         keep.ag2 = func.Y(K.guess);
         keep.ag3 = func.C(K.guess); 
@@ -72,173 +117,19 @@ for i = 1:gridpar.no
         keep.proba2 = par.PI_EU;
         keep.dev1= log(K.guess/K.rep);
         keep.dev2= log(func.Y(K.guess)/func.Y(K.rep));
-        keep.dev3= log(func.C(K.guess)/func.C(K.rep));   
-        
+        keep.dev3= log(func.C(K.guess)/func.C(K.rep));     
+    
+% saving the values
         filename = ['adapting_transitions_mu_parameters' num2str(i) '.mat'];
         save (filename, '-struct','keep'); % Save the values
-        toc
-% saving aggregates in matrix
-        %T_mat(:,i,ii) = [ag1 ag2 ag3 w r tax labor proba1 proba2 dev1 dev2 dev3]; 
-%    end
+        %T_mat2(:,i,ii) = [ag1 ag2 ag3 w r tax labor proba1 proba2 dev1 dev2 dev3]; 
+    % end
+    toc
 end 
 
 %% Save figure as pdf 
-saveas(gcf,'output/graph.pdf')
+% saveas(gcf,'output/distribution.pdf')
+% print('output/distribution','-dpng')
 
-% %% Create Tables for Aggregates 
-% 
-% % set values for table
-% Variable = {'Capital';'Output';'Consumption'};
-% 
-% % create tables and save them
-% Aggregates = T_mat(1:3,1);
-% log_deviations = T_mat(4:end,1);
-% tables.T1 = table(Variable, Aggregates, log_deviations); 
-% writetable(tables.T1,'output/Table1.txt','Delimiter',' ')
-% 
-% Aggregates = T_mat(1:3,2);
-% log_deviations = T_mat(4:end,2);
-% tables.T2 = table(Variable, Aggregates, log_deviations);
-% writetable(tables.T2,'output/Table2.txt','Delimiter',' ')
-% 
-% Aggregates = T_mat(1:3,3);
-% log_deviations = T_mat(4:end,3);
-% tables.T3 = table(Variable, Aggregates, log_deviations);
-% writetable(tables.T3,'output/Table3.txt','Delimiter',' ')
-% T_mat_two= zeros(9,10,2);
-% %% Variation of unemployment probability 
-% for i =1:gridpar.no
-% % loop over different values of parameter you want to analyze 
-%     for k = 1:2
-%         if strcmp(method.analysis,'Borrowing Constraint') 
-%             par.k_min = par.vals(i);
-%         elseif strcmp(method.analysis, 'Chance to be Employed')
-%             par.PI_UE = par.vals(i);
-%         elseif strcmp(method.analysis, 'Unemployment Benefit')
-%             par.mu = mgrid.mu(i);
-%             par.PI_UE = par.vals2(k); % letting transition fluctuate with benefits 
-%         elseif strcmp(method.analysis, 'Risk Aversion')
-%             par.sigma = par.vals(i); 
-%         end
-% 
-% % importing functions and parameters that adapt to new input parameter value             
-%         setup 
-% % calling the problem solving function 
-%         [k, c, K, sim, store, mat, grid] = aiyagari_solver(par, func, method); 
-% 
-% 
-% %% Calculating Aggregates 
-%         ag1 = K.guess;
-%         ag2 = func.Y(K.guess);
-%         ag3 = func.C(K.guess); 
-%         w = func.w(K.guess);
-%         r = func.r(K.guess);
-%         tax = par.tau;
-%         labor = par.L;
-%         proba1 = par.PI_UE;
-%         proba2 = par.PI_EU;
-%      
-% % saving aggregates in matrix
-% T_mat_two(:,i,k) = [ag1 ag2 ag3 w r tax labor proba1 proba2]; 
-%     end
-% end 
-% 
-% %% Plot the grid values
-% 
-% figure(2)
-% subplot(3,3,1)
-% plot(mgrid.mu,T_mat(1,:))
-% %legend('Aggregate Capital')
-% xlabel('reservation wage')
-% ylabel('Aggregate Capital')
-% 
-% subplot(3,3,2)
-% plot(mgrid.mu,T_mat(2,:))
-% %legend('Aggregate Output')
-% xlabel('reservation wage')
-% ylabel('Aggregate Output')
-% 
-% subplot(3,3,3)
-% plot(mgrid.mu, T_mat(3,:))
-% %legend('Aggregate Output')
-% xlabel('reservation wage')
-% ylabel('Aggregate Consumption')
-% 
-% subplot(3,3,4)
-% plot(mgrid.mu,T_mat(4,:))
-% %legend('Aggregate Output')
-% xlabel('reservation wage')
-% ylabel('Wage')
-% 
-% subplot(3,3,5)
-% plot(mgrid.mu, T_mat(5,:))
-% %legend('Aggregate Output')
-% xlabel('reservation wage')
-% ylabel('Interest Rate')
-% 
-% subplot(3,3,6)
-% plot(mgrid.mu,T_mat(6,:))
-% %legend('Aggregate Output')
-% xlabel('reservation wage')
-% ylabel('Tax rate')
-% 
-% subplot(3,3,7)
-% plot(mgrid.mu,T_mat(7,:))
-% %legend('Aggregate Output')
-% xlabel('reservation wage')
-% ylabel('employment ratio')
-% 
-% subplot(3,3,8)
-% plot(mgrid.mu,T_mat(8,:))
-% %legend('Aggregate Output')
-% xlabel('reservation wage')
-% ylabel('Employment probability')
-% 
-% subplot(3,3,9)
-% plot(mgrid.mu,T_mat(9,:))
-% %legend('Aggregate Output')
-% xlabel('reservation wage')
-% ylabel('Layoff probability')
-% 
-% saveas(gcf,'output/parameters.pdf')
-% 
-% % comparing with representative agent model
-% figure(3)
-% subplot(3,2,1)
-% plot(mgrid.mu,T_mat(1,:))
-% %legend('Aggregate Capital')
-% xlabel('reservation wage')
-% ylabel('Aggregate Capital')
-% 
-% subplot(3,2,2)
-% plot(mgrid.mu,T_mat(10,:))
-% %legend('Aggregate Capital')
-% xlabel('reservation wage')
-% ylabel('log-deviation Capital')
-% 
-% subplot(3,2,3)
-% plot(mgrid.mu,T_mat(2,:))
-% %legend('Aggregate Output')
-% xlabel('reservation wage')
-% ylabel('Aggregate Output')
-% 
-% subplot(3,2,4)
-% plot(mgrid.mu,T_mat(11,:))
-% %legend('Aggregate Capital')
-% xlabel('reservation wage')
-% ylabel('log-deviation Output')
-% 
-% subplot(3,2,5)
-% plot(mgrid.mu,T_mat(3,:))
-% %legend('Aggregate Output')
-% xlabel('reservation wage')
-% ylabel('Aggregate Consumption')
-% 
-% subplot(3,2,6)
-% plot(mgrid.mu,T_mat(12,:))
-% %legend('Aggregate Capital')
-% xlabel('reservation wage')
-% ylabel('log-deviation Consumption')
-% 
-% saveas(gcf,'output/log-deviation.pdf')
+
 end
