@@ -22,7 +22,7 @@ Mat_moments2 = zeros(2,4,3,3);
 
 parameters % import parameters 
 
-for i = 1:gridpar.no
+for i = 9:gridpar.no
 tic
 iteration = i
 % loop over different values of parameter you want to analyze 
@@ -35,14 +35,14 @@ iteration = i
         elseif strcmp(method.analysis, 'Unemployment Benefit')
             par.mu = mgrid.mu(i);
 %               par.sigma = par.vals2(ii);
-            par.PI_UE = mgrid.pi(i); % letting transition fluctuate with benefits 
+           % par.PI_UE = mgrid.pi(i); % letting transition fluctuate with benefits 
         elseif strcmp(method.analysis, 'Risk Aversion')
             par.sigma = par.vals(i); 
         end
 % importing functions and parameters that adapt to new input parameter value             
         setup 
-%method.HH = 'FPend'; % Depending on the mu, you might have to change it to 'FP' or 'FPend' to converge
-%method.agg = 'bisection'; % Depending on the mu, you might have to change it to 'bisection' or 'bisectio' to converge
+method.HH = 'FPend'; % Depending on the mu, you might have to change it to 'FP' or 'FPend' to converge
+method.agg = 'bisection'; % Depending on the mu, you might have to change it to 'bisection' or 'bisectio' to converge
 % calling the problem solving function 
         [k, c, K, sim, store, mat, grid] = aiyagari_solver(par, func, method); 
 
@@ -74,38 +74,38 @@ iteration = i
 % 
 % 
 % end
-%% Calculate and save the moments 
-
-
-capital_grid = [transpose(grid.dist) transpose(grid.dist)];
-distr = store.distribution.*capital_grid;
-
-% calculating the mean [unemployed employed]
-% note that you need to rescale the probabilities!!!
-mean_dis = sum(distr).*[1/(1-par.L_target) 1/par.L_target];
-
-sum1 = cumsum(store.distribution(:,1));
-sum2 = cumsum(store.distribution(:,2));
-[~, index1]=min(abs(sum1-((sum1(end))/2)));
-[~, index2]=min(abs(sum2-((sum2(end))/2)));
-closestValues=sum1(index1);% to check value for unemployed
-closestValues2 =sum2(index2); % to check value for employed
-
-median_value1 = capital_grid(index1); %using index to get median for unemployed
-median_value2 = capital_grid(index2);% using index to get median for employed
-
-median_dis = [median_value1 median_value2]; %capital_grid(sum(store.distribution)=<0.5)
-
-std_dis1 =  sqrt(mean((grid.dist - mean_dis(1)).^2)); %the standard deviation of the unemployed
-std_dis2 =  sqrt(mean((grid.dist - mean_dis(2)).^2)); % standard deviation of the employed 
-skewness_dis1 = mean(((grid.dist - mean_dis(1))/std_dis1).^3); %skewness of the unemployed
-skewness_dis2 = mean(((grid.dist - mean_dis(2))/std_dis2).^3); % skewness of the employed 
-
-% store moments
-%Mat_moments(:,i) = [mean_dis(1) median_dis(1) std_dis1 skewness_dis1 mean_dis(2) median_dis(2) std_dis2 skewness_dis2];
-% Mat_moments2(:,:,i,ii) = [mean_dis(1) median_dis(1) std_dis1 skewness_dis1;
-%                           mean_dis(2) median_dis(2) std_dis2 skewness_dis2];
-              
+% %% Calculate and save the moments 
+% 
+% 
+% capital_grid = [transpose(grid.dist) transpose(grid.dist)];
+% distr = store.distribution.*capital_grid;
+% 
+% % calculating the mean [unemployed employed]
+% % note that you need to rescale the probabilities!!!
+% mean_dis = sum(distr).*[1/(1-par.L_target) 1/par.L_target];
+% 
+% sum1 = cumsum(store.distribution(:,1));
+% sum2 = cumsum(store.distribution(:,2));
+% [~, index1]=min(abs(sum1-((sum1(end))/2)));
+% [~, index2]=min(abs(sum2-((sum2(end))/2)));
+% closestValues=sum1(index1);% to check value for unemployed
+% closestValues2 =sum2(index2); % to check value for employed
+% 
+% median_value1 = capital_grid(index1); %using index to get median for unemployed
+% median_value2 = capital_grid(index2);% using index to get median for employed
+% 
+% median_dis = [median_value1 median_value2]; %capital_grid(sum(store.distribution)=<0.5)
+% 
+% std_dis1 =  sqrt(mean((grid.dist - mean_dis(1)).^2)); %the standard deviation of the unemployed
+% std_dis2 =  sqrt(mean((grid.dist - mean_dis(2)).^2)); % standard deviation of the employed 
+% skewness_dis1 = mean(((grid.dist - mean_dis(1))/std_dis1).^3); %skewness of the unemployed
+% skewness_dis2 = mean(((grid.dist - mean_dis(2))/std_dis2).^3); % skewness of the employed 
+% 
+% % store moments
+% %Mat_moments(:,i) = [mean_dis(1) median_dis(1) std_dis1 skewness_dis1 mean_dis(2) median_dis(2) std_dis2 skewness_dis2];
+% % Mat_moments2(:,:,i,ii) = [mean_dis(1) median_dis(1) std_dis1 skewness_dis1;
+% %                           mean_dis(2) median_dis(2) std_dis2 skewness_dis2];
+%               
 %% Calculating Aggregates
         keep.ag1 = K.guess;
         keep.ag2 = func.Y(K.guess);
@@ -121,7 +121,8 @@ skewness_dis2 = mean(((grid.dist - mean_dis(2))/std_dis2).^3); % skewness of the
         keep.dev3= log(func.C(K.guess)/func.C(K.rep));     
     
 % saving the values
-        filename = ['adapting_transitions_mu_parameters' num2str(i) '.mat'];
+        %filename = ['adapting_transitions_mu_parameters' num2str(i) '.mat'];
+        filename = ['baseline_mu_parameters' num2str(i) '.mat'];
         save (filename, '-struct','keep'); % Save the values
         %T_mat2(:,i,ii) = [ag1 ag2 ag3 w r tax labor proba1 proba2 dev1 dev2 dev3]; 
     % end

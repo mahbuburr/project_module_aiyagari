@@ -14,11 +14,22 @@ mgrid.mu(8) = 0.18; % the original point does not converge
 
 
 for i=1:gridpar.no
-    %filename = ['baseline_mu_' num2str(i) '.mat'];
-    filename = ['adapting_transitions_mu_parameters' num2str(i) '.mat']
-    T_mat(:,i) = [ag1 ag2 ag3 w r tax labor proba1 proba2 dev1 dev2 dev3]; 
+    filename = ['baseline_mu_parameters' num2str(i) '.mat'];
+    %filename = ['adapting_transitions_mu_parameters' num2str(i) '.mat']
+    ag1(i) = load(filename, 'ag1');
+    ag2(i) = load(filename, 'ag2');
+    ag3(i) = load(filename, 'ag3');
+    w(i) = load(filename, 'w');
+    r(i) = load(filename, 'r');
+    tax(i) = load(filename, 'tax');
+    labor(i) = load(filename, 'labor');
+    proba1(i) = load(filename, 'proba1');
+    proba2(i) = load(filename, 'proba2');
+    dev1(i) = load(filename, 'dev1');
+    dev2(i) = load(filename, 'dev2');
+    dev3(i) = load(filename, 'dev3');
+    T_mat(:,i) = [ag1(i).ag1 ag2(i).ag2 ag3(i).ag3 w(i).w r(i).r tax(i).tax labor(i).labor proba1(i).proba1 proba2(i).proba2 dev1(i).dev1 dev2(i).dev2 dev3(i).dev3]; 
 end
-
 
 
 %% Plot the grid values

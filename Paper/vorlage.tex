@@ -10,6 +10,7 @@
 \usepackage[english]{babel}     %
 \usepackage{ae}                 %
 \usepackage{graphicx}           % Ermoeglicht das Einbinden von Bildern in allen Formaten
+\usepackage{epstopdf}
 \usepackage{longtable}          % zum erstellen von Tabellen ber mehrere Seiten
 \usepackage{multirow}           % zum Verbinden von Zeilen innerhalb einer Tabelle
 %\usepackage{pictexwd}           % PicTex, ein Graphikpaket
@@ -162,14 +163,13 @@ The setup is a basic \cite{aiyagari} model.
 \subsection{Consumer's Problem}
 
 There is a continuum of ex-ante identical infinitely-lived consumers with population 1. Consumers maximize the discounted lifetime utility: 
-
 \[ 
  max_{\{{ c_{i,t}, k_{i,t+1} }\}_{t = 0}^{\infty}} {\mathbb{E}} \sum_{i=0}^{\infty} \beta^{t}  u(c_{i,t}) 
  \]
 
 where $\beta \in (0,1)$ is the discount factor, $ c_{t}$ is consumption at time t and $\mathbb{E[.]}$ is the expectation at time 0. 
 
-Consumers are subject to uninsurable idiosyncratic risk. In each period they can be employed or unemployed. This process is governed by a transition matrix:
+Consumers are subject to uninsurable idiosyncratic risk. In each period they can either be employed $(e_{i,t}=1)$ or unemployed $(e_{i,t}=0)$ . This process is governed by an exogenous transition matrix:
 \[ \Pi = \begin{bmatrix}
 1-\pi_{UE} & \pi_{UE} \\
  \pi_{EU} & 1-\pi_{EU}
@@ -178,15 +178,13 @@ Consumers are subject to uninsurable idiosyncratic risk. In each period they can
 
 where $\pi_{UE}$ is the probability to find a job next period and $pi_{EU}$ is the layoff probability. 
 
-
-
-Consumers are allowed to interact on the capital market and accumulate one type of asset: at . Furthermore, consumers can be employed, or unemployed at each point in time. They are therefore subject to the following budget constraint at each point in time: 
+Consumers are allowed to interact on the capital market and accumulate one type of asset: $a_{t}$ to smooth consumption over time and insure for rainy days. They are therefore subject to the following budget constraint at each point in time: 
   \[ 
   c_{i,t} + k_{i,t+1} = (1 + r_{t} - \delta) k_{i,t} + w_{t} (1 - \tau_{t})  e_{i,t} + \mu w_{t} (1 - e_{i,t})
   \]
- where rt is the interest rate at time t, $\delta$ is the depreciation rate, $w_{t}$ is the wage at time t. 
+ where $r_{t}$ is the interest rate at time t, $\delta$ is the depreciation rate, $w_{t}(1-\tau_{t})$ is the after-tax wage at time t and $\mu_{t}$ are the unemployment benefits, which represent a replacement rate i.e. the fraction of the wage unemployed receive. 
+  
 Finally, consumers are constrained in their borrowing, $k_{min}$ denotes the minimum amount of capital consumers are required to hold at each point in time: 
-
    \[
    k_{i,t + 1} \geq \bar{k}
  	\]
@@ -204,30 +202,28 @@ r_{t} = \frac{\mathrm d F_{t}(K_{t},L_{t})}{\mathrm d K} = \alpha z (\tfrac{L_{t
 w_{t} = \frac{\mathrm d F_{t}(K_{t},L_{t})}{\mathrm d L} =(1-\alpha)z (\tfrac{K_{t}}{L_{t}})^{\alpha}
 \]
 
+\subsection{The governement}
+
+The governement runs a balanced budget:
+\[
+\tau_{t}=\mu\frac{1-L_{t}}{L_{t}}
+\]
+
 \subsection{General Equilibrium}
 
-The households take 
-
-Euler equation:
+The euler equation is maximizing the consumer's problem
 \[ 
 c_{i,t}^{- \sigma} \geq \beta (1+r -\delta){\mathbb{E}[c_{i,t+1}^{- \sigma}}]
 \]
-Budget constraint:
- \[ 
- c_{i,t} + k_{i,t+1} = (1 + r_{t} - \delta) k_{i,t} + w (1 - \tau)  e_{i,t} + \mu w (1 - e_{i,t})
- \]
-Borrowing constraint:
-  \[
-  k_{i,t + 1} \geq k_{min}
-	\]
-Factor prices:
-\[
-r = \alpha z (\tfrac{L}{K})^{1-\alpha} \ \ \ w = (1-\alpha)z (\tfrac{K}{L})^{\alpha}
+The households take (current and future) factor prices $r_{t} and w_{t}$ as given. Their policy functions satisfy the first-order conditions and depend on the employment status, wealth and the aggregate state: 
+\[ c_{t}(e_{t},k_{t},s_{t}), k_{t+1}(e_{t},k_{t},s_{t})
 \]
-Employment and Tax rate: 
-\[
-L = \tfrac{\pi_{UE}}{\pi_{UE}+\pi_{EU}} \ \ \ \ \  \tau = \mu \tfrac{1-L}{L}
+where $s_{t}$ stands for the aggregate productivity state and the cross-sectional distribution. 
+
+Finally, the aggregated capital and labour must be consistent with aggregate capital and labour used to obtain the factor prices: 
+\[ \sum_{i}k_{t+1}(e_{i,t},k_{i,t},s_{t})=K_{t+1}(s_{t}), \ \ \ \sum_{i}e_{i,t}=L_{t} 
 \]
+
 \section{Welfare analysis}
 We want to compare the utility level of the same agent before and after the policy change. There are two challenges to overcome, firstly we need take transitions into account. It may be the case that during the transition phase from one steady state to the other, agents loose eventough in the end they are in a preferred steady state and therefore do not prefer the policy change taking the transition into account. Secondly, utility is a purely ordinal measure and therefore not quantifiable. 
 
@@ -251,12 +247,39 @@ For our presentation we have taken two different forms of measurement into accou
 
 
 
-\section{Results}
+\section{Analysis}
+
+In the following section I will analyse the importance of considering disincentive and incentive effects when considering changes in the unemployment benefits. Within the model described above and built de foundation for our results presented in class, the transition probabilities and the unemployment rate are exogenously determined. We therefore abstracted from such incentive effects. In the following experiment I will loosen this strong assumption and analyze the implications for the welfare analysis. 
+
+After I introduce the Calibration, I proceed with a short summary of the results obtained in the baseline case and then proceed with a more detailed discussion of the case with an endogenous job-finding probability. 
+
 
 \subsection{Calibration}
 
-I will use the KrusellandSmith calibration, which founded the basis of our analysis for the presentation. However, since I am not considering aggregate risk, I will use the job-finding probability of 0.4, which corresponds to an average unemployment duration of 2.5 quarters or 32.5 weeks. Note that this a rather high estimate of unemployment duration.\footnote{\cite{mukoyama} makes a calibration for the post 1980 US economy, has a job-finding probability of 0.26 corresponding to 17 weeks of unemployment, thus providing a better match for the real data.}
+I will use the KrusellandSmith calibration, which founded the basis of our analysis for the presentation. However, since I am not considering aggregate risk, I will use the job-finding probability of 0.4\footnote{For the presentation we took $\pi_{ue}=0.35$. Note that the results for the welfare analysis in the baseline case do not change.See appendix 1}, which corresponds to an average unemployment duration of 2.5 quarters or 32.5 weeks. Note that this a rather high estimate of unemployment duration.\footnote{\cite{mukoyama} makes a calibration for the post 1980 US economy, has a job-finding probability of 0.26 corresponding to 17 weeks of unemployment, thus providing a better match for the real data.}
 Other variables are, a discount factor $\beta = 0.99$, productivity $z = 1$, $\alpha = 0.36$, depreciation rate $\theta = 0.025$, the baseline employment $rate l=0.9$, the baseline replacement rate $\mu = 0.15$.
+
+\subsection{Baseline Results}
+
+When we conducted our prior welfare analysis we found that different groups in society want different policies - namely, the unemployed would prefer to change to higher unemployment benefits and the employed would prefer a change to a less distributive system. Fruthermore, we also found that generally agents do not want full unemployment insurance, although this would clearly eliminate idiosyncratic risk. 
+Figure 1 illustrates this well: 
+
+\begin{figure}
+\caption{Results Cash Equivalent Baseline } 
+\label{baseline_ue_vs_e}	%label, um spaeter auf die Graphiknummer zugreifen zu koennen
+\centering
+\includegraphics[scale=.7]{Cash_equivalent_baseline}  % width legt Breite der Graphik fest
+
+\begin{minipage}{0.8\linewidth}
+\footnotesize{The dotted lines describe the medians and the continues lines the means of the consumption equivalent. The rose lines illustrate the mean and median for the unemployed. The green lines show the consumption equivalent of the mean and median of the employed. The baseline, $\mu = 0.15$, is where the two lines cross. Clearly, the employed prefer lower benefits and the unemployed higher benefits. }
+\end{minipage}
+
+\end{figure}
+
+\subsection{Adapting the transition probability}
+
+
+
 
 
 %_________________ ENDE DES HAUPTTEILS_________________%
