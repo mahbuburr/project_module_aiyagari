@@ -13,14 +13,19 @@ method.analysis = 'Unemployment Benefit'; % specify parameter you want to analyz
 % par.vals2 = [0.4,0.25,0.2]; % for the second analysis, also change a second set of parameters
 
 %% Plot grids
-gridpar.start = 0.15;
-gridpar.end = 0.35;
-gridpar.no = 10;
-mgrid.mu = linspace(gridpar.start,gridpar.end,gridpar.no);
+% Create grid of unemployment benefits for the analysis
+gridpar.start = 0.01;
+gridpar.end = 0.6;
+gridpar.no = 20;
+mgrid.mu = linspace(gridpar.start, gridpar.end, gridpar.no);
+mgrid.mu(7) = mgrid.mu(6); % the original point does not converge
+mgrid.mu(6) = 0.15; % the original point does not converge
+mgrid.mu(8) = 0.18; % the original point does not converge
 
-gridpar.start2 = 0.4;
-gridpar.end2 = 0.2;
-mgrid.pi = linspace(gridpar.start2, gridpar.end2,gridpar.no);
+% matching grid of the transition probabilities
+gridpar.start2 = 0.418006431;
+gridpar.end2 = 0.351351351;
+mgrid.pi = [0.418006431, 0.413867753, 0.409823146, 0.405844156, 0.401954115,0.4, 0.398125746, 0.396341463, 0.38708909, 0.383537395, 0.380061395, 0.376636922, 0.373284328, 0.369980363, 0.366744717, 0.363555009, 0.360430298, 0.35734902, 0.354329636, 0.351351351];
 
 
 %% Call the plotting function 
