@@ -24,6 +24,7 @@ parameters % import parameters
 
 for i = 1:gridpar.no
 tic
+iteration = i
 % loop over different values of parameter you want to analyze 
      %for ii = 1:3
      
