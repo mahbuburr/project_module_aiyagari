@@ -35,14 +35,14 @@ iteration = i
         elseif strcmp(method.analysis, 'Unemployment Benefit')
             par.mu = mgrid.mu(i);
 %               par.sigma = par.vals2(ii);
-           % par.PI_UE = mgrid.pi(i); % letting transition fluctuate with benefits 
+            par.PI_UE = mgrid.pi(i); % letting transition fluctuate with benefits 
         elseif strcmp(method.analysis, 'Risk Aversion')
             par.sigma = par.vals(i); 
         end
 % importing functions and parameters that adapt to new input parameter value             
         setup 
-%method.HH = 'FP'; % Depending on the mu, you might have to change it to 'FP' or 'FPend' to converge
-%method.agg = 'bisection'; % Depending on the mu, you might have to change it to 'bisection' or 'bisectio' to converge
+method.HH = 'FP'; % Depending on the mu, you might have to change it to 'FP' or 'FPend' to converge
+method.agg = 'bisection'; % Depending on the mu, you might have to change it to 'bisection' or 'bisectio' to converge
 % calling the problem solving function 
         [k, c, K, sim, store, mat, grid] = aiyagari_solver(par, func, method); 
 
@@ -91,7 +91,7 @@ kept.skewness_employed = mean(((grid.dist - mean_dis(2))/kept.std_employed).^3);
 
 % store moments
 %Mat_moments = [mean_dis(1) median_dis(1) std_dis1 skewness_dis1 mean_dis(2) median_dis(2) std_dis2 skewness_dis2];
-savename = ['moments_transitions_only' num2str(i) '.mat'];
+savename = ['moments_mu_and_transitions' num2str(i) '.mat'];
 save(savename, '-struct','kept'); % Save the values
 
 % Mat_moments2(:,:,i,ii) = [mean_dis(1) median_dis(1) std_dis1 skewness_dis1;

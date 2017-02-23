@@ -10,7 +10,6 @@
 \usepackage[english]{babel}     %
 \usepackage{ae}                 %
 \usepackage{graphicx}           % Ermoeglicht das Einbinden von Bildern in allen Formaten
-\usepackage{epstopdf}
 \usepackage{longtable}          % zum erstellen von Tabellen ber mehrere Seiten
 \usepackage{multirow}           % zum Verbinden von Zeilen innerhalb einer Tabelle
 %\usepackage{pictexwd}           % PicTex, ein Graphikpaket
@@ -132,29 +131,15 @@ Nebens\"achlicheres, auf das man sich nicht mehr bezieht, bleibt unnummeriert, a
 Nun kann man direkt auf die erste Gleichung als Gleichung~\eqref{eq:ols} verweisen mittels des zugewiesenen labels. In gleicher Weise kann man auf die Graphik~\ref{fig:ersteGraphik} bzw. Graphik~\ref{fig:andereGraphik} verweisen. Die Tilde zwischen \glqq Graphik\grqq{} und \glqq \verb|\ref{fig:andereGraphik}|\grqq{} verhindert, dass bei Zeilenumbr\"uchen die Zahl als erstes alleine in die neue Zeile rutscht. Ganz analog f\"ur die Tabelle~\ref{tab:Tabelle}. 
 
 
+\section{Introduction}
 
-\section{Ben\"otigte Programme}
-
-unter Windows:
-\begin{itemize}
-   \item Miktex (\url{http://miktex.org/})
-   \item ein Editor, je nach Geschmack z.B. WinEdt (\url{http://www.winedt.com/}; kostenpflichtige Studentenversion) oder einen der vielen anderen verf\"ugbaren, z.B. TeXnicCenter (\url{www.texniccenter.org/})
-   \item ghostview und ghostscript (\url{http://pages.cs.wisc.edu/~ghost/}
-\end{itemize}
-unter Linux:
-\begin{itemize}
-   \item Latex ist in den meisten Verteilungen enthalten, z.B. tetex in Suse (ggf. \"uber yast nachinstallieren)
-   \item als Editor empfiehlt sich z.B. Kile
-\end{itemize}
-f\"ur die Literatur:\\
-z.B. JabRef (\url{http://jabref.sourceforge.net/})
+In our presentation we have discussed welfare implications of changes in the unemployment policy. We have done so using a simple Aiyagari framework, where agents are subject to exogenous unemployment shocks. These shocks are assumed to be independent of the policy itself. Furthermore, the unemployment rate, which only depends on the different transition probabilities is so too. In other words, changes of the level unemployment insurance do not affect the unemployment rate. This strongly contradicts empirical literature.\footnote{See \citep{decker} for a review.} The main argument being that higher unemployment benefits will decrease incentives for the workers to look for jobs. Furthermore, there is a great deal of theoretical literature, consisting of search-match and moral hazard models suggesting the same. (cite some guys) 
 
 
-\section{Pr\"asentationen}
 
-Beispiele f\"ur Pr\"asentationen mit dem Beamer-Style:
 
-\url{http://www.informatik.uni-freiburg.de/~frank/latex-kurs/latex-kurs-3/Latex-Kurs-3.html}
+
+
 
 \section{Model}
 
@@ -225,25 +210,24 @@ Finally, the aggregated capital and labour must be consistent with aggregate cap
 \]
 
 \section{Welfare analysis}
-We want to compare the utility level of the same agent before and after the policy change. There are two challenges to overcome, firstly we need take transitions into account. It may be the case that during the transition phase from one steady state to the other, agents loose eventough in the end they are in a preferred steady state and therefore do not prefer the policy change taking the transition into account. Secondly, utility is a purely ordinal measure and therefore not quantifiable. 
+We want to compare the utility level of the same agent before and after the policy change. There are two challenges to overcome. Firstly, utility is a purely ordinal measure and therefore not quantifiable. Secondly,we need take transitions into account. It may be the case that during the transition phase from one steady state to the other, agents loose eventough in the end they are in a preferred steady state and therefore do not prefer the policy change taking the transition into account. 
 
-For our presentation we have taken two different forms of measurement into account - Consumption equivalent and Cash equivalent. I will here only look at the Cash equivalent since it is a better measure.\footnote{The Consumption equivalent does weight different level's of consumption differently. A concave utility function implies that a consumption change of the same order is weighted differently by rich individuals with a high consumption to poor individuals with a low consumption.} 
+For our presentation we have taken two different forms of measurement into account - Consumption equivalent and Cash equivalent. I will here only discuss the Cash Equivalent. However, the conclusions I will draw from my analysis are the same when using the Consumption Equivalent (See Appendix 1).\footnote{That being said, the two measures differ in the manner they weight different groups. The Consumption equivalent does weight different level's of consumption differently. A concave utility function implies that a consumption change of the same order is weighted differently by rich individuals with a high consumption to poor individuals with a low consumption.} 
 
-  \begin{itemize}
-\item {
-  Transfer of $\Delta$ units of wealth in the first period
-  }
-  \end{itemize}
-  
+\subsubsection*{The Cash Equivalent}
+
+The Cash Equivalent tells you how much cash, as in units of wealth, I have to give to (or take away from) the agent in the first economy, in order for him to be indifferent between the two economies - The two being identical with the exeption of two different benefit policies. $U^{1}$ being the livetime utility in the baseline economy with benefit policy one and $U^{2}$ being the livetime utility in the economy with the adjusted policy. Formally: 
+
   \begin{equation}
   U^{2}(e,k) = U^{1}(e,k+\Delta) \nonumber
   \end{equation}
-  
-  \begin{itemize}
-  \item {
-  If $ \Delta>0 $ agents prefer the policy change $ (U^{2}) $, otherwise not.
-  }
-  \end{itemize}
+
+Where $\Delta$ is the transfer of units of wealth in the first period, $e$ is the employment status and $k$ the individual capital. If $ \Delta>0 $ agents prefer the policy change, otherwise they prefer the current state. 
+
+\subsubsection*{Taking transitions into account}
+
+One has to consider the transitions. Approximation used by \cite{KrusellMukoyamaSahin}. Instead of calculating full transitions I compare different steady states, placing the agents along with their capital holding and their employment state into the new economy and I then compare the two lifetime utilities. 
+
 
 
 
@@ -278,6 +262,34 @@ Figure 1 illustrates this well:
 
 \subsection{Adapting the transition probability}
 
+As discussed above, the transition probabilities and the unemployment rate are exogenously given. In the following analysis I will adapt the job-finding probability with the level of the unemployment benefits. In order for this to affect the unemployment rate, I will fix the job-loss probability, since otherwise the changes of the two transition probabilities would simply cancel each-other out to keep the labor target rate constant.\footnote{One can think of this as a simplified version of the model \cite{mukoyama} uses, abstracting from details regarding job-market rigidities and the Nash bargaining process.} 
+
+I base my calibration on the empirical literature. \citep{decker} summarizes the empirical literature, which considers disincentive and incentive effects with respect to changes in unemployment benefits using different approaches and as well as a variety of US-samples. He concludes, that a change of 10 percent-points in benefits leads to a prolongement of the average unemployment duration of 0.5 to 1.5 weeks. 
+Thus, I let the job-finding probability such that an 10 percent-point increase of the benefits leads to a prolongement of the average unemployment period of a week.\footnote{Appendix 2 provides a detailed conversion table.}
+
+\subsection{Results}
+\begin{figure}
+\caption{Results Cash Equivalent with endogenous job-finding probability} 
+\label{baseline_ue_vs_e}	%label, um spaeter auf die Graphiknummer zugreifen zu koennen
+\centering
+\includegraphics[scale=.7]{cash_equivalent(ue_vs_e)}  % width legt Breite der Graphik fest
+
+\begin{minipage}{0.8\linewidth}
+\footnotesize{The dotted lines describe the medians and the continues lines the means of the consumption equivalent. The rose lines illustrate the mean and median for the unemployed. The green lines show the consumption equivalent of the mean and median of the employed. The baseline, $\mu = 0.15$, is where the two lines cross. Clearly, the employed would prefer negative benefits and the unemployed lower benefits. }
+\end{minipage}
+
+\end{figure}
+
+Figure 2 shows displays the mean and median Cash Equivalent for the unemployed and the employed. It clearly shows that all agents prefer lower benefits. While the optimum for the employed lies at 0 (or are negative benefits) the unemployed prefer some benefits, but lower than the baseline. 
+Compared to the previous results all agents prefer lower benefits.\footnote{\cite{KrusellMukoyamaSahin} find similar results, when comparing a standard BHA model with a model including endogenous unemployment.} 
+As benefits increase the unemployment rate rises. There are therefore less employed who have to pay higher benefits to more unemployed. This raises taxes to a higher extent than in the previous case and thus make the employed worse off in the case of a raise in the benefits. This amplifying effect works in both directions. As employment increases with lower benefits, the relative taxes decrease faster than in the baseline case and thus, the lowest possible benefits are preferred by the employed. 
+While the employed are not directly affected by a change in the transition probabilites, the unemployed's risk of receiving low income increases with an increase in the benefits. Thus their expected future income decreases as they face larger unemployment spells on average. In the present case, this effect seems to be strong enough for the unemployed to prefer to forego some amount of benefits and in turn profit from higher future income prospects on average, as the proability to being employed next period rises. This effect, however, is not strong enough to completely overcome the benefits of a replacement rate and thus in the present case, the unemployed would prefer a $\mu$ of around 0.7. Which also is pareto-optimal, as both, the mean and the median, are maximal at this level of benefits. 
+
+\section{Conclusion}
+
+The first observation, thus is, that depending on the model specification one may draw different conclusions when making policy recommendations. Clearly, starting from the baseline calibration describing the US economy, it may make sense to propose a higher benefit-scheme in the first case (the foundation of the argument being, unemployed are better of with higher benefits). However, taking transitions into account, this line of argumentation clearly fails. 
+Finally, a policy-scheme simply relying on unemployment benefits is limited. It may be optimal to combine unemployment benefits with reintegration measures facilitating job search and inducing the unemployed to reintegrate themselfs in the job market.
+Although, the results seem to be similar to those of others, one has to be aware that exogenously determine the transition probability, based on a linear relationship between unemployment duration and unemployment benefits may be limited. First of all this relationship may not be linear (cite some guy). Secondly, higher unemployment benefits may also impact the job-loss probability (cite some guy), although the literature is less clear on that. Finally, I have completely abstracted from a bargaining process, which will also affect the firms side and produce further changes in the wage\citep{mukoyama} for an example. These changes may potentially further alter the results.\footnote{In this simple setting, prices and therefore also the wage, entirely depend on the aggregates driven by individual savings.}  
 
 
 
