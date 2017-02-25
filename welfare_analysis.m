@@ -44,7 +44,7 @@ for i=1:2
             U.one.extrap(t-ceil(T/2),sim.one.e(t,:)==2) = interp1(grid.one.k, U.one.lifetime(2,:), sim.one.k(t,sim.one.e(t,:)==2), 'linear', 'extrap');
         end
     elseif i==2 
-        for ii=7%:size(mu,2) 
+        for ii=1%:size(mu,2) 
             tic
             iteration = ii
             par.mu = mu(ii);
