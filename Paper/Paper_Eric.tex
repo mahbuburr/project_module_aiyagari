@@ -63,7 +63,7 @@ Winter Term 2016/17\\
    \emph{Eric Lustenberger} \\
     \emph{Bonner Talweg 34}\\
     \emph{53113 Bonn}\\
-   \emph{Stud Nr.: 2849851}\\
+   \emph{Student Number: 2849851}\\
  \emph{M.Sc. Economics}\\
 
 \end{flushright}
@@ -90,7 +90,7 @@ Winter Term 2016/17\\
 % ________________ INHALTSVERZEICHNIS ______________________%
 
 
-% \tableofcontents   %fuegt Automatisch ein Inhaltsverzeichnis ein
+\tableofcontents   %fuegt Automatisch ein Inhaltsverzeichnis ein
 % 
 % \newpage
 % 
@@ -101,41 +101,14 @@ Winter Term 2016/17\\
 
 \pagenumbering{arabic}      % Seitenzahlen wieder arabisch numerieren
 \setcounter{page}{1}        % Ruecksetzen des Seitenzahlzaehlers auf 1
-
-
-\section{\"Uberschrift}
-\label{Kapitel1}
-
-\subsection{Unter\"Uberschrift}
-
-\subsubsection*{UnterUnter\"Uberschrift}
-
-
-
-Hier steht mal ein Text. Eine M\"oglichkeit des Zitierens ist, direkt
-im Text die Quelle anzugeben \citep[see][pp.225-369]{key1}.
-Andererseits schreiben \cite{key2}, dass man auch so zitieren kann.
-
-In der Matheumgebung kann der oben (im Latex-Quellcode) genannte Shortcut verwendet
-werden, um aus einem normalen $\beta$ ein fettes $\bs \beta$ zu
-machen. Wichtige Gleichungen, die nochmal verwendet werden, sollten nummeriert werden, z.B.
-\begin{equation}
-\label{eq:ols}
-   b = (x'x)x'y \;.
-\end{equation}
-
-Nebens\"achlicheres, auf das man sich nicht mehr bezieht, bleibt unnummeriert, also 
-\begin{equation*}
-   a = 1\;.
-\end{equation*}
-Nun kann man direkt auf die erste Gleichung als Gleichung~\eqref{eq:ols} verweisen mittels des zugewiesenen labels. In gleicher Weise kann man auf die Graphik~\ref{fig:ersteGraphik} bzw. Graphik~\ref{fig:andereGraphik} verweisen. Die Tilde zwischen \glqq Graphik\grqq{} und \glqq \verb|\ref{fig:andereGraphik}|\grqq{} verhindert, dass bei Zeilenumbr\"uchen die Zahl als erstes alleine in die neue Zeile rutscht. Ganz analog f\"ur die Tabelle~\ref{tab:Tabelle}. 
+\pagebreak
 
 
 \section{Introduction}
 
-In our presentation we have discussed welfare implications of changes in the unemployment policy. We have done so using a simple Aiyagari framework, where agents are subject to exogenous unemployment shocks. These shocks are assumed to be independent of the policy itself. Furthermore, the unemployment rate, which only depends on the different transition probabilities is so too. In other words, changes of the level of unemployment insurance do not affect the unemployment rate. This strongly contradicts empirical literature.\footnote{See \citep{decker} for a review.} The main argument being that higher unemployment benefits will decrease incentives for the workers to look for jobs. Furthermore, there is a great deal of theoretical literature, consisting of search-match and moral hazard models suggesting the same. (cite some guys) 
+In our presentation we have discussed welfare implications of changes in the unemployment policy. We have done so using a simple Aiyagari framework, where agents are subject to exogenous unemployment shocks. These shocks are assumed to be independent of the policy itself. Furthermore, the unemployment rate, which only depends on the different transition probabilities, is so too. In other words, changes of the level of unemployment insurance do not affect the unemployment rate. This strongly contradicts empirical literature.\footnote{See \citep{decker} for a review.} The main argument being that higher unemployment benefits will decrease incentives for the workers to look for jobs. Moreover there is a vast theoretical literature concerned with endogenous job creation and job destruction processes. \footnote{E.g. \cite{diamond1981mobility} or \cite{mortensen1994job}} \citep{KrusellMukoyamaSahin} integrate such mechanisms into an Aiyagari-type model and show that the results from a welfare analysis concerning changes in unemployment benefits substantially vary from those obtained in a simple Aiyagari framework. 
 
-In the following paper I will depart from the strong assumption of an exogenous job-finding probability, still using the baseline model. Based on the results of an empirical estimation of the relationship between changes in the unemployment rate and the job-finding probability I will let the latter fluctuate with the policy changes. I then show that this may completely change the outcome of the welfare analysis and therefore may have strong policy implications. It may not be sufficient to raise unemployment benefits without undertaking measures to reduce job-finding frictions, such as providing incentives and information to improve the transition from unemployment to employment.
+In the following paper I will conduct an experiment and depart from the strong assumption of an exogenous job-finding probability, still using the baseline model. Based on the results of an empirical estimation of the relationship between changes in the unemployment rate and the job-finding probability I will let the latter fluctuate with the policy changes. I then show that this may completely change the outcome of the welfare analysis and therefore may have strong policy implications. It may not be sufficient to raise unemployment benefits without undertaking measures to reduce job-finding frictions, such as providing incentives and information to improve the transition from unemployment to employment.
 
 Sections 1 and 2 discuss the model and the welfare analysis, respectively. In section 3 a brief summary of the results presented in class is followed by the analysis, which takes changes in the job-finding probability into account. Finally, section 5 concludes. 
 
@@ -146,8 +119,10 @@ The setup is a basic \cite{aiyagari} model. The key component of this model is t
 In contrast to the representative agent model, this mechanism generates a heterogeneous distribution of agents, with different asset levels and different employment status. The heterogeneity opens the door for a number of questions, which remain salient to its representative counterpart. Most importantly, it allows to look at how macroeconomic policy may affect different groups in distinct ways - A policy change may for example be beneficial for the unemployed, while it is harmful for the employed. Moreover, the feature of incomplete insurance, enables us to look at insurance policies. The combination of these features, thus enables us to examine the welfare implications of changes in the unemployment benefits.\\
 The following following paragraphs describe the model in a more detailed manner. 
 
-\subsection{Consumer's Problem}
 
+\subsection{Setup}
+
+\subsubsection*{Consumer's Problem}
 There is a continuum of ex-ante identical (all consumers face the same preferences) infinitely-lived consumers, whereby the population is normalized to 1. In each period consumers choose $ c_{t}$, consumption at time t, and the asset level next period, $k_{i,t+1}$, to maximize the expected discounted lifetime utility: 
 \[ 
  max_{\{{ c_{i,t}, k_{i,t+1} }\}_{t = 0}^{\infty}} {\mathbb{E}} \sum_{i=0}^{\infty} \beta^{t}  u(c_{i,t}), 
@@ -160,7 +135,6 @@ where $\beta \in (0,1)$ is the discount factor and $\mathbb{E[\cdot]}$ is the ex
  \end{equation} 
 
 $r_{t}$ is the interest rate at time t, $\delta$ is the depreciation rate, $w_{t}(1-\tau_{t})$ is the after-tax wage at time t and $e_{i,t}$ is a dummy variable for the employment status - $e_{i,t}=1$ being employed at time t and $ e_{i,t}=0$ unemployed, respectively. Unemployed consumers receive benefits in form of a replacement rate,$\mu$. Finally, consumers are constrained in their borrowing:
- 
    \begin{equation}
   \label{eq:borconstraint}
    k_{i,t + 1} \geq \bar{k}.
@@ -177,58 +151,49 @@ The employment shocks are governed by an exogenous transition matrix:
 
 where $\pi_{UE}$ is the probability to find a job next period and $\pi_{EU}$ is the layoff probability. 
 
-\subsection{Firm's Problem}
+\subsubsection*{Firm's Problem}
 
-The representative firm maximizes profits 
+The production side of the economy is competitive and modeled as a representative firm maximizing profits. 
 \[ \max_{\substack{K_{t},L_{t}}}F_{t}(K_{t},L_{t})-r_{t}K_{t}-w_{t}L_{t}
 \]
 
-Factor prices are obtained by taking the FOC's with respect to the aggregate capital stock and the aggregate labor, respectively: 
-\[
-r_{t} = \frac{\mathrm d F_{t}(K_{t},L_{t})}{\mathrm d K} = \alpha z (\tfrac{L_{t}}{K_{t}})^{1-\alpha} \]
-\[
-w_{t} = \frac{\mathrm d F_{t}(K_{t},L_{t})}{\mathrm d L} =(1-\alpha)z (\tfrac{K_{t}}{L_{t}})^{\alpha}
-\]
+\subsubsection*{The government}
 
-\subsection{The government}
-
-The government runs a balanced budget:
+The government runs a balanced budget and therefore the income taxes of the employed are always equal to the benefits received by the unemployed: 
 \begin{equation}
   \label{eq:balancedbudget}
 \tau_{t}=\mu\frac{1-L_{t}}{L_{t}}
 \end{equation}
 
 
-
 \subsection{General Equilibrium}
 
-	
-	   \begin{equation}
-  \label{eq:ssemployment}
-   L = \frac{\pi_{UE}}{\pi_{UE}+\pi_{EU}}
- 	 \end{equation}
-
-The euler equation is maximizing the consumer's problem
-\[ 
-c_{i,t}^{- \sigma} \geq \beta (1+r -\delta){\mathbb{E}[c_{i,t+1}^{- \sigma}}]
+Factor prices are obtained by taking the FOC's with respect to the aggregate capital stock and the aggregate labor, respectively: 
+\[
+r_{t} = \frac{\mathrm d F_{t}(K_{t},L_{t})}{\mathrm d K} 
 \]
-The households take (current and future) factor prices $r_{t} and w_{t}$ as given. Their policy functions satisfy the first-order conditions and depend on the employment status, wealth and the aggregate state: 
+\[
+w_{t} = \frac{\mathrm d F_{t}(K_{t},L_{t})}{\mathrm d L} 
+\]
+
+The households take (current and future) factor prices $r_{t} and w_{t}$ as given. Their optimal decision rules satisfy the first-order conditions and depend on their employment status, individual wealth and the aggregate state: 
 \[ c_{t}(e_{t},k_{t},s_{t}), k_{t+1}(e_{t},k_{t},s_{t})
 \]
 where $s_{t}$ stands for the aggregate productivity state and the cross-sectional distribution. 
 
-Finally, the aggregated capital and labor must be consistent with aggregate capital and labor used to obtain the factor prices: 
+Finally, the aggregated capital and employment status obtained from the individual's problem must be consistent with the aggregates used to obtain the factor prices: 
 \[ \sum_{i}k_{t+1}(e_{i,t},k_{i,t},s_{t})=K_{t+1}(s_{t}), \ \ \ \sum_{i}e_{i,t}=L_{t} 
 \]
 
 \section{Welfare analysis}
-We want to compare the utility level of the same agent before and after the policy change. There are two challenges to overcome. Firstly, utility is a purely ordinal measure and therefore not quantifiable. Secondly,we need take transitions into account. It may be the case that during the transition phase from one steady state to the other, agents loose even tough in the end they are in a preferred steady state and therefore do not prefer the policy change taking the transition into account. 
+The goal is to determine, whether agents prefer a policy change to the status quo. We therefore want to compare the utility level of the same agent before and after the policy change. There are two challenges to overcome.Firstly, utility is a purely ordinal measure and therefore not quantifiable. Secondly,we need take transitions into account. It may be the case that in the short run, during the transition phase from one steady state to another, agents are worse off, even tough they end up in a preferred steady state. Only comparing steady states is therefore insufficient - the losses endured in the short run may be so devastating, that the agent does not prefer a policy change after all. 
 
 For our presentation we have considered two different forms of welfare measurements - the Consumption equivalent and the Cash equivalent. I will here only discuss the Cash Equivalent. However, the conclusions I will draw from my analysis are the same when using the Consumption Equivalent (See Appendix 1).\footnote{That being said, the two measures differ in the manner they weight different groups. The Consumption equivalent does weight different level's of consumption differently. A concave utility function implies that a consumption change of the same order is weighted differently by rich individuals with a high consumption to poor individuals with a low consumption.} 
 
 \subsubsection*{The Cash Equivalent}
 
-The Cash Equivalent tells you how much cash, as in units of wealth, I have to give to (or take away from) the agent in the first economy, in order for him to be indifferent between the two economies - The two being identical with the exception of two different benefit policies. $U^{1}$ being the lifetime utility in the baseline economy with benefit policy one and $U^{2}$ being the lifetime utility in the economy with the adjusted policy. Formally: 
+To look at the welfare effect it is easiest to think of two different economies. Economy one is the baseline case and economy two describes the state of the economy after the policy change, other than for the different levels of benefits, these economies are driven by the same underlying parameters.\\
+The Cash Equivalent tells you how much cash, as in units of wealth, I have to give to (or take away from) the agent in the first economy, in order for him to be indifferent between the two economies. $U^{1}$ being the lifetime utility in the baseline economy with benefit policy one and $U^{2}$ being the lifetime utility in the economy with the adjusted policy. Formally: 
 
   \begin{equation}
   U^{2}(e,k) = U^{1}(e,k+\Delta) \nonumber
@@ -238,15 +203,12 @@ Where $\Delta$ is the transfer of units of wealth in the first period, $e$ is th
 
 \subsubsection*{Taking transitions into account}
 
-One has to consider the transitions. Approximation used by \cite{KrusellMukoyamaSahin}. Instead of calculating full transitions I compare different steady states, placing the agents along with their capital holding and their employment state into the new economy and I then compare the two lifetime utilities. 
-
-
-
+In order to incorporate the transition, we follow \cite{KrusellMukoyamaSahin}, who calculate an average of the full transition abstracting from aggregate transitions.\footnote{For an implementation of the full transition see \citep{mukoyama}} Agents from the first economy are placed into the second economy along with their capital holdings $k$ and their employment status $e$ from the baseline economy. $U^{1}(e,k)$ is then compared to $U^{2}(e,k)$.
 
 \section{Analysis}
 
 In the following section I will analyze the importance of considering job-search effects when considering changes in the unemployment benefits. How does the welfare analysis change when taking into account that the unemployment duration rises in the benefit level? \\
-In order to provide a more detailed welfare analysis, I will look at both the employed and the unemployed when I compare the two cases. Although society on average may clearly favor one particular outcome, it may still be reasonable to implement a certain policy to help the more vulnerable to the detriment of the majority. Typically, the unemployed benefit relatively more from higher benefits than the employed. The latter being in the larger majority, thus leads to the result being biased towards them. 
+In order to provide a more detailed welfare analysis, I will look at both the employed and the unemployed when I compare the two cases. Even if society on average clearly favors one particular outcome, it may still not be unreasonable to implement a contradictory policy to help the more vulnerable to the detriment of the majority. Typically, the unemployed benefit relatively more from higher replacement rates than the employed. The latter being in the larger majority, thus leads to the averaged result being biased towards them. 
 \\ \\
 After I introduce the Calibration, I proceed with a short summary of the results obtained in the baseline case, which corresponds to the results discussed in class.
 I then conduct an experiment on the basis of empirical results, which show that an increase in the replacement rate leads to an increase in the unemployment duration. Using this relationship I will recalculate the welfare effects, letting the job-finding probability fluctuate with the benefit level. The second welfare analysis is then compared to the baseline case. 
@@ -254,7 +216,7 @@ I then conduct an experiment on the basis of empirical results, which show that 
 
 \subsection{Calibration}
 
-The calibration used here follows \cite{DenHaan20101} is the same as in the presentation, with the small difference, that the transition matrix corresponds to the case with no aggregate risk. The job-finding probability $\pi_{ue}$ therefore takes is slightly higher and takes on the value 0.4 instead of 0.35, which would correspond to the case of a recession when including aggregate risk.\footnote{Since we were also considering aggregate risk in our presentation, we had to chose between the recession and boom state for the Aiyagari calibration and chose the latter. Note, however, that this has no impact on the qualitative result of the welfare analysis.} The calibration is based on quarterly data matching microeconomic data or long-run model considerations. A job-finding probability of 0.4, thus, corresponds to an average unemployment duration of 2.5 quarters or 32.5 weeks. \footnote{Note that here we overestimate the average unemployment duration, since agents remain unemployed for at least one quarter.E.g. \cite{mukoyama} uses a $\pi_{ue}$ leading to an average duration of 17 weeks, which corresponds to post US 1980 economy data.} The discount factor is set at $\beta = 0.99$, productivity at $z = 1$, the capital share at $\alpha = 0.36$, and the depreciation rate $\delta = 0.025$. Finally, the baseline unemployment rate corresponds to  $1- l=0.1$ and the baseline replacement rate is $\mu = 0.15$.
+The calibration used here follows \cite{DenHaan20101} and is the same as in the presentation, with the small difference, that the transition matrix corresponds to the case with no aggregate risk. The job-finding probability $\pi_{ue}$ therefore takes is slightly higher and takes on the value 0.4 instead of 0.35, which would correspond to the case of a recession when including aggregate risk.\footnote{Since we were also considering aggregate risk in our presentation, we had to chose between the recession and boom state for the Aiyagari calibration and chose the latter. Note, however, that this has no impact on the qualitative result of the welfare analysis.} The calibration is based on quarterly data matching microeconomic data or long-run model considerations. A job-finding probability of 0.4, thus, corresponds to an average unemployment duration of 2.5 quarters or 32.5 weeks. \footnote{Note that here we overestimate the average unemployment duration, since agents remain unemployed for at least one quarter.E.g. \cite{mukoyama} uses a $\pi_{ue}$ leading to an average duration of 17 weeks, which corresponds to post US 1980 economy data.} The discount factor is set at $\beta = 0.99$, productivity at $z = 1$, the capital share at $\alpha = 0.36$, and the depreciation rate $\delta = 0.025$. Finally, the baseline unemployment rate corresponds to  $1- l=0.1$ and the baseline replacement rate is $\mu = 0.15$. Finally, as in the calibration used for the presentation, I use a risk-aversion parameter, $\sigma$, of 2 instead of 1(as in the original calibration).
 
 \subsection{Baseline Results}
 
@@ -274,7 +236,7 @@ When we conducted our prior welfare analysis we found that different groups in s
 \end{figure}
 
 As benefits increase taxes rise to meet the higher demand. Moreover, higher insurance decreases idiosyncratic risk and thus, precautionary savings decrease. This in turn reduces aggregate capital leading to an increase in the return rate on capital and a decrease in wages. 
-The employed, thus, experience a sharp decrease in their net-wage, but profit more from higher return rates on capital. The first clearly dominates.\footnote{ (mukoymama working paper.shows that welfare effects are mainly determined by the re-distributional effects of higher taxes and higher benefits. He, however, considers lump-sum taxes and therefore cannot show a different effect for unemployed and employed.} Consequentially the employed prefer a reduction in benefits compared to the baseline level. 
+The employed, thus, experience a sharp decrease in their net-wage, but profit more from higher return rates on capital. The first clearly dominates.\footnote{ mukoymama working paper.shows that welfare effects are mainly determined by the re-distributional effects of higher taxes and higher benefits. He, however, considers lump-sum taxes and therefore cannot show a different effect for unemployed and employed.} Consequentially the employed prefer a reduction in benefits compared to the baseline level. 
 Contrary to the employed, the unemployed receive benefits and are not directly harmed by the changes in the taxes and wages. Furthermore, the richer unemployed, who were able to accumulate savings, also profit from an increase in the return-rates. 
 Therefore, they do prefer an increase in benefits. 
 Corner solutions (i.e. 0 benefit or the full-insurance case) are both not preferred by either group. Note that taxes also affect the future income of the unemployed, since they have a chance to be employed with a certain probability, this thus reduces future income. The same is true for higher benefits in the case of the employed.\footnote{Net labor income equals unemployment benefits at a replacement rate of 0.9, higher benefits thus would lead to unemployed being better off compared to the employed, which is rather unrealistic.}
@@ -297,9 +259,10 @@ where
 is the average unemployment duration in quarters. \\
 
 $32.5$ is the baseline unemployment duration $\Delta PP \mu$ is the percentage point deviation of the unemployment benefits and $\frac{\Delta PP \mu}{10}$ the change in unemployment duration, expressed in weeks.\footnote{Appendix 2 provides a detailed conversion table.} \\
-From equation \eqref{eq:ssemployment} follows that the unemployment rate increases as the unemployment duration increases following an increase in unemployment benefits. At the lowest benefit level considered the unemployment rate is at 9.6 percent and the highest benefit the unemployment rate is at 11 percent, with a baseline case of 10 percent. The impact of a change in the replacement rate on the unemployment rate is thus rather small. 
+Note that in steady state the following equality must hold: $ L = \frac{\pi_{UE}}{\pi_{UE}+\pi_{EU}}$.
+Hence, the unemployment rate increases as the unemployment duration increases following a rise in the benefits. At the lowest benefit level considered, the unemployment rate is at 9.6 percent and the highest benefit the unemployment rate is at 11 percent, with a baseline case of 10 percent. The impact of a change in the replacement rate on the unemployment rate is thus rather small. 
 
-\subsection{Results}
+\subsection{Results with endogenous transitions}
 
 
 Figure 2 shows displays the mean and median Cash Equivalent for the unemployed and the employed. It clearly shows that all agents prefer lower benefits. While the optimum for the employed lies at 0 (or are negative benefits) the unemployed prefer some benefits, but lower than the baseline. 
@@ -316,21 +279,17 @@ Figure 2 shows displays the mean and median Cash Equivalent for the unemployed a
 
 \end{figure}
 
-Compared to the previous results all agents prefer lower benefits.\footnote{\cite{KrusellMukoyamaSahin} find similar results, when comparing a standard BHA model with a model including endogenous unemployment.} 
-As benefits increase the unemployment rate rises. There are therefore less employed who have to pay higher benefits to more unemployed. From equation \eqref{eq:balancedbudget} it follows that taxes will raise to a higher extent than in the previous case since both the unemployment rate and the benefits rise. Thus, the employed will be worse off compared to the baseline case. This amplifying effect works in both directions. As employment increases with lower benefits, the relative taxes decrease faster than in the baseline case and thus, the lowest possible benefits are preferred by the employed. 
-While the employed are not directly affected by a change in the transition probabilities, the unemployed's risk of receiving low income increases with an increase in the benefits. Thus their expected future income decreases as they face larger unemployment spells on average. In the present case, this effect seems to be strong enough for the unemployed to prefer to forego some amount of benefits and in turn profit from higher future income prospects on average, as the probability to being employed next period rises. This effect, however, is not strong enough to completely overcome the benefits of a replacement rate and thus in the present case, the unemployed would prefer a $\mu$ of around 0.7. Which also is pareto-optimal, as both, the mean and the median, are maximal at this benefit level. 
+Compared to the previous results all agents prefer lower benefits.\footnote{\cite{KrusellMukoyamaSahin} find similar results, when comparing a standard Bewley-Huggett-Aiyagari model with a model including endogenous unemployment.} 
+As benefits increase the unemployment rate rises. There are therefore less employed who have to pay higher benefits to more unemployed. From equation \eqref{eq:balancedbudget} it follows that taxes will raise to a higher extent than in the previous case since both, the unemployment rate and the benefits rise. Thus, the employed will be worse off compared to the baseline case. This amplifying effect works in both directions. As employment increases with lower benefits, the relative taxes decrease faster than in the baseline case and thus, the lowest possible benefits are preferred by the employed. 
+While the employed are not directly affected by a change in the transition probabilities, the unemployed's risk of receiving low income increases with an increase in the benefits. Thus their expected future income decreases as they face larger unemployment spells on average. In the present case, this effect seems to be strong enough for the unemployed to prefer to forego some amount of benefits and in turn profit from higher future income prospects on average, as the probability to being employed next period rises. This effect, however, is not strong enough to completely overcome the benefits of a replacement rate and thus in the present case, the unemployed would prefer a $\mu$ of 4 percent. Which also is a pareto-improvement compared to the baseline benefits, as both, the mean and the median, are maximal at this benefit level. 
 
 
 \section{Conclusion}
 
-The first observation, thus is, that depending on the model specification one may draw different conclusions when making policy recommendations. Clearly, starting from the baseline calibration describing the US economy, it may make sense to propose a higher benefit-scheme in the first case (the foundation of the argument being, unemployed are better of with higher benefits). However, taking job-search rigidities into account, this line of argumentation clearly fails. 
-\\
--> mention that the change in unemployment duration considered is rather small!!! makes result even more astonishing! 
-\\
-Finally, a policy-scheme simply relying on unemployment benefits is limited. It may be optimal to combine unemployment benefits with reintegration measures facilitating job search and inducing the unemployed to reintegrate themselves in the job market.
-Although, the results seem to be similar to those of others, one has to be aware that endogenously determine the transition probability, based on a linear relationship between unemployment duration and unemployment benefits may be limited. First of all this relationship may not be linear (cite some guy). Secondly, higher unemployment benefits may also impact the job-loss probability (cite some guy), although the literature is less clear on that. Finally, I have completely abstracted from a bargaining process, which will also affect the firms side and produce further changes in the wage\citep{mukoyama} for an example. These changes may potentially further alter the results.\footnote{In this simple setting, prices and therefore also the wage, entirely depend on the aggregates driven by individual savings.}  
+The first observation, thus is, that depending on the model specification one may draw different conclusions when making policy recommendations. Clearly, starting from the baseline calibration describing the US economy, it may make sense to propose a higher benefit-scheme in the first case (the foundation of the argument being, unemployed are better of with higher benefits). However, taking job-search rigidities into account, this line of argumentation clearly fails. What makes this result even more astonishing is the fact that the changes in unemployment duration considered are relatively small. As explained above, the baseline calibration sets the unemployment duration rather high. Changes in the job-finding probability, thus, tend to be understated in my analysis. Taking these points into consideration, the abstraction of job-search rigidities imposed by the Aiyagari model clearly seems to strong, as for the model to provide final answers for the welfare implications of changes in unemployment benefits. At best, one has to be very careful with generic conclusions drawn from studies similar to our baseline analysis. 
+A further conclusion one may draw from the above experiment, is that a policy-scheme simply relying on unemployment benefits is limited. It may be optimal to combine unemployment benefits with reintegration measures facilitating job search and incentive schemes inducing the unemployed to reintegrate themselves in the job market.
 
-
+One major limitation of my analysis is the calibration. As discussed before, the baseline average unemployment duration is rather high. Furthermore, the calibration from \cite{DenHaan20101} was mainly calibrated to study aggregate fluctuations. Hence, it is not evident that the experiment above would produce the same results with a calibration reflecting empirical data more accurately. It would therefore be interesting to conduct the same experiment with a proper calibration, however, this exceeds the scope of this exercise. 
 
 
 %_________________ ENDE DES HAUPTTEILS_________________%

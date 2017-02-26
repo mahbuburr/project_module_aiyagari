@@ -44,13 +44,13 @@ for i=1:2
             U.one.extrap(t-ceil(T/2),sim.one.e(t,:)==2) = interp1(grid.one.k, U.one.lifetime(2,:), sim.one.k(t,sim.one.e(t,:)==2), 'linear', 'extrap');
         end
     elseif i==2 
-        for ii=1%:size(mu,2) 
+        for ii=11%:size(mu,2) 
             tic
             iteration = ii
             par.mu = mu(ii);
             par.PI_UE = PI_UE_grid(ii);
-            %method.HH = 'FPend'; % Depending on the mu, you might have to change it to 'FP' or 'FPend' to converge
-            %method.agg = 'bisection'; % Depending on the mu, you might have to change it to 'bisection' or 'bisectio' to converge
+            method.HH = 'FP'; % Depending on the mu, you might have to change it to 'FP' or 'FPend' to converge
+            method.agg = 'bisection'; % Depending on the mu, you might have to change it to 'bisection' or 'bisectio' to converge
             setup % refresh setup for new parameter
             [ k.two, c.two, K.two, sim.two, store.two, mat.two, grid.two ] = aiyagari_solver( par, func, method );
             U.two.guess = func.U(c.two.guess);
@@ -94,7 +94,7 @@ for i=1:2
             keep.k.equivalent_employed_mean = k.equivalent_employed_mean;
             keep.k.equivalent_employed_median = k.equivalent_employed_median;
             keep.K = K.two.guess;
-            filename = ['adapting_transitions_2_mu_' num2str(ii) '.mat'];
+            filename = ['adapting_transitions_sigma3_mu_' num2str(ii) '.mat'];
             %filename = ['adapting_transitions_mu_' num2str(ii) '.mat']; %Changing transitions
             %filename = ['baseline_mu_' num2str(ii) '.mat']; %Baseline
             save (filename, '-struct','keep'); % Save the values

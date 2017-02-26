@@ -1,7 +1,7 @@
 %% Set parameters
 % consumers
 par.beta = 0.99; % discount factor
-par.sigma = 2; % risk aversion
+par.sigma = 3; % risk aversion
 par.mu = 0.15; % replacement rate of unemployed
 par.k_min = 1e-15; % borrowing constraint as share of capital stock
 
